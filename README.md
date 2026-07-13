@@ -1,4 +1,4 @@
-# Septen Website 
+# Septen Website
 
 Production Astro marketing site for Septen, built as a fully static deployment for Cloudflare Pages.
 
