@@ -1,0 +1,96 @@
+---
+const isHomePage = Astro.url.pathname === '/';
+const navLinks = [
+  { href: isHomePage ? '#services' : '/#services', label: 'Services' },
+  { href: isHomePage ? '#pricing' : '/#pricing', label: 'Pricing' },
+  { href: isHomePage ? '#portfolio' : '/#portfolio', label: 'See Demos' },
+  { href: isHomePage ? '#about' : '/#about', label: 'About' },
+  { href: isHomePage ? '#faq' : '/#faq', label: 'FAQ' }
+];
+const contactHref = isHomePage ? '#contact' : '/#contact';
+---
+
+<header class="sticky top-0 z-50 border-b border-slate-200 bg-white" data-mobile-menu-root data-site-header>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-4 flex justify-between items-center gap-3 md:gap-4">
+    <a href="/" aria-label="Septen home page" class="flex items-center gap-2.5 font-sans font-extrabold text-xl text-brand-teal tracking-tight hover:opacity-90 leading-none hover-button-polish">
+      <img src="/logo.svg" alt="Septen logo" width="28" height="28" loading="eager" fetchpriority="high" decoding="async" class="w-7 h-7 object-contain" />
+      <span>Sep<span class="text-brand-orange">ten</span></span>
+    </a>
+
+    <button
+      type="button"
+      class="md:hidden inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white p-2.5 text-slate-800 shadow-sm transition-colors duration-200 hover:border-brand-orange hover:text-brand-orange focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2"
+      aria-label="Toggle navigation menu"
+      aria-controls="mobile-navigation"
+      aria-expanded="false"
+      data-mobile-menu-toggle
+    >
+      <span class="sr-only">Toggle navigation menu</span>
+      <span class="relative block h-4 w-4" aria-hidden="true">
+        <span class="absolute left-0 top-0 block h-0.5 w-4 rounded-full bg-current" data-mobile-menu-line="top"></span>
+        <span class="absolute left-0 top-1/2 block h-0.5 w-4 -translate-y-1/2 rounded-full bg-current" data-mobile-menu-line="middle"></span>
+        <span class="absolute bottom-0 left-0 block h-0.5 w-4 rounded-full bg-current" data-mobile-menu-line="bottom"></span>
+      </span>
+    </button>
+
+    <nav aria-label="Main navigation" class="hidden md:block">
+      <ul class="flex items-center gap-6 text-sm font-semibold text-slate-800 list-none p-0 m-0">
+        {navLinks.map(({ href, label }) => (
+          <li><a href={href} class="hover:text-brand-orange transition-colors leading-none decoration-none hover-underline-brand">{label}</a></li>
+        ))}
+        <li>
+          <a
+            href={contactHref}
+            data-open-enquiry
+            aria-label="Open the online enquiry form"
+            class="hover:text-brand-orange transition-colors leading-none decoration-none bg-transparent border-none cursor-pointer font-semibold text-sm hover-underline-brand"
+          >
+            Contact
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div
+    id="mobile-navigation"
+    class="md:hidden absolute inset-x-0 top-full z-40"
+    data-mobile-menu
+    data-state="closed"
+    aria-hidden="true"
+  >
+    <div class="border-b border-slate-200 bg-white shadow-xl ring-1 ring-slate-950/5">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
+      <nav
+        aria-label="Mobile navigation"
+        tabindex="-1"
+        class="overflow-hidden rounded-xl border border-slate-200 bg-white p-3.5"
+        data-mobile-menu-panel
+      >
+        <ul class="m-0 list-none space-y-1.5 p-0 text-sm font-semibold text-slate-800">
+          {navLinks.map(({ href, label }) => (
+            <li>
+              <a
+                href={href}
+                class="flex items-center justify-between rounded-lg px-3 py-2.5 text-slate-800 decoration-none transition-colors duration-200 hover:bg-slate-50 hover:text-brand-orange focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2"
+              >
+                <span>{label}</span>
+              </a>
+            </li>
+          ))}
+          <li class="pt-1.5">
+            <a
+              href={contactHref}
+              data-open-enquiry
+              aria-label="Open the online enquiry form"
+              class="block w-full rounded-lg border border-brand-orange px-3 py-2.5 text-left text-sm font-semibold text-brand-orange transition-colors duration-200 hover:bg-brand-orange hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 decoration-none"
+            >
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+      </div>
+    </div>
+  </div>
+</header>

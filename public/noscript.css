@@ -1,0 +1,22 @@
+[data-mobile-menu-toggle] {
+  display: none !important;
+}
+
+[data-mobile-menu] {
+  position: static !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+[data-mobile-menu-panel] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+[data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  will-change: auto !important;
+}

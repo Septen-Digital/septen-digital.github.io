@@ -1,0 +1,7 @@
+# robots.txt for Septen
+# https://septen.co.uk
+
+User-agent: *
+Allow: /
+
+Sitemap: https://septen.co.uk/sitemap-index.xml

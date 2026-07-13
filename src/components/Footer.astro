@@ -1,0 +1,26 @@
+---
+const isHomePage = Astro.url.pathname === '/';
+---
+
+<footer class="border-t border-slate-200 bg-stone-50 py-12 text-center text-xs text-slate-500 font-semibold mt-auto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="text-left space-y-1">
+      <p class="font-extrabold text-brand-teal text-md lg:text-lg font-sans">Septen</p>
+      <p class="text-slate-400 font-mono text-xs">&copy; 2026 Septen. Web Setup & Maintenance for Trades & Independent Shops.</p>
+    </div>
+    <div class="flex flex-col items-center md:items-end gap-3.5">
+      <nav aria-label="Footer navigation" class="flex gap-6 text-xs md:text-sm font-bold text-slate-800">
+        <a href={isHomePage ? '#services' : '/#services'} class="hover:text-brand-orange transition-colors decoration-none">Services</a>
+        <a href={isHomePage ? '#pricing' : '/#pricing'} class="hover:text-brand-orange transition-colors decoration-none">Pricing</a>
+        <a href={isHomePage ? '#portfolio' : '/#portfolio'} class="hover:text-brand-orange transition-colors decoration-none">See Demos</a>
+      </nav>
+      <div aria-label="Legal links" class="flex flex-wrap justify-center md:justify-end gap-4 text-xs text-slate-500 font-semibold">
+        <a href="/legal/#terms" data-open-legal="terms" class="hover:text-brand-orange transition-colors decoration-none">Terms</a>
+        <a href="/legal/#privacy" data-open-legal="privacy" class="hover:text-brand-orange transition-colors decoration-none">Privacy</a>
+        <a href="/legal/#cookies" data-open-legal="cookies" class="hover:text-brand-orange transition-colors decoration-none">Cookies</a>
+        <a href="/legal/#data-rights" data-open-legal="data-rights" class="hover:text-brand-orange transition-colors decoration-none">Data Rights</a>
+        <a href="/legal/#disclaimer" data-open-legal="disclaimer" class="hover:text-brand-orange transition-colors decoration-none">Disclaimer</a>
+      </div>
+    </div>
+  </div>
+</footer>

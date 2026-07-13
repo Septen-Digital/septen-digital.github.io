@@ -1,0 +1,22 @@
+# Security Headers (Cloudflare Pages / static hosts)
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-Permitted-Cross-Domain-Policies: none
+  Referrer-Policy: strict-origin-when-cross-origin
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-site
+  Origin-Agent-Cluster: ?1
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), fullscreen=(self), payment=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://challenges.cloudflare.com https://static.cloudflareinsights.com; script-src-attr 'none'; style-src 'self'; style-src-attr 'none'; img-src 'self' data: https://challenges.cloudflare.com; font-src 'self'; connect-src 'self' https://challenges.cloudflare.com https://*.cloudflareinsights.com https://cloudflareinsights.com https://api.web3forms.com; frame-src https://challenges.cloudflare.com; object-src 'none'; manifest-src 'self'; worker-src 'self' blob:; form-action 'self' https://api.web3forms.com; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/demos/*
+  X-Robots-Tag: noindex, nofollow

@@ -1,0 +1,20 @@
+---
+import { faqItems } from '../../data/site';
+---
+
+<section class="deferred-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 text-left" aria-labelledby="faq-title">
+  <div id="faq" class="section-scroll-target">
+    <h2 id="faq-title" data-reveal class="font-sans text-3xl md:text-4xl font-extrabold text-brand-teal tracking-tight mb-10">Frequently Asked Questions</h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 max-w-5xl">
+    {
+      faqItems.map((item, index) => (
+        <div data-reveal="fade" data-reveal-delay={String(index * 45)} class="space-y-1.5">
+          <h3 class="font-sans font-bold text-brand-teal text-md lg:text-lg">{item.question}</h3>
+          <p class="text-xs md:text-sm lg:text-base text-slate-600 leading-relaxed">{item.answer}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>

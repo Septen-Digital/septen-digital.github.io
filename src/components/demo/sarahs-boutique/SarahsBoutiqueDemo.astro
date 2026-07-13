@@ -1,0 +1,398 @@
+---
+import { Image } from 'astro:assets';
+import SarahsBoutiqueIsland from './SarahsBoutiqueIsland';
+import BoutiqueIcon from './BoutiqueIcon.astro';
+import {
+  sarahsBoutiqueCategories,
+  sarahsBoutiqueFeaturedProducts,
+  sarahsBoutiqueHeroImage,
+  sarahsBoutiqueInventory,
+  sarahsBoutiqueStoreImage,
+} from '../../../data/sarahsBoutique';
+
+const rootId = 'sarahs-boutique-demo-root';
+---
+
+<div id={rootId} class="bg-[#FAF8F5] min-h-screen text-[#1E1E1C] font-sans antialiased relative flex flex-col">
+  <nav class="bg-[#FAF8F5]/90 backdrop-blur-md border-b border-stone-200 sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <button
+        type="button"
+        data-boutique-go-view="home"
+        class="font-serif text-lg tracking-[0.25em] bg-transparent border-none text-[#1E1E1C] font-bold cursor-pointer hover:opacity-80"
+      >
+        SARAH'S BOUTIQUE
+      </button>
+
+      <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs font-semibold uppercase tracking-widest text-[#1E1E1C]">
+        <button
+          type="button"
+          data-boutique-nav="home"
+          class="nav-tab hover:text-[#E29578] cursor-pointer bg-transparent border-none text-[#E29578] font-bold"
+          aria-pressed="true"
+        >
+          Home
+        </button>
+        <button
+          type="button"
+          data-boutique-nav="catalogue"
+          class="nav-tab hover:text-[#E29578] cursor-pointer bg-transparent border-none"
+          aria-pressed="false"
+        >
+          Catalogue
+        </button>
+        <button
+          type="button"
+          data-boutique-nav="about"
+          class="nav-tab hover:text-[#E29578] cursor-pointer bg-transparent border-none"
+          aria-pressed="false"
+        >
+          About
+        </button>
+        <button
+          type="button"
+          data-boutique-nav="visit"
+          class="nav-tab hover:text-[#E29578] cursor-pointer bg-transparent border-none"
+          aria-pressed="false"
+        >
+          Visit Store
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div data-boutique-panel="home">
+    <div class="animate-fade-in relative min-h-[calc(100vh-69px)] flex items-center justify-center p-8 bg-black overflow-hidden text-center text-white">
+      <div class="absolute inset-0 z-0">
+        <Image
+          src={sarahsBoutiqueHeroImage}
+          widths={[480, 960, 1600]}
+          sizes="100vw"
+          alt="Editorial style soft luxury backdrop"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          data-skeleton
+          class="image-skeleton w-full h-full object-cover opacity-60 filter blur-[1px]"
+        />
+        <div class="absolute inset-0 bg-stone-950/45"></div>
+      </div>
+
+      <div class="relative z-10 max-w-2xl text-center text-white space-y-6 px-4">
+        <span class="text-[10px] uppercase font-mono tracking-[0.3em] text-[#F3EFE9] font-bold block animate-slide-in-up text-center">
+          MONTPELLIER ARCADE • HARROGATE
+        </span>
+        <h1 class="font-serif text-4xl sm:text-6xl tracking-wide font-black capitalize text-stone-55 select-none animate-fade-in">
+          Sarah's Boutique
+        </h1>
+        <p class="font-serif text-lg sm:text-xl italic text-[#FAF8F5] leading-relaxed font-light">
+          "Soft luxury garments designed under northern winds. Boiled wool, raw silk, and un-dyed cashmere knitwear crafted to last."
+        </p>
+        <div class="w-12 h-px bg-white/40 mx-auto my-6"></div>
+
+        <button
+          type="button"
+          data-boutique-go-view="catalogue"
+          class="bg-white hover:bg-[#FAF8F5] text-stone-950 font-bold px-8 py-4 rounded-sm text-xs uppercase tracking-widest transition-all hover-button-polish cursor-pointer border-none shadow-md inline-flex items-center gap-2"
+        >
+          <span>Explore The Catalogue</span>
+          <BoutiqueIcon name="ChevronRight" className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+
+    <section class="bg-[#FAF8F5] py-16 border-t border-stone-200/60 text-left">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="font-serif text-2xl font-bold tracking-tight mb-8" data-reveal="fade">Autumn Featured Highlights</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {sarahsBoutiqueFeaturedProducts.map((product, index) => (
+            <button
+              type="button"
+              data-boutique-select-product={product.id}
+              data-reveal="card"
+              data-reveal-delay={String(index * 80)}
+              class="featured-card bg-white border rounded p-4 shadow-xs space-y-3 cursor-pointer group hover:border-[#E29578] transition-colors hover-card-polish text-left"
+            >
+              <div class="aspect-square rounded overflow-hidden bg-stone-50">
+                <Image
+                  src={product.image}
+                  widths={[320, 560, 760]}
+                  sizes="(min-width: 48rem) 20rem, 100vw"
+                  alt={product.name}
+                  loading="lazy"
+                  fetchpriority="low"
+                  decoding="async"
+                  data-skeleton
+                  class="image-skeleton w-full h-full object-cover group-hover:scale-102 transition-transform duration-200"
+                />
+              </div>
+              <div>
+                <h3 class="font-serif font-black text-sm text-stone-900">{product.name}</h3>
+                <p class="text-xs text-[#E29578] font-mono mt-0.5">{product.price}</p>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div data-boutique-panel="catalogue" hidden>
+    <div class="animate-fade-in max-w-6xl mx-auto px-6 py-12 text-left">
+      <div class="border-b border-stone-200 pb-8 mb-8 flex flex-col md:flex-row md:justify-between md:items-end gap-6" data-reveal="fade">
+        <div class="space-y-1.5">
+          <span class="text-[10px] uppercase font-mono text-[#E29578] tracking-widest font-black block">Active Collection</span>
+          <h1 class="font-serif text-3xl md:text-4xl font-extrabold text-[#1E1E1C]">The Boutique Inventory</h1>
+          <p class="text-xs text-stone-500 max-w-xl font-serif italic">
+            Sourced from family-run mills, selected by hand, and crafted for physical longevity. Limited seasonal drop sizes now on key display racks.
+          </p>
+        </div>
+
+        <div class="bg-[#F2EDDF] border border-stone-300 p-4 rounded max-w-sm flex gap-3 text-left hover-card-polish" data-reveal="scale" data-reveal-delay="120">
+          <BoutiqueIcon name="Sparkles" className="w-5 h-5 text-[#E29578] shrink-0" />
+          <div class="space-y-0.5">
+            <p class="text-xs font-bold text-stone-800">Autumn Drop II Arrived</p>
+            <p class="text-[10px] text-stone-500 leading-normal">
+              Curated coat arrangements and double wool blends are now available for exclusive store fitting appointment locks.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2.5 mb-8 border-b border-stone-200/50 pb-5" data-reveal="fade">
+        {sarahsBoutiqueCategories.map((category, index) => (
+          <button
+            type="button"
+            data-boutique-filter={category}
+            class={`filter-chip px-4 py-2 border text-xs font-mono tracking-wider uppercase transition-all rounded-sm cursor-pointer ${
+              index === 0 ? 'bg-[#1E1E1C] border-[#1E1E1C] text-white' : 'bg-white border-stone-200 text-stone-500 hover:border-stone-400 hover:text-[#1E1E1C]'
+            }`}
+            aria-pressed={index === 0 ? 'true' : 'false'}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {sarahsBoutiqueInventory.map((product, index) => (
+          <div
+            data-boutique-catalogue-card
+            data-boutique-category={product.category}
+            data-reveal="card"
+            data-reveal-delay={String((index % 6) * 70)}
+            class="bg-white border border-stone-200/60 rounded group flex flex-col justify-between overflow-hidden shadow-xs hover:border-stone-300 hover:shadow-xs transition-all duration-200 hover-card-polish text-left"
+          >
+            <button
+              type="button"
+              data-boutique-select-product={product.id}
+              class="product-grid-entry cursor-pointer text-left bg-transparent border-none p-0"
+            >
+              <div class="aspect-4/5 overflow-hidden bg-stone-100 relative">
+                <Image
+                  src={product.image}
+                  widths={[320, 560, 760]}
+                  sizes="(min-width: 64rem) 22rem, (min-width: 40rem) 50vw, 100vw"
+                  alt={product.name}
+                  loading="lazy"
+                  fetchpriority="low"
+                  decoding="async"
+                  data-skeleton
+                  class="image-skeleton w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
+                />
+                <span class="absolute bottom-3 left-3 bg-white/90 backdrop-blur-xs text-stone-900 border border-stone-200 text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-sm">
+                  {product.category}
+                </span>
+              </div>
+
+              <div class="p-5 text-left space-y-1.5">
+                <div class="flex justify-between items-baseline gap-2">
+                  <h3 class="font-serif font-black text-md text-[#1E1E1C] group-hover:text-[#E29578] transition-colors leading-tight">
+                    {product.name}
+                  </h3>
+                  <span class="font-mono text-sm text-[#E29578] font-bold shrink-0">{product.price}</span>
+                </div>
+                <p class="text-xs text-stone-500 leading-relaxed font-sans line-clamp-2">
+                  {product.shortDesc}
+                </p>
+              </div>
+            </button>
+
+            <div class="p-5 pt-0 border-t border-stone-50 flex items-center justify-between">
+              <button
+                type="button"
+                data-boutique-select-product={product.id}
+                class="view-details-txt text-[10px] font-mono tracking-widest uppercase underline text-stone-500 hover:text-stone-950 bg-transparent border-none cursor-pointer"
+              >
+                View Details
+              </button>
+              <button
+                type="button"
+                data-boutique-open-modal
+                class="reserve-fitting-btn bg-[#1E1E1C] hover:bg-[#32322E] text-white px-3 py-1.5 rounded-sm text-[9px] font-mono uppercase tracking-widest hover-button-polish border-none cursor-pointer"
+              >
+                Reserves Fitting
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  {sarahsBoutiqueInventory.map((product) => (
+    <div data-boutique-panel="product-detail" data-boutique-product-id={product.id} hidden>
+      <div class="animate-fade-in max-w-5xl mx-auto px-6 py-12 text-left">
+        <button
+          type="button"
+          data-boutique-go-view="catalogue"
+          class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-stone-500 hover:text-stone-950 mb-8 bg-transparent border-none cursor-pointer"
+          data-reveal="fade"
+        >
+          <BoutiqueIcon name="ArrowLeft" className="w-4 h-4" />
+          <span>Return to Inventory</span>
+        </button>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
+          <div class="md:col-span-6 bg-stone-50 border border-stone-200/60 rounded overflow-hidden shadow-xs hover-card-polish" data-reveal="scale" data-reveal-delay="120">
+            <Image
+              src={product.image}
+              widths={[320, 560, 760]}
+              sizes="(min-width: 48rem) 50vw, 100vw"
+              alt={product.name}
+              loading="lazy"
+              fetchpriority="low"
+              decoding="async"
+              data-skeleton
+              class="image-skeleton w-full h-auto object-cover max-h-[600px]"
+            />
+          </div>
+
+          <div class="md:col-span-6 space-y-6" data-reveal="fade" data-reveal-delay="180">
+            <div class="border-b border-stone-200 pb-4 space-y-2">
+              <span class="text-[10px] font-mono tracking-widest uppercase font-black text-[#E29578] block">
+                Archive Item No. P-{product.id.replace('prod-', '').padStart(3, '0')}
+              </span>
+              <h1 class="font-serif text-3xl font-bold text-[#1E1E1C]">{product.name}</h1>
+              <p class="font-mono text-xl text-[#E29578] font-bold">{product.price}</p>
+            </div>
+
+            <div class="space-y-4">
+              <p class="text-sm text-stone-600 leading-relaxed font-sans">
+                {product.longDesc}
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-stone-200/60 pt-4">
+                <div class="space-y-1 bg-stone-100/50 p-3.5 rounded border border-stone-200/20">
+                  <span class="text-[9px] font-mono text-stone-400 font-bold block uppercase tracking-widest">Sizing & Cuts</span>
+                  <p class="text-xs text-stone-600 leading-relaxed font-serif italic">
+                    {product.sizing}
+                  </p>
+                </div>
+
+                <div class="space-y-1 bg-stone-100/50 p-3.5 rounded border border-stone-200/20">
+                  <span class="text-[9px] font-mono text-stone-400 font-bold block uppercase tracking-widest">Fibers & Materials</span>
+                  <p class="text-xs text-stone-600 leading-relaxed font-serif italic">
+                    {product.materials}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-6 border-t border-stone-200/60 space-y-3">
+              <button
+                type="button"
+                data-boutique-open-modal
+                class="w-full bg-[#1E1E1C] hover:bg-[#32322E] text-[#FAF8F5] text-xs font-mono uppercase tracking-widest py-4 rounded-sm transition-colors hover-button-polish border-none cursor-pointer shadow-md inline-flex items-center justify-center gap-2"
+              >
+                <BoutiqueIcon name="ShoppingBag" className="w-4 h-4" />
+                <span>Buy Now (Fitting Reserved)</span>
+              </button>
+              <p class="text-[10px] text-stone-400 font-mono text-center italic">
+                Select to route this unique item directly to Montpellier Arcade closet racks or safe home dispatch.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+
+  <div data-boutique-panel="about" hidden>
+    <div class="animate-fade-in max-w-4xl mx-auto px-6 py-16 text-left space-y-12">
+      <div class="border-b border-stone-200 pb-6" data-reveal="fade">
+        <span class="text-[10px] uppercase font-mono tracking-widest text-[#E29578] font-bold block">The Atelier Story</span>
+        <h1 class="font-serif text-3xl md:text-4xl font-extrabold text-[#1E1E1C]">About Our Boutique</h1>
+        <p class="text-xs text-stone-500 font-serif italic mt-1">Slow fashion blocks to hold up against northern cold.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div class="space-y-4" data-reveal="fade" data-reveal-delay="120">
+          <p class="text-sm text-stone-600 leading-relaxed font-sans">
+            Founded in Harrogate, Sarah Sterling's boutique has stood for quiet quality on Montpellier Arcade. Over a decade of direct garment consultation has taught us that clothing shines brightest when it supports rather than dictates character.
+          </p>
+          <p class="text-sm text-stone-600 leading-relaxed font-sans">
+            Our approach rejects standard mass industrial fast fashion. We currate individual garment runs of small, hand-finished amounts, woven primarily on traditional North Yorkshire shuttle mills from natural wool, sheep fleece, and flax fields.
+          </p>
+        </div>
+        <div class="rounded overflow-hidden bg-stone-100 aspect-4/3 hover-card-polish" data-reveal="scale" data-reveal-delay="180">
+          <Image
+            src={sarahsBoutiqueStoreImage}
+            widths={[480, 720, 960]}
+            sizes="(min-width: 48rem) 50vw, 100vw"
+            alt="Sarah's quiet natural clothing store layout"
+            loading="lazy"
+            fetchpriority="low"
+            decoding="async"
+            data-skeleton
+            class="image-skeleton w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-boutique-panel="visit" hidden>
+    <div class="animate-fade-in max-w-4xl mx-auto px-6 py-16 text-left space-y-12">
+      <div class="border-b border-stone-200 pb-6" data-reveal="fade">
+        <span class="text-[10px] uppercase font-mono tracking-widest text-[#E29578] font-bold block">Physical Showrooms</span>
+        <h1 class="font-serif text-3xl md:text-4xl font-extrabold text-[#1E1E1C]">Visit Harriet Racks</h1>
+      </div>
+
+      <div class="bg-white border border-stone-200 p-8 rounded shadow-xs grid grid-cols-1 md:grid-cols-12 gap-8 items-center hover-card-polish" data-reveal="fade" data-reveal-delay="120">
+        <div class="md:col-span-7 space-y-4 text-left" data-reveal="fade" data-reveal-delay="180">
+          <h3 class="font-serif text-2xl font-bold leading-tight">Appointments welcome & Walk-ins accepted</h3>
+          <p class="text-xs text-stone-500 leading-relaxed font-sans">
+            Our shop is configured with slate stones, pine timber rails, wild garden twigs, and soft evening-glow lighting, creating a calm atmosphere where you can explore fabrics without rushing.
+          </p>
+          <div class="space-y-1.5 font-mono text-[10px] text-stone-600 block">
+            <p class="flex items-center gap-2"><BoutiqueIcon name="MapPin" className="w-3.5 h-3.5 text-[#E29578]" /> 4 Montpellier Arcade, Harrogate, HG1 2TJ</p>
+            <p class="text-stone-400 pl-5">Hours: Thursday to Saturday - 10:00 AM to 5:00 PM</p>
+          </div>
+        </div>
+
+        <div class="md:col-span-5 bg-[#FAF8F5] border border-stone-200/50 p-5 rounded hover-card-polish" data-reveal="scale" data-reveal-delay="240">
+          <form data-boutique-open-modal-form class="space-y-3">
+            <p class="font-serif text-xs italic text-stone-700 text-center uppercase tracking-wider">Book Private Styling Appointment</p>
+            <input type="text" placeholder="Your Name" required class="w-full border border-stone-200 text-xs p-2.5 focus:outline-none focus:border-[#E29578] bg-white rounded-sm" />
+            <input type="email" placeholder="Email coordinates" required class="w-full border border-stone-200 text-xs p-2.5 focus:outline-none focus:border-[#E29578] bg-white rounded-sm" />
+            <select class="w-full border border-stone-200 text-xs p-2.5 focus:outline-none text-stone-500 bg-white rounded-sm">
+              <option>Select Saturday Spot (10AM - 11AM)</option>
+              <option>Select Saturday Spot (12PM - 1PM)</option>
+              <option>Select Saturday Spot (3PM - 4PM)</option>
+            </select>
+            <button type="submit" class="w-full bg-[#1E1E1C] text-[#FAF8F5] text-[10px] font-mono uppercase tracking-widest py-3 hover:bg-stone-800 transition-colors hover-button-polish cursor-pointer border-none rounded-sm">
+              Schedule My Visit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="border-t border-stone-200 bg-white py-8 text-center text-xs text-stone-400 font-mono mt-auto">
+    © 2026 Septen
+  </footer>
+
+  <SarahsBoutiqueIsland client:load rootId={rootId} businessName="Sarah’s Boutique" />
+</div>

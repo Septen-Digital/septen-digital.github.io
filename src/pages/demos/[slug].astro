@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { demoRegistry, getDemoMarkup } from '../../scripts/demoMarkup';
+import { getImage } from 'astro:assets';
+import SarahsBoutiqueDemo from '../../components/demo/sarahs-boutique/SarahsBoutiqueDemo.astro';
+import { getDemoSsrImageConfig } from '../../demo_sites/ssrImageConfig';
+
+function buildImageAttrs(src: string, srcset: string, sizes: string, width?: number, height?: number): string {
+  const dimensions = [
+    typeof width === 'number' ? `width="${width}"` : '',
+    typeof height === 'number' ? `height="${height}"` : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  return [dimensions, `src="${src}"`, `srcset="${srcset}"`, `sizes="${sizes}"`].filter(Boolean).join(' ');
+}
+
+async function getOptimizedDemoMarkup(slug: string): Promise<string> {
+  let markup = getDemoMarkup(slug);
+  const imageConfig = getDemoSsrImageConfig(slug);
+
+  for (const config of imageConfig) {
+    const optimizedImage = await getImage({
+      src: config.image,
+      width: config.width,
+      widths: [...config.widths, config.width],
+      sizes: config.sizes,
+      format: 'webp',
+      quality: 'mid',
+    });
+
+    const optimizedAttrs = buildImageAttrs(
+      optimizedImage.src,
+      optimizedImage.srcSet.attribute,
+      config.sizes,
+      Number(optimizedImage.attributes.width),
+      Number(optimizedImage.attributes.height)
+    );
+
+    markup = markup.replace(config.sourceToken, optimizedAttrs);
+  }
+
+  return markup;
+}
+
+export function getStaticPaths() {
+  return Object.keys(demoRegistry).map((slug) => ({
+    params: { slug },
+    props: { slug, demo: demoRegistry[slug] },
+  }));
+}
+
+const { slug, demo } = Astro.props;
+const isSarahsBoutiqueDemo = slug === 'sarahs-boutique';
+const markup = isSarahsBoutiqueDemo ? '' : await getOptimizedDemoMarkup(slug);
+---
+
+<BaseLayout
+  title={`${demo.title} | Septen`}
+  description={demo.description}
+  noindex={true}
+  includeBusinessSchema={false}
+>
+  <div data-demo-page>
+    <div class="demo-sticky-offset sticky z-40 border-b border-slate-200 bg-white">
+      <div class="max-w-7xl mx-auto flex justify-center px-4 py-2.5 sm:px-6 md:py-4 lg:px-8">
+        <a
+          data-demo-sticky-back
+          data-demo-return-slug={slug}
+          href="/"
+          class="inline-flex min-w-[15rem] items-center justify-center rounded-lg border border-brand-teal bg-white px-6 py-2 text-xs font-bold text-brand-teal shadow-sm transition-colors hover:bg-brand-teal hover:text-white md:min-w-[24rem] md:px-10 md:py-4 md:text-[0.95rem] md:shadow-[0_10px_28px_rgba(15,23,42,0.08)] lg:min-w-[26rem]"
+        >
+          Back to Septen
+        </a>
+      </div>
+    </div>
+
+    <section class="border-b border-slate-200 bg-white text-left">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+        <div class="space-y-2">
+          <p class="text-xs font-black uppercase tracking-widest text-brand-teal">Interactive Demo</p>
+          <h1 class="font-sans text-3xl md:text-4xl font-extrabold text-brand-teal tracking-tight">{demo.title}</h1>
+          <p class="text-sm md:text-base text-slate-600 max-w-3xl leading-relaxed">
+            This sample website is a Septen concept demo built to preview layout, interaction patterns, and overall feel
+            before a live project goes ahead.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <noscript>
+      <section class="border-b border-slate-200 bg-stone-50 text-left">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <p class="text-sm leading-relaxed text-slate-600">
+            JavaScript is disabled. These concept demos remain viewable, but interactive controls and forms may be limited.
+            Return to Septen to enquire directly, or email
+            <a class="font-semibold text-brand-teal" href="mailto:septen.digital@gmail.com">septen.digital@gmail.com</a>.
+          </p>
+        </div>
+      </section>
+    </noscript>
+
+    <button
+      type="button"
+      data-demo-back-to-top
+      class="pointer-events-none fixed bottom-5 right-4 z-40 inline-flex h-10 w-10 translate-y-2 items-center justify-center rounded-full border border-brand-teal/25 bg-white/96 text-brand-teal opacity-0 shadow-[0_12px_32px_rgba(2,8,23,0.16)] backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-brand-teal hover:bg-brand-teal hover:text-white focus:outline-none focus:ring-2 focus:ring-brand-teal/30 sm:bottom-7 sm:right-7 md:bottom-12 md:right-14 md:h-16 md:min-w-[5.75rem] md:gap-2 md:rounded-full md:border-2 md:px-4 md:shadow-[0_18px_48px_rgba(2,8,23,0.2)] lg:right-[4.5rem] cursor-pointer"
+      aria-label="Back to top"
+      aria-hidden="true"
+    >
+      <span
+        class="absolute inset-0 hidden rounded-full border border-brand-teal/20 md:block md:scale-[1.08] md:animate-pulse motion-reduce:animate-none"
+        aria-hidden="true"
+      ></span>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.25"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-4 w-4 md:h-6 md:w-6 md:shrink-0"
+      >
+        <path d="M12 19V5"></path>
+        <path d="m6 11 6-6 6 6"></path>
+      </svg>
+      <span class="hidden text-[0.6875rem] font-black uppercase tracking-[0.22em] md:inline">Top</span>
+    </button>
+
+    {isSarahsBoutiqueDemo ? (
+      <SarahsBoutiqueDemo />
+    ) : (
+      <>
+        <div data-demo-root data-demo-slug={slug} set:html={markup} />
+
+        <script>
+          import initDemoPage from '../../scripts/demoPage';
+
+          initDemoPage();
+        </script>
+      </>
+    )}
+  </div>
+</BaseLayout>

@@ -1,0 +1,54 @@
+---
+import { demoCards } from '../../data/site';
+---
+
+<section class="deferred-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 text-center" aria-labelledby="portfolio-title">
+  <div id="portfolio" data-reveal="fade" class="section-scroll-target text-center mb-10 mx-auto max-w-2xl">
+    <h2 id="portfolio-title" class="font-sans text-3xl md:text-4xl font-extrabold text-brand-teal tracking-tight">See Demos</h2>
+    <p class="text-xs md:text-sm text-stone-500 leading-normal mt-2">
+      Choose any design layout below to test physical interaction, diagnostic inputs, scheduling calendars,
+      or menu features live.
+    </p>
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-6">
+    {
+      demoCards.map((demo, index) => (
+        <article id={`demo-${demo.slug}`} data-reveal="showcase" data-reveal-delay={String(index * 70)} class="demo-card-return-target w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] max-w-sm border border-slate-200 rounded-xl p-6 flex flex-col justify-between hover:border-slate-300 transition-colors text-center bg-white shadow-xs hover-card-polish">
+          <div class="space-y-4 w-full flex flex-col items-center">
+            <div>
+              <h3 class="font-sans text-lg font-bold text-brand-teal text-center">{demo.name}</h3>
+            </div>
+            <p class="text-xs md:text-sm text-slate-600 leading-relaxed min-h-[3.125rem] text-center">
+              {demo.description}
+            </p>
+
+            <div data-reveal="panel" data-reveal-delay={String(90 + index * 70)} class="border border-slate-200 rounded-lg overflow-hidden select-none bg-stone-50 text-[0.625rem] font-mono shadow-xs w-full max-w-xs mx-auto">
+              <div class="bg-slate-200/40 p-1.5 flex gap-1.5 items-center border-b border-slate-200/30">
+                <div class="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                <div class="bg-white grow text-center text-[0.5rem] text-slate-400 py-0.5 rounded px-2 text-ellipsis overflow-hidden whitespace-nowrap">
+                  {demo.siteLabel}
+                </div>
+              </div>
+              <div set:html={demo.previewMarkup} />
+            </div>
+          </div>
+
+          <a
+            href={`/demos/${demo.slug}/`}
+            aria-label={`Open the demo website for ${demo.name}`}
+            class="w-full bg-brand-teal hover:bg-brand-teal-dark text-white text-xs font-bold py-2.5 rounded-lg border-none mt-6 cursor-pointer text-center hover-button-polish"
+          >
+            See Demo Website
+          </a>
+        </article>
+      ))
+    }
+  </div>
+
+  <p data-reveal="fade" data-reveal-delay="160" class="mt-8 text-xs text-slate-500 max-w-3xl mx-auto leading-relaxed">
+    Demo websites are illustrative preview builds for exploring layout, motion, and interaction ideas before a
+    live client project is commissioned.
+  </p>
+</section>
