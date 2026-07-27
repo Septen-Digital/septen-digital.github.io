@@ -14,11 +14,14 @@
     "jsx": "preserve",
     "strict": true,
     "noImplicitAny": false,
-    "types": ["astro/client"]
+    "types": [
+      "astro/client"
+    ]
   },
   "include": [
     ".astro/types.d.ts",
-    "**/*"
+    "**/*",
+    "./worker-configuration.d.ts"
   ],
   "exclude": [
     "dist"
