@@ -1,0 +1,9 @@
+{
+  "standard": "WCAG2AAA",
+  "runners": ["axe"],
+  "timeout": 30000,
+  "wait": 1000,
+  "includeWarnings": true,
+  "includeNotices": true,
+  "levelCapWhenNeedsReview": "error"
+}

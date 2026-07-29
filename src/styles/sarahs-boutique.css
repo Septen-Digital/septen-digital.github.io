@@ -1,0 +1,215 @@
+#sarahs-boutique-demo-root {
+  --sarah-boutique-ink: #1e1e1c;
+}
+
+#sarahs-boutique-demo-root[data-boutique-enhanced="true"] [data-boutique-panel] {
+  display: none;
+  scroll-margin-top: 8.6rem;
+}
+
+#sarahs-boutique-demo-root[data-boutique-enhanced="true"]
+  [data-boutique-panel][data-boutique-active="true"] {
+  display: block;
+}
+
+#sarahs-boutique-demo-root[data-boutique-enhanced="true"] [data-boutique-visit-success] {
+  display: none;
+}
+
+#sarahs-boutique-demo-root[data-boutique-enhanced="true"]
+  [data-boutique-visit-success][data-boutique-active="true"] {
+  display: block;
+}
+
+#sarahs-boutique-demo-root[data-boutique-enhanced="true"] [data-boutique-collections-links] {
+  display: none;
+}
+
+#sarahs-boutique-demo-root[data-boutique-enhanced="true"]
+  [data-boutique-collections-links][data-boutique-active="true"] {
+  display: flex;
+}
+
+#sarahs-boutique-demo-root[data-boutique-enhanced="true"] [data-boutique-anchor-target] {
+  scroll-margin-top: 8.5rem;
+}
+
+@media (width >= 48rem) {
+  #sarahs-boutique-demo-root[data-boutique-enhanced="true"] [data-boutique-anchor-target] {
+    scroll-margin-top: 9.5rem;
+  }
+
+  #sarahs-boutique-demo-root[data-boutique-enhanced="true"] [data-boutique-panel] {
+    scroll-margin-top: 9.6rem;
+  }
+}
+
+#sarahs-boutique-demo-root [data-boutique-panel="home"] .image-skeleton,
+#sarahs-boutique-demo-root [data-boutique-panel="home"] .image-skeleton.is-media-pending,
+#sarahs-boutique-demo-root [data-boutique-panel="home"] .image-skeleton.is-loaded {
+  border-radius: 0 !important;
+  clip-path: inset(0 round 0) !important;
+  transform: none !important;
+}
+
+#sarahs-boutique-demo-root [data-boutique-anchor-target],
+#sarahs-boutique-demo-root [data-boutique-panel] {
+  scroll-margin-top: 0;
+}
+
+#sarahs-boutique-demo-root [data-boutique-panel="catalogue"] > div,
+#sarahs-boutique-demo-root [data-boutique-panel="product-detail"] > div {
+  padding-top: 0.75rem !important;
+}
+
+#sarahs-boutique-demo-root [data-boutique-panel="about"] > div,
+#sarahs-boutique-demo-root [data-boutique-panel="visit"] > div {
+  padding-top: 1rem !important;
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) [data-boutique-panel="catalogue"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) [data-boutique-panel="about"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) [data-boutique-panel="visit"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"])
+  [data-boutique-panel="product-detail"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) [data-boutique-visit-success],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) [data-boutique-collections-links] {
+  display: none !important;
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(#boutique-catalogue:target)
+  [data-boutique-panel="home"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(#boutique-about:target)
+  [data-boutique-panel="home"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(#boutique-visit:target)
+  [data-boutique-panel="home"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    [data-boutique-category-target]:target
+  )
+  [data-boutique-panel="home"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    [data-boutique-panel="product-detail"]:target
+  )
+  [data-boutique-panel="home"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    #boutique-visit-confirmation:target
+  )
+  [data-boutique-panel="home"] {
+  display: none !important;
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) #boutique-home:target,
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) #boutique-catalogue:target,
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) #boutique-about:target,
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) #boutique-visit:target {
+  display: block !important;
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    [data-boutique-category-target]:target
+  )
+  [data-boutique-panel="catalogue"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    #boutique-visit-confirmation:target
+  )
+  [data-boutique-panel="visit"] {
+  display: block !important;
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    #boutique-category-dresses:target
+  )
+  [data-boutique-catalogue-card]:not([data-boutique-category="Dresses"]),
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    #boutique-category-outerwear:target
+  )
+  [data-boutique-catalogue-card]:not([data-boutique-category="Outerwear"]),
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(#boutique-category-tops:target)
+  [data-boutique-catalogue-card]:not([data-boutique-category="Tops"]),
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    #boutique-category-accessories:target
+  )
+  [data-boutique-catalogue-card]:not([data-boutique-category="Accessories"]),
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    #boutique-category-collections:target
+  )
+  [data-boutique-catalogue-card]:not([data-boutique-category="Collections"]) {
+  display: none !important;
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(#boutique-catalogue:target)
+  [data-boutique-filter="All"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(#boutique-category-all:target)
+  [data-boutique-filter="All"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    #boutique-category-dresses:target
+  )
+  [data-boutique-filter="Dresses"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    #boutique-category-outerwear:target
+  )
+  [data-boutique-filter="Outerwear"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(#boutique-category-tops:target)
+  [data-boutique-filter="Tops"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    #boutique-category-accessories:target
+  )
+  [data-boutique-filter="Accessories"],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    #boutique-category-collections:target
+  )
+  [data-boutique-filter="Collections"] {
+  background: var(--sarah-boutique-ink) !important;
+  border-color: var(--sarah-boutique-ink) !important;
+  color: var(--color-white) !important;
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]):has(
+    #boutique-category-collections:target
+  )
+  [data-boutique-collections-links] {
+  display: flex !important;
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"])
+  [data-boutique-panel="product-detail"]:target {
+  display: block !important;
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) [data-boutique-anchor-target],
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) [data-boutique-panel] {
+  scroll-margin-top: 8rem !important;
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) [data-boutique-category-target] {
+  scroll-margin-top: 8.5rem !important;
+}
+
+@media (width >= 48rem) {
+  #sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) [data-boutique-anchor-target],
+  #sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) [data-boutique-panel] {
+    scroll-margin-top: 9rem !important;
+  }
+
+  #sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) [data-boutique-category-target] {
+    scroll-margin-top: 9.5rem !important;
+  }
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"])
+  [data-boutique-panel]
+  [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  will-change: auto !important;
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"]) [data-boutique-visit-success] {
+  display: none !important;
+}
+
+#sarahs-boutique-demo-root:not([data-boutique-enhanced="true"])
+  #boutique-visit-confirmation:target {
+  display: block !important;
+}

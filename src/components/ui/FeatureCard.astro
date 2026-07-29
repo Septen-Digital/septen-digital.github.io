@@ -1,0 +1,17 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  revealDelay?: string;
+}
+const { title, description, revealDelay } = Astro.props;
+---
+
+<div class:list={["space-y-3 text-left"]} data-reveal data-reveal-delay={revealDelay ?? "0"}>
+  <h3 class="font-sans font-bold text-lg text-brand-teal">
+    {title}
+  </h3>
+  <p class="text-sm md:text-base text-slate-600 leading-relaxed">
+    {description}
+  </p>
+</div>

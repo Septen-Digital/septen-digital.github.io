@@ -1,0 +1,17 @@
+---
+interface Props {
+  question: string;
+  answer: string;
+  revealDelay?: string;
+}
+const { question, answer, revealDelay } = Astro.props;
+---
+
+<div data-reveal="fade" data-reveal-delay={revealDelay ?? "0"} class="space-y-1.5">
+  <h3 class="font-sans font-bold text-brand-teal text-md lg:text-lg">
+    {question}
+  </h3>
+  <p class="text-xs md:text-sm lg:text-base text-slate-600 leading-relaxed">
+    {answer}
+  </p>
+</div>

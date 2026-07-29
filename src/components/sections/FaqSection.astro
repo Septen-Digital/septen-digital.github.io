@@ -1,0 +1,28 @@
+---
+import { faqItems } from "@data/site";
+import FaqItem from "@components/ui/FaqItem.astro";
+---
+
+<section
+  id="faq"
+  class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 text-left"
+  aria-labelledby="faq-title"
+>
+  <div>
+    <h2
+      id="faq-title"
+      data-reveal
+      class="font-sans text-3xl md:text-4xl font-extrabold text-brand-teal tracking-tight mb-10"
+    >
+      Frequently Asked Questions
+    </h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 max-w-5xl">
+    {
+      faqItems.map((item, index) => (
+        <FaqItem question={item.question} answer={item.answer} revealDelay={String(index * 45)} />
+      ))
+    }
+  </div>
+</section>

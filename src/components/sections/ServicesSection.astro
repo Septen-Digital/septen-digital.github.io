@@ -1,0 +1,54 @@
+---
+import { processSteps, services } from "@data/site";
+import FeatureCard from "@components/ui/FeatureCard.astro";
+import StepCard from "@components/ui/StepCard.astro";
+---
+
+<section
+  id="services"
+  class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 text-left"
+  aria-labelledby="services-title"
+>
+  <div>
+    <h2
+      id="services-title"
+      data-reveal
+      class="font-sans text-3xl md:text-4xl font-extrabold text-brand-teal tracking-tight mb-10"
+    >
+      Services
+    </h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    {
+      services.map((service, index) => (
+        <FeatureCard
+          title={service.title}
+          description={service.description}
+          revealDelay={String(index * 60)}
+        />
+      ))
+    }
+  </div>
+
+  <div
+    data-reveal="fade"
+    data-reveal-delay="120"
+    class="mt-16 bg-slate-50 border border-slate-200 p-8 rounded-xl text-left"
+  >
+    <h3 class="font-sans font-extrabold text-slate-500 text-xs uppercase tracking-widest mb-6">
+      How It Works
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {
+        processSteps.map((step, index) => (
+          <StepCard
+            title={step.title}
+            description={step.description}
+            revealDelay={String(170 + index * 60)}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

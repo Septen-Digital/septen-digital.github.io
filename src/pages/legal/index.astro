@@ -1,0 +1,67 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { legalTabContent, legalTabs } from "@content/legal/legalContent";
+---
+
+<BaseLayout
+  title="Legal | Septen"
+  description="Terms, privacy, cookie policy, data rights, and disclaimer information for Septen."
+>
+  <section
+    class="legal-page-shell max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 md:pt-14 md:pb-20 text-left"
+  >
+    <div class="mx-auto max-w-4xl space-y-8 md:space-y-10">
+      <div class="space-y-2">
+        <p class="text-xs font-black uppercase tracking-widest text-brand-teal-dark">
+          Legal Information
+        </p>
+        <h1 class="font-sans text-3xl md:text-4xl font-extrabold text-brand-teal tracking-tight">
+          Terms, Privacy, and Data Rights
+        </h1>
+        <p class="max-w-3xl text-sm md:text-base leading-relaxed text-slate-600">
+          These documents remain available without JavaScript so the site's key legal information
+          stays reachable in every browsing mode.
+        </p>
+      </div>
+
+      <nav
+        aria-label="Legal document navigation"
+        class="flex flex-wrap gap-3 border-t border-slate-200 pt-5"
+      >
+        {
+          legalTabs.map((tab) => (
+            <a
+              href={`#${tab.id}`}
+              class="inline-flex items-center rounded-full border border-slate-200 px-4 py-2 text-xs font-extrabold uppercase tracking-widest text-slate-700 transition-colors hover:border-brand-teal-dark hover:text-brand-teal-dark"
+            >
+              {tab.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="space-y-4 md:space-y-5">
+        {
+          legalTabs.map((tab) => (
+            <section
+              id={tab.id}
+              class="legal-document-section rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xs"
+              aria-labelledby={`${tab.id}-title`}
+            >
+              <h2
+                id={`${tab.id}-title`}
+                class="font-sans text-2xl font-extrabold tracking-tight text-brand-teal"
+              >
+                {tab.label}
+              </h2>
+              <div
+                class="legal-copy-content legal-copy-static mt-3 text-[13px] leading-relaxed text-slate-700"
+                set:html={legalTabContent[tab.id]}
+              />
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

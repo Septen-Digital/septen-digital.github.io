@@ -1,0 +1,19 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  revealDelay?: string;
+  headingLevel?: "h3" | "h4";
+}
+const { title, description, revealDelay, headingLevel = "h4" } = Astro.props;
+const Heading = headingLevel;
+---
+
+<div class="space-y-2" data-reveal data-reveal-delay={revealDelay ?? "0"}>
+  <Heading class="font-sans font-bold text-sm md:text-base text-brand-teal">
+    {title}
+  </Heading>
+  <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
+    {description}
+  </p>
+</div>

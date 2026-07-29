@@ -1,0 +1,132 @@
+---
+import { Image } from "astro:assets";
+import logo from "@assets/logo.svg";
+
+const isHomePage = Astro.url.pathname === "/";
+const navLinks = [
+  { href: isHomePage ? "#services" : "/#services", label: "Services" },
+  { href: isHomePage ? "#pricing" : "/#pricing", label: "Pricing" },
+  { href: isHomePage ? "#portfolio" : "/#portfolio", label: "See Demos" },
+  { href: isHomePage ? "#about" : "/#about", label: "About" },
+  { href: isHomePage ? "#faq" : "/#faq", label: "FAQ" },
+];
+// Keep these links route-aware so they work both as in-page anchors on the
+// homepage and as return-to-home anchors from legal/demo routes.
+const contactHref = isHomePage ? "#contact" : "/#contact";
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-slate-200 bg-white"
+  data-mobile-menu-root
+  data-site-header
+>
+  <div
+    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-4 flex justify-between items-center gap-3 md:gap-4"
+  >
+    <a
+      href="/"
+      aria-label="Septen home page"
+      class="site-logo-link flex items-center gap-2.5 font-sans font-extrabold text-xl text-brand-teal tracking-tight leading-none transition-[color,opacity] duration-200 hover:text-brand-orange hover:opacity-95"
+    >
+      <Image
+        src={logo}
+        alt="Septen logo"
+        width={28}
+        height={28}
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        class="site-logo-mark h-7 w-7 shrink-0 object-contain"
+      />
+      <span>Sep<span class="text-brand-orange">ten</span></span>
+    </a>
+
+    <details class="md:hidden relative" data-mobile-menu data-state="closed">
+      <summary
+        class="mobile-menu-toggle inline-flex list-none items-center justify-center rounded-lg border border-slate-200 bg-white p-2.5 text-slate-800 shadow-sm transition-colors duration-200 hover:border-brand-orange hover:text-brand-orange"
+        aria-label="Toggle navigation menu"
+        aria-controls="mobile-navigation"
+        data-mobile-menu-toggle
+      >
+        <span class="sr-only">Toggle navigation menu</span>
+        <span class="relative block h-4 w-4" aria-hidden="true">
+          <span
+            class="absolute left-0 top-0 block h-0.5 w-4 rounded-full bg-current"
+            data-mobile-menu-line="top"></span>
+          <span
+            class="absolute left-0 top-1/2 block h-0.5 w-4 -translate-y-1/2 rounded-full bg-current"
+            data-mobile-menu-line="middle"></span>
+          <span
+            class="absolute bottom-0 left-0 block h-0.5 w-4 rounded-full bg-current"
+            data-mobile-menu-line="bottom"></span>
+        </span>
+      </summary>
+      <div
+        id="mobile-navigation"
+        class="fixed inset-x-0 top-[var(--site-header-height)] z-40"
+        data-mobile-menu-panel
+      >
+        <div class="border-b border-slate-200 bg-white shadow-xl ring-1 ring-slate-950/5">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-4 pt-3">
+            <nav
+              aria-label="Mobile navigation"
+              tabindex="-1"
+              class="overflow-hidden rounded-xl border border-slate-200 bg-white p-3.5"
+              data-mobile-menu-panel-inner
+            >
+              <ul class="m-0 list-none space-y-1.5 p-0 text-sm font-semibold text-slate-800">
+                {
+                  navLinks.map(({ href, label }) => (
+                    <li>
+                      <a
+                        href={href}
+                        class="flex items-center justify-between rounded-lg px-3 py-2.5 text-slate-800 decoration-none transition-colors duration-200 hover:bg-slate-50 hover:text-brand-orange focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2"
+                      >
+                        <span>{label}</span>
+                      </a>
+                    </li>
+                  ))
+                }
+                <li class="pt-1.5">
+                  <a
+                    href={contactHref}
+                    aria-label="Jump to the contact section"
+                    class="block w-full rounded-lg border border-brand-orange px-3 py-2.5 text-left text-sm font-semibold text-brand-orange transition-colors duration-200 hover:bg-brand-orange hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 decoration-none"
+                  >
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <nav aria-label="Main navigation" class="hidden md:block">
+      <ul class="flex items-center gap-6 text-sm font-semibold text-slate-800 list-none p-0 m-0">
+        {
+          navLinks.map(({ href, label }) => (
+            <li>
+              <a
+                href={href}
+                class="hover:text-brand-orange transition-colors leading-none decoration-none hover-underline-brand"
+              >
+                {label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a
+            href={contactHref}
+            aria-label="Jump to the contact section"
+            class="hover:text-brand-orange transition-colors leading-none decoration-none bg-transparent border-none cursor-pointer font-semibold text-sm hover-underline-brand"
+          >
+            Contact
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

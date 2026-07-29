@@ -1,0 +1,67 @@
+---
+const pricingHref = Astro.url.pathname === "/" ? "#pricing" : "/#pricing";
+const contactHref = Astro.url.pathname === "/" ? "#contact" : "/#contact";
+---
+
+<section
+  class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-16 md:pt-24 md:pb-16 text-left"
+  aria-labelledby="hero-title"
+>
+  <div class="max-w-4xl space-y-6">
+    <h1
+      id="hero-title"
+      data-reveal
+      class="font-sans text-4xl md:text-5xl lg:text-6xl font-extrabold text-brand-teal leading-[1.12] tracking-tight"
+    >
+      Get online while staying <span class="text-brand-orange">focused</span> on running your business.
+    </h1>
+    <p
+      data-reveal="fade"
+      data-reveal-delay="70"
+      class="text-slate-600 text-base md:text-lg max-w-3xl leading-relaxed"
+    >
+      Complete, done-for-you websites for local UK businesses. We handle the design, secure UK
+      hosting, setup, and updates under a flat monthly payment. No complex tools to learn, and no
+      technical headaches.
+    </p>
+
+    <div data-reveal="fade" data-reveal-delay="120" class="flex flex-col sm:flex-row gap-4 pt-2">
+      <a
+        href={pricingHref}
+        class="bg-brand-teal-dark hover:bg-brand-teal text-white text-center font-bold text-sm px-7 py-3.5 rounded-lg transition-colors border-none cursor-pointer hover-button-polish"
+      >
+        See Pricing
+      </a>
+      <a
+        href={contactHref}
+        data-open-enquiry
+        class="bg-transparent hover:border-brand-orange-dark hover:text-brand-orange-dark hover:shadow-[0_0.85rem_2rem_rgba(15,23,42,0.08)] text-brand-teal-dark text-center font-bold text-sm px-7 py-3.5 rounded-lg transition-all border border-brand-teal-dark cursor-pointer hover-button-polish decoration-none"
+      >
+        Get in Touch
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10 border-t border-slate-200 mt-10">
+      <div data-reveal data-reveal-delay="160" class="text-left space-y-1">
+        <span class="block font-sans font-extrabold text-2xl text-brand-orange"
+          >From &pound;29.99</span
+        >
+        <span class="block text-xs font-black tracking-wider text-slate-500 uppercase"
+          >All-Inclusive Monthly Fee</span
+        >
+      </div>
+      <div data-reveal data-reveal-delay="210" class="text-left space-y-1">
+        <span class="block font-sans font-extrabold text-2xl text-brand-orange">3-7 Days</span>
+        <span class="block text-xs font-black tracking-wider text-slate-500 uppercase"
+          >Deployment Window</span
+        >
+      </div>
+      <div data-reveal data-reveal-delay="260" class="text-left space-y-1">
+        <span class="block font-sans font-extrabold text-2xl text-brand-orange">Fully Managed</span>
+        <span class="block text-xs font-black tracking-wider text-slate-500 uppercase"
+          >No Tech Experience Required</span
+        >
+      </div>
+    </div>
+  </div>
+</section>

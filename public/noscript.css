@@ -1,0 +1,17 @@
+[data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  will-change: auto !important;
+}
+
+.demo-sticky-offset {
+  position: sticky !important;
+  top: calc(var(--site-header-height) - 0.0625rem) !important;
+  z-index: 49 !important;
+  margin-top: -0.0625rem !important;
+}
+
+.legal-document-section {
+  scroll-margin-top: 1rem !important;
+}

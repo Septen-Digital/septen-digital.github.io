@@ -1,0 +1,169 @@
+---
+import { getImage } from "astro:assets";
+import "../index.css";
+import Header from "@components/layout/Header.astro";
+import Footer from "@components/layout/Footer.astro";
+import { siteMeta } from "@data/site";
+
+const {
+  title = siteMeta.title,
+  description = siteMeta.description,
+  image = siteMeta.socialImage,
+  noindex = false,
+  includeBusinessSchema = true,
+} = Astro.props;
+
+const siteUrl = Astro.site ?? siteMeta.siteUrl;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const optimizedSocialImage = await getImage({
+  src: image,
+  width: 1200,
+  height: 630,
+  format: "png",
+});
+const socialImageUrl = new URL(optimizedSocialImage.src, siteUrl).href;
+const socialImageAlt = `${siteMeta.name} brand identity`;
+const robotsContent = noindex
+  ? "noindex, nofollow"
+  : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+
+// Keep structured data assembled in one shared layout so every route gets the
+// same SEO baseline, while demos and utility pages can opt out selectively.
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}#website`,
+  url: siteUrl,
+  name: siteMeta.name,
+  description: siteMeta.description,
+  inLanguage: "en-GB",
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${canonicalUrl}#webpage`,
+  url: canonicalUrl,
+  name: title,
+  description,
+  inLanguage: "en-GB",
+  isPartOf: {
+    "@id": `${siteUrl}#website`,
+  },
+  about: {
+    "@id": `${siteUrl}#business`,
+  },
+};
+
+const businessSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${siteUrl}#business`,
+  name: siteMeta.name,
+  image: socialImageUrl,
+  logo: socialImageUrl,
+  url: siteUrl,
+  description:
+    "Complete, done-for-you websites for local UK businesses. We handle the design, secure UK hosting, setup, and updates under a flat monthly payment.",
+  email: siteMeta.email,
+  priceRange: siteMeta.priceRange,
+  areaServed: siteMeta.areaServed,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: siteMeta.locality,
+    addressCountry: "GB",
+  },
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: siteMeta.email,
+      areaServed: siteMeta.areaServed,
+      availableLanguage: ["en-GB"],
+    },
+  ],
+};
+
+const structuredData = [
+  !noindex ? websiteSchema : null,
+  !noindex ? webPageSchema : null,
+  !noindex && includeBusinessSchema ? businessSchema : null,
+].filter(Boolean);
+const structuredDataJson = structuredData.length > 0 ? JSON.stringify(structuredData) : null;
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={siteMeta.name} />
+    <meta name="robots" content={robotsContent} />
+    <meta name="googlebot" content={robotsContent} />
+    <meta name="theme-color" content="#14818b" />
+    <meta name="color-scheme" content="light" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta property="og:site_name" content={siteMeta.name} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link
+      rel="preload"
+      href="/fonts/inter-latin-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <slot name="head" />
+
+    <noscript>
+      <link rel="stylesheet" href="/noscript.css" />
+    </noscript>
+
+    {
+      structuredDataJson && (
+        <script type="application/ld+json" is:inline set:html={structuredDataJson} />
+      )
+    }
+  </head>
+  <body class="bg-stone-50">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div
+      class="min-h-screen bg-white text-slate-800 antialiased text-left flex flex-col justify-between"
+    >
+      <div>
+        <Header />
+        <main id="main-content">
+          <slot />
+        </main>
+      </div>
+      <Footer />
+    </div>
+    <script>
+      import initSite from "@scripts/site";
+
+      initSite();
+    </script>
+  </body>
+</html>

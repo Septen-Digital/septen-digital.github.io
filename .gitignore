@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.astro/
+.lighthouseci/
+reports/
+playwright-report/
+test-results/
+
+# Environment files (keep .env.example)
+.env
+.env.local
+.env.*.local
+
+# Local tool caches
+.eslintcache
+.stylelintcache
+.ts-prune/
+.vite/
+.dbg/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
