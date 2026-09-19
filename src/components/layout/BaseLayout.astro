@@ -1,0 +1,220 @@
+---
+import { getImage } from "astro:assets";
+import "../../index.css";
+import Header from "@components/layout/Header.astro";
+import Footer from "@components/layout/Footer.astro";
+import { siteMeta } from "@data/site";
+
+/**
+ * TEMPORARY SCREENSHOT TOGGLE — omit site header + footer
+ * =========================================================
+ * When TRUE, the <Header /> and <Footer /> in the top layout are fully removed
+ * so every route on the site renders content only (useful for clean full-page
+ * screenshots or pure demo captures with no surrounding Septen chrome).
+ *
+ * Default production value: false   (header + footer render normally)
+ * Screenshot-ready value  : true    (header + footer completely omitted)
+ *
+ * To restore the site header + footer on every route, flip the constant below
+ * back to `false` — no other changes needed anywhere.
+ */
+const TEMPORARY_OMIT_HEADER_AND_FOOTER_FOR_SCREENSHOTS = false;
+
+const {
+  title = siteMeta.title,
+  description = siteMeta.description,
+  image = siteMeta.socialImage,
+  noindex = false,
+  includeBusinessSchema = true,
+  singleViewport = false,
+  mobileScrollable = false,
+  compactFooter = false,
+  demoSlug = "",
+} = Astro.props;
+
+const siteUrl = Astro.site ?? siteMeta.siteUrl;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const optimizedSocialImage = await getImage({
+  src: image,
+  width: 1200,
+  height: 630,
+  format: "png",
+});
+const socialImageUrl = new URL(optimizedSocialImage.src, siteUrl).href;
+const socialImageAlt = `${siteMeta.name} brand identity`;
+const robotsContent = noindex
+  ? "noindex, nofollow"
+  : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+
+// Keep structured data assembled in one shared layout so every route gets the
+// same SEO baseline, while demos and utility pages can opt out selectively.
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}#website`,
+  url: siteUrl,
+  name: siteMeta.name,
+  description: siteMeta.description,
+  inLanguage: "en-GB",
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${canonicalUrl}#webpage`,
+  url: canonicalUrl,
+  name: title,
+  description,
+  inLanguage: "en-GB",
+  isPartOf: {
+    "@id": `${siteUrl}#website`,
+  },
+  about: {
+    "@id": `${siteUrl}#business`,
+  },
+};
+
+const businessSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${siteUrl}#business`,
+  name: siteMeta.name,
+  image: socialImageUrl,
+  logo: socialImageUrl,
+  url: siteUrl,
+  description:
+    "Custom web design packages with transparent upfront build pricing and optional monthly total management retainers for local UK businesses.",
+  email: siteMeta.email,
+  priceRange: siteMeta.priceRange,
+  areaServed: siteMeta.areaServed,
+  address: {
+    "@context": "https://schema.org",
+    "@type": "PostalAddress",
+    addressLocality: siteMeta.locality,
+    addressCountry: "GB",
+  },
+  contactPoint: [
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: siteMeta.email,
+      areaServed: siteMeta.areaServed,
+      availableLanguage: ["en-GB"],
+    },
+  ],
+};
+
+const structuredData = [
+  !noindex ? websiteSchema : null,
+  webPageSchema,
+  !noindex && includeBusinessSchema ? businessSchema : null,
+].filter(Boolean);
+const structuredDataJson = structuredData.length > 0 ? JSON.stringify(structuredData) : null;
+---
+
+<!doctype html>
+<html lang="en-GB" class="no-js" data-demo-slug={demoSlug || undefined}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={siteMeta.name} />
+    <meta name="robots" content={robotsContent} />
+    <meta name="googlebot" content={robotsContent} />
+    <meta name="theme-color" content="#14818b" />
+    <meta name="color-scheme" content="light" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta property="og:site_name" content={siteMeta.name} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link
+      rel="preload"
+      href="/fonts/inter-latin-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <script is:inline>
+      document.documentElement.classList.replace("no-js", "js");
+      try {
+        const isDemoPage = location.pathname.startsWith("/demos/");
+        if (isDemoPage && localStorage.getItem("septen:demo-chrome-hidden") === "1") {
+          document.documentElement.classList.add("demo-chrome-hidden");
+        }
+        if (isDemoPage && localStorage.getItem("septen:demo-header-hidden") === "1") {
+          document.documentElement.classList.add("demo-header-hidden");
+        }
+      } catch {}
+    </script>
+    <slot name="head" />
+
+    {
+      structuredDataJson && (
+        <script type="application/ld+json" is:inline set:html={structuredDataJson} />
+      )
+    }
+  </head>
+  <body
+    class="bg-stone-50"
+    data-demo-slug={demoSlug || undefined}
+    class:list={[
+      singleViewport ? "overflow-hidden" : "",
+      mobileScrollable ? "mobile-scrollable-shell" : "",
+    ]}
+  >
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div
+      class:list={[
+        "bg-white text-slate-800 antialiased text-left flex flex-col justify-between",
+        singleViewport ? "h-[100svh] max-h-[100svh] overflow-hidden" : "min-h-[100svh]",
+      ]}
+    >
+      <div
+        class:list={[
+          "flex flex-col",
+          singleViewport ? "flex-1 min-h-0 overflow-visible" : "",
+          mobileScrollable ? "mobile-scrollable-shell-content" : "",
+        ]}
+      >
+        {!TEMPORARY_OMIT_HEADER_AND_FOOTER_FOR_SCREENSHOTS && <Header />}
+        <main
+          id="main-content"
+          class:list={[
+            singleViewport ? "flex flex-col flex-1 min-h-0 overflow-visible" : "",
+            mobileScrollable ? "mobile-scrollable-shell-main" : "",
+          ]}
+        >
+          <slot />
+        </main>
+      </div>
+      {!TEMPORARY_OMIT_HEADER_AND_FOOTER_FOR_SCREENSHOTS && <Footer compact={compactFooter} />}
+    </div>
+    <script>
+      import initSite from "@scripts/site";
+
+      initSite();
+    </script>
+  </body>
+</html>

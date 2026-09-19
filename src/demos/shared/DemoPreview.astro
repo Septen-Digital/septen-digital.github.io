@@ -1,0 +1,72 @@
+---
+type Props = {
+  slug: string;
+};
+
+const { slug } = Astro.props as Props;
+---
+
+{
+  slug === "carls-coffee" ? (
+    <div class="demo-card-preview-body bg-stone-50 p-2 sm:p-3 md:p-3.5 xl:p-5 2xl:p-6 text-left text-[9px] sm:text-[10px] md:text-[11px] xl:text-sm 2xl:text-base text-stone-700 h-20 sm:h-24 md:h-26 xl:h-36 2xl:h-44 overflow-hidden space-y-1.5 sm:space-y-2 md:space-y-2.5 xl:space-y-4 2xl:space-y-5">
+      <p class="font-serif italic text-[11px] sm:text-xs md:text-sm xl:text-lg 2xl:text-2xl font-black text-stone-800 leading-tight">
+        Carl&apos;s Coffee Board
+      </p>
+      <p class="text-[0.375rem] sm:text-[0.4375rem] md:text-[0.5rem] xl:text-[0.625rem] 2xl:text-sm text-stone-400 leading-tight">
+        Durham Artisan Roasters. Freshly Baked
+      </p>
+      <div class="bg-white/80 border border-stone-200 p-1 sm:p-1.5 md:p-2 rounded text-[0.375rem] sm:text-[0.4375rem] md:text-[0.5rem] xl:text-xs 2xl:text-base grid grid-cols-2">
+        <span class="font-serif">Espresso Roast</span>
+        <span class="text-right">&pound;2.20</span>
+      </div>
+    </div>
+  ) : slug === "alder-and-pipe-plumbing" ? (
+    <div class="demo-card-preview-body bg-slate-50 p-2 sm:p-3 md:p-3.5 xl:p-5 2xl:p-6 text-left text-[9px] sm:text-[10px] md:text-[11px] xl:text-sm 2xl:text-base text-slate-700 h-20 sm:h-24 md:h-26 xl:h-36 2xl:h-44 overflow-hidden space-y-1 sm:space-y-1.5 md:space-y-2 xl:space-y-3 2xl:space-y-4">
+      <div class="bg-blue-50 text-blue-800 text-[0.375rem] sm:text-[0.4375rem] md:text-[0.5rem] xl:text-xs 2xl:text-base py-0.5 md:py-1 text-center font-bold uppercase tracking-wider rounded">
+        Domestic Plumbing Care
+      </div>
+      <p class="text-[0.5625rem] sm:text-[0.625rem] md:text-sm xl:text-lg 2xl:text-2xl font-serif font-bold text-slate-900 leading-tight">
+        Alder &amp; Pipe Plumbing
+      </p>
+      <p class="text-[0.375rem] sm:text-[0.4375rem] md:text-[0.5rem] xl:text-[0.625rem] 2xl:text-sm text-slate-400 leading-tight">
+        Reliable home maintenance across the North East
+      </p>
+    </div>
+  ) : slug === "sarahs-boutique" ? (
+    <div class="demo-card-preview-body bg-stone-50 p-2 sm:p-3 md:p-3.5 xl:p-5 2xl:p-6 text-center text-[9px] sm:text-[10px] md:text-[11px] xl:text-sm 2xl:text-base text-stone-700 h-20 sm:h-24 md:h-26 xl:h-36 2xl:h-44 overflow-hidden space-y-1 sm:space-y-1.5 md:space-y-2 xl:space-y-3 2xl:space-y-4">
+      <p class="font-serif italic text-[11px] sm:text-xs md:text-sm xl:text-lg 2xl:text-2xl tracking-widest uppercase text-stone-900 leading-tight">
+        SARAH&apos;S
+      </p>
+      <p class="text-[0.375rem] sm:text-[0.4375rem] md:text-[0.5rem] xl:text-[0.625rem] 2xl:text-sm text-stone-500 italic leading-tight">
+        Harrogate Studio. Autumn IV Collection
+      </p>
+      <div class="border border-stone-200 p-1 sm:p-1.5 md:p-2 rounded font-serif text-[0.375rem] sm:text-[0.4375rem] md:text-[0.5rem] xl:text-xs 2xl:text-base w-full">
+        Merino Coat - &pound;149
+      </div>
+    </div>
+  ) : slug === "greenfield-landscaping" ? (
+    <div class="demo-card-preview-body bg-stone-50 p-2 sm:p-3 md:p-3.5 xl:p-5 2xl:p-6 text-left text-[9px] sm:text-[10px] md:text-[11px] xl:text-sm 2xl:text-base text-stone-700 h-20 sm:h-24 md:h-26 xl:h-36 2xl:h-44 overflow-hidden space-y-1.5 sm:space-y-2 md:space-y-2.5 xl:space-y-4 2xl:space-y-5">
+      <p class="font-serif italic text-[11px] sm:text-xs md:text-sm xl:text-lg 2xl:text-2xl font-black text-stone-800 leading-tight">
+        Garden transformations
+      </p>
+      <p class="text-[0.375rem] sm:text-[0.4375rem] md:text-[0.5rem] xl:text-[0.625rem] 2xl:text-sm text-stone-400 leading-tight">
+        Indian Sandstone. Morpeth Area Project
+      </p>
+      <div class="bg-emerald-50 text-emerald-800 text-[0.3125rem] sm:text-[0.375rem] md:text-[0.5rem] xl:text-xs 2xl:text-base border border-emerald-200/40 p-0.5 sm:p-1 md:p-2 rounded font-bold uppercase text-center tracking-wider">
+        Premium Domestic Construction
+      </div>
+    </div>
+  ) : slug === "north-shore-fitness" ? (
+    <div class="demo-card-preview-body bg-slate-950 p-2 sm:p-3 md:p-3.5 xl:p-5 2xl:p-6 text-left text-[9px] sm:text-[10px] md:text-[11px] xl:text-sm 2xl:text-base text-white h-20 sm:h-24 md:h-26 xl:h-36 2xl:h-44 overflow-hidden space-y-1.5 sm:space-y-2 md:space-y-2.5 xl:space-y-4 2xl:space-y-5">
+      <p class="font-display text-[11px] sm:text-xs md:text-sm xl:text-lg 2xl:text-2xl font-black uppercase tracking-wider text-brand-orange leading-tight">
+        North Shore Fitness
+      </p>
+      <p class="text-[0.375rem] sm:text-[0.4375rem] md:text-[0.5rem] xl:text-[0.625rem] 2xl:text-sm text-slate-400 leading-tight">
+        Coaching, classes, and memberships
+      </p>
+      <div class="inline-flex rounded border border-brand-orange/40 bg-brand-orange/10 px-1.5 sm:px-2 md:px-3 2xl:px-4 py-0.5 sm:py-1 md:py-1.5 2xl:py-2 text-[0.375rem] sm:text-[0.4375rem] md:text-[0.5rem] xl:text-xs 2xl:text-base font-bold uppercase tracking-wider text-brand-orange">
+        Join Today
+      </div>
+    </div>
+  ) : null
+}

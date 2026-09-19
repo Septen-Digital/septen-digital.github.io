@@ -1,0 +1,28 @@
+---
+interface Props {
+  question: string;
+  answer: string;
+  revealDelay?: string;
+  revealType?: "fade" | "card" | "scale";
+}
+const { question, answer, revealDelay, revealType = "fade" } = Astro.props;
+const faqKey = question.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+---
+
+<details
+  data-faq-item
+  data-faq-key={faqKey}
+  data-reveal={revealType}
+  data-reveal-delay={revealDelay ?? "0"}
+  class="faq-item rounded-xl border border-slate-200 bg-white shadow-xs transition-colors open:border-brand-teal/40"
+>
+  <summary
+    class="faq-summary flex cursor-pointer list-none items-center justify-between gap-4 bg-slate-100 px-4 py-4 text-left font-sans text-sm font-bold leading-snug text-brand-teal transition-colors hover:bg-slate-200 sm:px-5 md:text-base"
+  >
+    <span>{question}</span>
+    <span class="faq-chevron shrink-0" aria-hidden="true"></span>
+  </summary>
+  <p class="px-4 pb-5 pt-4 text-left text-sm leading-relaxed text-slate-600 sm:px-5 md:text-base">
+    {answer}
+  </p>
+</details>
