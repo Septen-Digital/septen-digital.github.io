@@ -1,0 +1,228 @@
+---
+import BaseLayout from "@components/layout/BaseLayout.astro";
+
+const title = "Page Not Found | Septen";
+const description =
+  "Looks like this page has wandered off. Head back to explore custom web design and total management for local UK businesses.";
+---
+
+<BaseLayout singleViewport={true} title={title} description={description} noindex={true}>
+  <!-- Error page layout · full main-slot fill · dead-center.
+       singleViewport=true sizes the <main> flex item correctly. TEMPORARY_OMIT_HEADER_AND_FOOTER
+       means main has full viewport inner height. Wrappers use flex-1 instead of h-full so
+       Safari resolves height reliably (Safari breaks on height:100% when the parent's own
+       height is determined by flex only). min-h-0 prevents clipping on overflow children. -->
+  <div class="w-full flex-1 min-h-0 flex flex-col items-center justify-center min-w-0">
+    <section
+      class="relative w-full flex-1 min-h-0 flex flex-col items-center justify-center min-w-0"
+      aria-labelledby="error-title"
+    >
+      <!-- Dual gradient background glows -->
+      <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div
+          class="error-bg-glow-teal absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[120vmin] w-[120vmin] rounded-full blur-3xl opacity-35 animate-error-pulse"
+        >
+        </div>
+        <div
+          class="error-bg-glow-orange absolute right-0 bottom-0 h-[80vmin] w-[80vmin] rounded-full translate-x-1/3 translate-y-1/3 blur-3xl opacity-30 animate-error-pulse-delayed"
+        >
+        </div>
+        <!-- Subtle grain / grid pattern (fills entire section even on wide desktop) -->
+        <div class="error-bg-grid-overlay absolute inset-0 opacity-[0.035]" aria-hidden="true">
+        </div>
+      </div>
+
+      <div
+        class="w-full max-w-7xl mx-auto px-4 sm:px-5 lg:px-8 xl:px-14 2xl:px-20 py-3 sm:py-[2.5vh] md:py-[3vh] xl:py-[3.5vh] flex flex-col items-center justify-center min-w-0 min-h-0"
+      >
+        <div
+          class="w-full max-w-3xl xl:max-w-5xl 2xl:max-w-6xl mx-auto text-center flex flex-col justify-center items-center gap-3 md:gap-3 xl:gap-4 2xl:gap-5 min-w-0"
+        >
+          <!-- Decorative 404 -->
+          <div
+            aria-hidden="true"
+            class="error-heading-gradient animate-slide-in-up font-serif italic font-black leading-[0.95] text-brand-teal/95 text-[min(70vw,10.5rem)] sm:text-[clamp(6rem,22vw,13rem)] md:text-[clamp(6.5rem,18vw,14rem)] xl:text-[clamp(7rem,15vw,16rem)] 2xl:text-[clamp(8rem,17vw,18rem)] select-none shrink-0 mx-auto overflow-visible text-center w-full"
+          >
+            404
+          </div>
+
+          <!-- Title -->
+          <h1
+            id="error-title"
+            class="animate-slide-in-up error-delay-80 font-sans text-xl sm:text-2xl md:text-3xl xl:text-5xl 2xl:text-6xl font-extrabold text-brand-teal-dark leading-[1.15] tracking-tight mb-1.5 sm:mb-2 md:mb-3 xl:mb-4 px-1"
+          >
+            Looks like this page took a
+            <span
+              class="inline-block ml-[0.2em] font-serif italic text-brand-orange not-italic font-extrabold tracking-tight whitespace-nowrap"
+            >
+              detour
+            </span>.
+          </h1>
+
+          <!-- Description -->
+          <p
+            class="animate-slide-in-up error-delay-140 text-slate-600 text-[0.875rem] sm:text-sm md:text-base xl:text-xl 2xl:text-2xl max-w-xl xl:max-w-3xl 2xl:max-w-4xl mx-auto leading-relaxed mb-2.5 sm:mb-3.5 md:mb-4 xl:mb-5 px-1.5"
+          >
+            The page you&rsquo;re after doesn&rsquo;t exist or has been moved. Let&rsquo;s get you
+            back on track.
+          </p>
+
+          <!-- CTAs -->
+          <div
+            class="animate-slide-in-up error-delay-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3.5 sm:gap-3 md:gap-4 xl:gap-6 2xl:gap-8 w-full max-w-md sm:max-w-none"
+          >
+            <a
+              href="/"
+              class="group bg-brand-teal-dark hover:bg-brand-teal text-white text-center font-bold text-[0.875rem] sm:text-[0.875rem] md:text-base xl:text-xl 2xl:text-2xl px-5 sm:px-6 md:px-8 xl:px-12 2xl:px-16 py-3.5 sm:py-3.5 md:py-4 xl:py-4.5 2xl:py-5 rounded-xl transition-colors border-none hover-button-polish w-full sm:w-auto inline-flex items-center justify-center gap-2 xl:gap-3 shadow-[0_10px_28px_rgba(15,70,78,0.22)]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="xl:w-5 xl:h-5 2xl:w-6 2xl:h-6"
+              >
+                <path d="M3 10.5 12 3l9 7.5"></path>
+                <path d="M5 9.5V21h14V9.5"></path>
+                <path d="M9.5 21v-6h5v6"></path>
+              </svg>
+              Back to Home
+            </a>
+            <button
+              type="button"
+              data-open-enquiry
+              class="group bg-white hover:border-brand-orange-dark hover:text-brand-orange-dark hover:shadow-[0_0.85rem_2rem_rgba(15,23,42,0.08)] text-brand-teal-dark text-center font-bold text-[0.875rem] sm:text-[0.875rem] md:text-base xl:text-xl 2xl:text-2xl px-5 sm:px-6 md:px-8 xl:px-12 2xl:px-16 py-3.5 sm:py-3.5 md:py-4 xl:py-4.5 2xl:py-5 rounded-xl transition-all border-2 border-brand-teal-dark hover-button-polish decoration-none w-full sm:w-auto inline-flex items-center justify-center gap-2 xl:gap-3"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="xl:w-5 xl:h-5 2xl:w-6 2xl:h-6"
+              >
+                <path
+                  d="M22 16.92V21a1 1 0 0 1-1.09 1 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 3.21 4.09 1 1 0 0 1 4.2 3h4.09a1 1 0 0 1 1 .75c.12.96.36 1.9.7 2.81a1 1 0 0 1-.23 1.05L8.09 9.21a16 16 0 0 0 6 6l1.6-1.67a1 1 0 0 1 1.05-.23c.91.34 1.85.58 2.81.7a1 1 0 0 1 .75 1.01z"
+                ></path>
+              </svg>
+              Get in Touch
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    @keyframes error-pulse {
+      0%,
+      100% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.48;
+        transform: scale(1.08);
+      }
+    }
+
+    .animate-error-pulse {
+      animation: error-pulse 9s ease-in-out infinite;
+    }
+
+    .animate-error-pulse-delayed {
+      animation: error-pulse 11s ease-in-out infinite;
+      animation-delay: 2.5s;
+    }
+    @keyframes error-dot {
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.45;
+        transform: scale(0.7);
+      }
+    }
+
+    .animate-error-dot {
+      animation: error-dot 1.9s ease-in-out infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .animate-error-pulse,
+      .animate-error-pulse-delayed,
+      .animate-error-dot {
+        animation: none !important;
+      }
+
+      .animate-error-pulse {
+        opacity: 0.35;
+      }
+
+      .animate-error-pulse-delayed {
+        opacity: 0.3;
+      }
+
+      .animate-error-dot {
+        opacity: 1;
+      }
+    }
+
+    .error-bg-glow-teal {
+      background: radial-gradient(circle, rgb(20 129 139 / 55%), transparent 60%);
+    }
+
+    .error-bg-glow-orange {
+      background: radial-gradient(circle, rgb(226 149 120 / 60%), transparent 60%);
+    }
+
+    .error-bg-grid-overlay {
+      background-image:
+        linear-gradient(rgb(0 80 87 / 100%) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(0 80 87 / 100%) 1px, transparent 1px);
+      background-size: 2.5rem 2.5rem;
+    }
+
+    .error-heading-gradient {
+      background: linear-gradient(
+        135deg,
+        var(--brand-teal) 0%,
+        var(--brand-teal-dark) 45%,
+        var(--brand-orange) 100%
+      );
+      background-clip: text;
+      letter-spacing: 0.05em;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .error-delay-80 {
+      animation-delay: 80ms;
+    }
+
+    .error-delay-140 {
+      animation-delay: 140ms;
+    }
+
+    .error-delay-200 {
+      animation-delay: 200ms;
+    }
+
+    .error-delay-280 {
+      animation-delay: 280ms;
+    }
+  </style>
+</BaseLayout>

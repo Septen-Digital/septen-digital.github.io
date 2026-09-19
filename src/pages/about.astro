@@ -1,0 +1,78 @@
+---
+import BaseLayout from "@components/layout/BaseLayout.astro";
+import { Image } from "astro:assets";
+import { aboutParagraphs, founders } from "@data/site";
+---
+
+<BaseLayout
+  title="About Us | Septen"
+  description="Learn about Septen — custom web design and total management for local UK businesses. Meet our founders and discover our story."
+>
+  <h1 class="sr-only">About Septen — Custom Web Design & Total Management for Local Businesses</h1>
+  <!-- ============================================================
+       ABOUT SECTION
+       Mission statement + founder profiles
+       ============================================================ -->
+  <section
+    id="about"
+    class="w-full h-full mx-auto px-5 sm:px-6 lg:px-8 xl:px-14 2xl:px-20 py-10 sm:py-10 md:py-12 xl:py-16 text-center flex flex-col items-center justify-center min-h-0 shrink-0"
+    aria-labelledby="about-title"
+  >
+    <div
+      class="space-y-5 sm:space-y-5 md:space-y-6 xl:space-y-7 h-full w-full flex flex-col justify-center items-center max-w-6xl xl:max-w-7xl 2xl:max-w-[90rem] mx-auto min-h-0"
+    >
+      <div
+        data-reveal="fade"
+        class="space-y-4 sm:space-y-4 md:space-y-5 xl:space-y-5 max-w-3xl xl:max-w-5xl 2xl:max-w-6xl mx-auto text-center shrink-0"
+      >
+        <h2 id="about-title" class="demos-hero-title">About Us</h2>
+        <div
+          class="space-y-3 sm:space-y-3 md:space-y-3 xl:space-y-4 2xl:space-y-5 max-w-3xl xl:max-w-4xl 2xl:max-w-5xl mx-auto"
+        >
+          {
+            aboutParagraphs.map((paragraph, index) => (
+              <p
+                data-reveal="fade"
+                data-reveal-delay={String(70 + index * 50)}
+                class="text-[0.8125rem] sm:text-[0.8125rem] md:text-sm xl:text-lg 2xl:text-xl text-slate-600 leading-relaxed"
+              >
+                {paragraph}
+              </p>
+            ))
+          }
+        </div>
+      </div>
+
+      <div
+        class="grid grid-cols-2 items-stretch gap-3 sm:gap-4 md:gap-7 xl:gap-10 2xl:gap-14 pt-2 sm:pt-2 md:pt-2 xl:pt-4 justify-center justify-items-center flex-1 content-center min-h-0 max-w-3xl sm:max-w-4xl md:max-w-5xl xl:max-w-[60rem] 2xl:max-w-[70rem] mx-auto"
+      >
+        {
+          founders.map((founder, index) => (
+            <div
+              data-reveal="scale"
+              data-reveal-delay={String(160 + index * 70)}
+              class="founder-profile-card flex w-full max-w-[180px] sm:max-w-[190px] md:max-w-[200px] xl:max-w-[230px] 2xl:max-w-[270px] flex-col items-center space-y-3 sm:space-y-3 rounded-[1.25rem] sm:rounded-[1.5rem] px-4 py-4 sm:px-4.5 sm:py-4 md:px-4.5 md:py-4.5 xl:px-5 xl:py-5"
+            >
+              <Image
+                src={founder.image}
+                alt={founder.alt}
+                width={160}
+                height={160}
+                loading="lazy"
+                decoding="async"
+                data-skeleton
+                class="image-skeleton founder-profile-image h-24 w-24 sm:h-24 sm:w-24 md:h-28 md:w-28 xl:h-32 xl:w-32 2xl:h-36 2xl:w-36 rounded-full object-cover shrink-0"
+              />
+              <h3 class="founder-profile-name text-center text-[0.875rem] sm:text-[0.875rem] md:text-sm xl:text-base 2xl:text-xl font-bold leading-none tracking-tight text-slate-800 font-sans">
+                {founder.name}
+              </h3>
+              <p class="founder-profile-role line-clamp-2 text-center text-[0.8125rem] sm:text-[0.8125rem] md:text-[0.8125rem] xl:text-sm 2xl:text-base font-medium text-slate-500 font-sans balance-text">
+                {founder.role}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,1038 @@
+---
+import { Image } from "astro:assets";
+import BoutiqueIcon from "./BoutiqueIcon.astro";
+import {
+  getSarahsBoutiqueCategoryAnchorId,
+  getSarahsBoutiqueProductDetailId,
+  sarahsBoutiqueCategories,
+  sarahsBoutiqueFeaturedProducts,
+  sarahsBoutiqueHeroImage,
+  sarahsBoutiqueInventory,
+  sarahsBoutiqueRootId,
+  sarahsBoutiqueStoreImage,
+  sarahsBoutiqueViewIds,
+  sarahsBoutiqueVisitConfirmationId,
+} from "./SarahsBoutique.data";
+
+const rootId = sarahsBoutiqueRootId;
+const catalogueId = sarahsBoutiqueViewIds.catalogue;
+const homeId = sarahsBoutiqueViewIds.home;
+const aboutId = sarahsBoutiqueViewIds.about;
+const visitId = sarahsBoutiqueViewIds.visit;
+const visitConfirmationId = sarahsBoutiqueVisitConfirmationId;
+const collectionProducts = sarahsBoutiqueInventory.filter(
+  (product) => product.category === "Collections",
+);
+---
+
+<div
+  id={rootId}
+  class="bg-[var(--sarahs-bg-warm)] min-h-screen text-[var(--sarahs-text-ink)] font-sans antialiased relative flex flex-col"
+>
+  <style is:global>
+    #sarahs-boutique-demo-root[data-boutique-enhanced]
+      [data-boutique-panel="catalogue"]:not([data-boutique-active="true"]),
+    #sarahs-boutique-demo-root[data-boutique-enhanced]
+      [data-boutique-panel="about"]:not([data-boutique-active="true"]),
+    #sarahs-boutique-demo-root[data-boutique-enhanced]
+      [data-boutique-panel="visit"]:not([data-boutique-active="true"]),
+    #sarahs-boutique-demo-root[data-boutique-enhanced]
+      [data-boutique-panel="product-detail"]:not([data-boutique-active="true"]),
+    #sarahs-boutique-demo-root[data-boutique-enhanced] [data-boutique-visit-success],
+    #sarahs-boutique-demo-root[data-boutique-enhanced] [data-boutique-collections-links] {
+      display: none !important;
+    }
+
+    #sarahs-boutique-demo-root:has(#catalogue:target) [data-boutique-panel="home"],
+    #sarahs-boutique-demo-root:has(#about:target) [data-boutique-panel="home"],
+    #sarahs-boutique-demo-root:has(#visit:target) [data-boutique-panel="home"],
+    #sarahs-boutique-demo-root:has([data-boutique-category-target]:target)
+      [data-boutique-panel="home"],
+    #sarahs-boutique-demo-root:has([data-boutique-panel="product-detail"]:target)
+      [data-boutique-panel="home"],
+    #sarahs-boutique-demo-root:has(#visit-confirmation:target) [data-boutique-panel="home"] {
+      display: none !important;
+    }
+
+    #sarahs-boutique-demo-root[data-boutique-enhanced]:has(#catalogue:target)
+      [data-boutique-panel="catalogue"],
+    #sarahs-boutique-demo-root[data-boutique-enhanced]:has(#about:target)
+      [data-boutique-panel="about"],
+    #sarahs-boutique-demo-root[data-boutique-enhanced]:has(#visit:target)
+      [data-boutique-panel="visit"],
+    #sarahs-boutique-demo-root[data-boutique-enhanced]:has(
+        [data-boutique-panel="product-detail"]:target
+      )
+      [data-boutique-panel="product-detail"]:target,
+    #sarahs-boutique-demo-root[data-boutique-enhanced]:has(#visit-confirmation:target)
+      [data-boutique-panel="visit"] {
+      display: block !important;
+    }
+
+    #home:target,
+    #catalogue:target,
+    #about:target,
+    #visit:target {
+      display: block !important;
+    }
+
+    #sarahs-boutique-demo-root:has([data-boutique-category-target]:target)
+      [data-boutique-panel="catalogue"],
+    #sarahs-boutique-demo-root:has(#visit-confirmation:target) [data-boutique-panel="visit"] {
+      display: block !important;
+    }
+
+    #sarahs-boutique-demo-root:has(#catalogue-dresses:target)
+      [data-boutique-catalogue-card]:not([data-boutique-category="Dresses"]),
+    #sarahs-boutique-demo-root:has(#catalogue-outerwear:target)
+      [data-boutique-catalogue-card]:not([data-boutique-category="Outerwear"]),
+    #sarahs-boutique-demo-root:has(#catalogue-tops:target)
+      [data-boutique-catalogue-card]:not([data-boutique-category="Tops"]),
+    #sarahs-boutique-demo-root:has(#catalogue-accessories:target)
+      [data-boutique-catalogue-card]:not([data-boutique-category="Accessories"]),
+    #sarahs-boutique-demo-root:has(#catalogue-collections:target)
+      [data-boutique-catalogue-card]:not([data-boutique-category="Collections"]) {
+      display: none !important;
+    }
+
+    #sarahs-boutique-demo-root[data-boutique-enhanced]:has(#catalogue-all:target)
+      [data-boutique-filter="All"],
+    #sarahs-boutique-demo-root[data-boutique-enhanced]:has(#catalogue-dresses:target)
+      [data-boutique-filter="Dresses"],
+    #sarahs-boutique-demo-root[data-boutique-enhanced]:has(#catalogue-outerwear:target)
+      [data-boutique-filter="Outerwear"],
+    #sarahs-boutique-demo-root[data-boutique-enhanced]:has(#catalogue-tops:target)
+      [data-boutique-filter="Tops"],
+    #sarahs-boutique-demo-root[data-boutique-enhanced]:has(#catalogue-accessories:target)
+      [data-boutique-filter="Accessories"],
+    #sarahs-boutique-demo-root[data-boutique-enhanced]:has(#catalogue-collections:target)
+      [data-boutique-filter="Collections"] {
+      background: var(--sarahs-text-ink) !important;
+      border-color: var(--sarahs-text-ink) !important;
+      color: var(--color-white) !important;
+    }
+
+    #sarahs-boutique-demo-root:has(#catalogue:target) [data-boutique-filter="All"],
+    #sarahs-boutique-demo-root:has(#catalogue-all:target) [data-boutique-filter="All"],
+    #sarahs-boutique-demo-root:has(#catalogue-dresses:target) [data-boutique-filter="Dresses"],
+    #sarahs-boutique-demo-root:has(#catalogue-outerwear:target) [data-boutique-filter="Outerwear"],
+    #sarahs-boutique-demo-root:has(#catalogue-tops:target) [data-boutique-filter="Tops"],
+    #sarahs-boutique-demo-root:has(#catalogue-accessories:target)
+      [data-boutique-filter="Accessories"],
+    #sarahs-boutique-demo-root:has(#catalogue-collections:target)
+      [data-boutique-filter="Collections"] {
+      background: var(--sarahs-text-ink) !important;
+      border-color: var(--sarahs-text-ink) !important;
+      color: var(--color-white) !important;
+    }
+
+    #sarahs-boutique-demo-root:has(#catalogue-collections:target)
+      [data-boutique-collections-links] {
+      display: flex !important;
+    }
+
+    #sarahs-boutique-demo-root[data-boutique-active-filter="Dresses"]
+      [data-boutique-catalogue-card]:not([data-boutique-category="Dresses"]),
+    #sarahs-boutique-demo-root[data-boutique-active-filter="Outerwear"]
+      [data-boutique-catalogue-card]:not([data-boutique-category="Outerwear"]),
+    #sarahs-boutique-demo-root[data-boutique-active-filter="Tops"]
+      [data-boutique-catalogue-card]:not([data-boutique-category="Tops"]),
+    #sarahs-boutique-demo-root[data-boutique-active-filter="Accessories"]
+      [data-boutique-catalogue-card]:not([data-boutique-category="Accessories"]),
+    #sarahs-boutique-demo-root[data-boutique-active-filter="Collections"]
+      [data-boutique-catalogue-card]:not([data-boutique-category="Collections"]) {
+      display: none !important;
+    }
+
+    #sarahs-boutique-demo-root[data-boutique-active-filter] [data-boutique-filter] {
+      background: var(--color-white) !important;
+      border-color: var(--color-slate-200) !important;
+      color: var(--color-slate-500) !important;
+    }
+
+    #sarahs-boutique-demo-root[data-boutique-active-filter="All"] [data-boutique-filter="All"],
+    #sarahs-boutique-demo-root[data-boutique-active-filter="Dresses"]
+      [data-boutique-filter="Dresses"],
+    #sarahs-boutique-demo-root[data-boutique-active-filter="Outerwear"]
+      [data-boutique-filter="Outerwear"],
+    #sarahs-boutique-demo-root[data-boutique-active-filter="Tops"] [data-boutique-filter="Tops"],
+    #sarahs-boutique-demo-root[data-boutique-active-filter="Accessories"]
+      [data-boutique-filter="Accessories"],
+    #sarahs-boutique-demo-root[data-boutique-active-filter="Collections"]
+      [data-boutique-filter="Collections"] {
+      background: var(--sarahs-text-ink) !important;
+      border-color: var(--sarahs-text-ink) !important;
+      color: var(--color-white) !important;
+    }
+
+    #sarahs-boutique-demo-root [data-boutique-panel="product-detail"]:target {
+      display: block !important;
+    }
+
+    #sarahs-boutique-demo-root:has([data-boutique-panel="product-detail"]:target)
+      [data-boutique-panel="home"],
+    #sarahs-boutique-demo-root:has([data-boutique-panel="product-detail"]:target)
+      [data-boutique-panel="catalogue"],
+    #sarahs-boutique-demo-root:has([data-boutique-panel="product-detail"]:target)
+      [data-boutique-panel="about"],
+    #sarahs-boutique-demo-root:has([data-boutique-panel="product-detail"]:target)
+      [data-boutique-panel="visit"],
+    #sarahs-boutique-demo-root:has([data-boutique-panel="product-detail"]:target)
+      [data-boutique-panel="product-detail"]:not(:target) {
+      display: none !important;
+    }
+
+    #sarahs-boutique-demo-root:has(#catalogue:target) [data-boutique-panel="home"],
+    #sarahs-boutique-demo-root:has(#catalogue:target) [data-boutique-panel="about"],
+    #sarahs-boutique-demo-root:has(#catalogue:target) [data-boutique-panel="visit"],
+    #sarahs-boutique-demo-root:has(#catalogue:target) [data-boutique-panel="product-detail"] {
+      display: none !important;
+    }
+
+    #sarahs-boutique-demo-root:has([data-boutique-category-target]:target)
+      [data-boutique-panel="home"],
+    #sarahs-boutique-demo-root:has([data-boutique-category-target]:target)
+      [data-boutique-panel="about"],
+    #sarahs-boutique-demo-root:has([data-boutique-category-target]:target)
+      [data-boutique-panel="visit"],
+    #sarahs-boutique-demo-root:has([data-boutique-category-target]:target)
+      [data-boutique-panel="product-detail"] {
+      display: none !important;
+    }
+
+    #sarahs-boutique-demo-root:has(#about:target) [data-boutique-panel="home"],
+    #sarahs-boutique-demo-root:has(#about:target) [data-boutique-panel="catalogue"],
+    #sarahs-boutique-demo-root:has(#about:target) [data-boutique-panel="visit"],
+    #sarahs-boutique-demo-root:has(#about:target) [data-boutique-panel="product-detail"] {
+      display: none !important;
+    }
+
+    #sarahs-boutique-demo-root:has(#visit:target) [data-boutique-panel="home"],
+    #sarahs-boutique-demo-root:has(#visit:target) [data-boutique-panel="catalogue"],
+    #sarahs-boutique-demo-root:has(#visit:target) [data-boutique-panel="about"],
+    #sarahs-boutique-demo-root:has(#visit:target) [data-boutique-panel="product-detail"] {
+      display: none !important;
+    }
+
+    #sarahs-boutique-demo-root:has(#visit-confirmation:target) [data-boutique-panel="home"],
+    #sarahs-boutique-demo-root:has(#visit-confirmation:target) [data-boutique-panel="catalogue"],
+    #sarahs-boutique-demo-root:has(#visit-confirmation:target) [data-boutique-panel="about"],
+    #sarahs-boutique-demo-root:has(#visit-confirmation:target)
+      [data-boutique-panel="product-detail"] {
+      display: none !important;
+    }
+
+    #sarahs-boutique-demo-root:has(#home:target) [data-boutique-panel="catalogue"],
+    #sarahs-boutique-demo-root:has(#home:target) [data-boutique-panel="about"],
+    #sarahs-boutique-demo-root:has(#home:target) [data-boutique-panel="visit"],
+    #sarahs-boutique-demo-root:has(#home:target) [data-boutique-panel="product-detail"] {
+      display: none !important;
+    }
+
+    #sarahs-boutique-demo-root [data-boutique-anchor-target],
+    #sarahs-boutique-demo-root [data-boutique-panel] {
+      scroll-margin-top: 8rem !important;
+    }
+
+    #sarahs-boutique-demo-root [data-boutique-category-target] {
+      scroll-margin-top: 8.5rem !important;
+    }
+
+    @media (width >= 48rem) {
+      #sarahs-boutique-demo-root [data-boutique-anchor-target],
+      #sarahs-boutique-demo-root [data-boutique-panel] {
+        scroll-margin-top: 9rem !important;
+      }
+
+      #sarahs-boutique-demo-root [data-boutique-category-target] {
+        scroll-margin-top: 9.5rem !important;
+      }
+    }
+
+    [data-boutique-panel] [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+
+    #sarahs-boutique-demo-root [data-boutique-visit-success] {
+      display: none !important;
+    }
+
+    #visit-confirmation:target {
+      display: block !important;
+    }
+  </style>
+
+  <nav
+    class="bg-[var(--sarahs-bg-warm)]/90 backdrop-blur-md border-b border-stone-200 sticky top-0 z-40"
+  >
+    <div
+      class="max-w-6xl 3xl:max-w-7xl 4xl:max-w-8xl mx-auto px-6 xl:px-10 3xl:px-20 py-4 3xl:py-6 flex flex-col md:flex-row justify-between items-center gap-4 3xl:gap-6"
+    >
+      <a
+        href={`#${homeId}`}
+        data-boutique-go-view="home"
+        class="font-serif text-lg xl:text-xl 3xl:text-2xl tracking-[0.25em] bg-transparent text-[var(--sarahs-text-ink)] font-bold cursor-pointer hover:opacity-80 decoration-none"
+      >
+        SARAH'S BOUTIQUE
+      </a>
+
+      <div
+        class="flex flex-wrap justify-center items-center gap-x-6 3xl:gap-x-10 gap-y-2 text-[0.8125rem] xl:text-sm 3xl:text-base font-semibold uppercase tracking-widest text-[var(--sarahs-text-ink)]"
+      >
+        <a
+          href={`#${homeId}`}
+          data-boutique-nav="home"
+          class="nav-tab text-[#6B3A2B] hover:text-[#6B3A2B] cursor-pointer decoration-none"
+        >
+          Home
+        </a>
+        <a
+          href={`#${catalogueId}`}
+          data-boutique-nav="catalogue"
+          class="nav-tab text-[#6B3A2B] hover:text-[#6B3A2B] cursor-pointer decoration-none"
+        >
+          Catalogue
+        </a>
+        <a
+          href={`#${aboutId}`}
+          data-boutique-nav="about"
+          class="nav-tab text-[#6B3A2B] hover:text-[#6B3A2B] cursor-pointer decoration-none"
+        >
+          About
+        </a>
+        <a
+          href={`#${visitId}`}
+          data-boutique-nav="visit"
+          class="nav-tab text-[#6B3A2B] hover:text-[#6B3A2B] cursor-pointer decoration-none"
+        >
+          Visit Store
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div id={homeId} data-boutique-panel="home" data-boutique-active="true">
+    <div
+      class="animate-fade-in relative min-h-[calc(100vh-69px)] 3xl:min-h-[calc(100vh-80px)] flex items-center justify-center p-8 xl:p-12 3xl:p-20 bg-black overflow-hidden rounded-none text-center text-white"
+    >
+      <div class="absolute inset-0 z-0 rounded-none">
+        <Image
+          src={sarahsBoutiqueHeroImage}
+          widths={[480, 960, 1600]}
+          sizes="100vw"
+          alt="Editorial style soft luxury backdrop"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          data-skeleton
+          class="image-skeleton h-full w-full rounded-none object-cover opacity-60 filter blur-[1px]"
+        />
+        <div class="absolute inset-0 bg-stone-950/45"></div>
+      </div>
+
+      <div
+        class="relative z-10 max-w-2xl xl:max-w-3xl 2xl:max-w-4xl 3xl:max-w-5xl text-center text-white space-y-6 3xl:space-y-10 px-4 xl:px-8 3xl:px-12"
+      >
+        <span
+          class="text-[0.75rem] xl:text-xs 3xl:text-sm uppercase font-mono tracking-[0.3em] text-[var(--sarahs-hero-eyebrow-text)] font-bold block animate-slide-in-up text-center"
+        >
+          MONTPELLIER ARCADE • HARROGATE
+        </span>
+        <h1
+          class="font-serif text-4xl sm:text-6xl xl:text-7xl 2xl:text-8xl 3xl:text-9xl tracking-wide font-black capitalize text-stone-55 select-none animate-fade-in"
+        >
+          Sarah's Boutique
+        </h1>
+        <p
+          class="font-serif text-lg sm:text-xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl italic text-[var(--sarahs-bg-warm)] leading-relaxed font-light"
+        >
+          "Soft luxury garments designed under northern winds. Boiled wool, raw silk, and un-dyed
+          cashmere knitwear crafted to last."
+        </p>
+        <div class="w-12 3xl:w-20 h-px 3xl:h-0.5 bg-white/40 mx-auto my-6 3xl:my-10"></div>
+
+        <a
+          href={`#${catalogueId}`}
+          data-boutique-go-view="catalogue"
+          class="bg-white hover:bg-[var(--sarahs-bg-warm)] text-stone-950 font-bold px-8 xl:px-10 3xl:px-14 py-4 xl:py-5 3xl:py-7 rounded-sm text-[0.8125rem] xl:text-sm 3xl:text-lg uppercase tracking-widest transition-all hover-button-polish cursor-pointer shadow-md 3xl:shadow-xl inline-flex items-center gap-2 3xl:gap-3 decoration-none"
+        >
+          <span>Explore The Catalogue</span>
+          <BoutiqueIcon name="ChevronRight" className="w-4 h-4 3xl:w-6 3xl:h-6" />
+        </a>
+      </div>
+    </div>
+
+    <section
+      class="bg-[var(--sarahs-bg-warm)] py-16 xl:py-20 3xl:py-28 border-t border-stone-200/60 text-left"
+    >
+      <div class="max-w-6xl 3xl:max-w-7xl 4xl:max-w-8xl mx-auto px-6 xl:px-10 3xl:px-20">
+        <h2
+          class="font-serif text-2xl md:text-3xl xl:text-4xl 2xl:text-5xl 3xl:text-6xl font-bold tracking-tight mb-8 3xl:mb-12"
+          data-reveal="fade"
+        >
+          Autumn Featured Highlights
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 3xl:gap-12">
+          {
+            sarahsBoutiqueFeaturedProducts.map((product, index) => (
+              <a
+                href={`#${getSarahsBoutiqueProductDetailId(product.id)}`}
+                data-boutique-select-product={product.id}
+                data-reveal="card"
+                data-reveal-delay={String(index * 80)}
+                class="featured-card bg-white border rounded p-4 xl:p-6 3xl:p-8 shadow-xs 3xl:shadow-sm space-y-3 3xl:space-y-5 cursor-pointer group hover:border-[var(--sarahs-accent-terracotta)] transition-colors hover-card-polish text-left decoration-none"
+              >
+                <div class="aspect-square rounded overflow-hidden bg-stone-50">
+                  <Image
+                    src={product.image}
+                    widths={[320, 560, 760]}
+                    sizes="(min-width: 48rem) 20rem, 100vw"
+                    alt={product.name}
+                    loading="lazy"
+                    fetchpriority="low"
+                    decoding="async"
+                    data-skeleton
+                    class="image-skeleton w-full h-full object-cover group-hover:scale-102 transition-transform duration-200"
+                  />
+                </div>
+                <div>
+                  <h3 class="font-serif font-black text-sm xl:text-lg 3xl:text-2xl text-stone-900">
+                    {product.name}
+                  </h3>
+                  <p class="text-[0.8125rem] xl:text-sm 3xl:text-lg text-[#8A4A35] font-mono mt-0.5 3xl:mt-1.5">
+                    {product.price}
+                  </p>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id={catalogueId} data-boutique-panel="catalogue">
+    <div
+      class="animate-fade-in max-w-6xl 3xl:max-w-7xl 4xl:max-w-8xl mx-auto px-6 xl:px-10 3xl:px-20 py-12 xl:py-16 3xl:py-24 text-left"
+    >
+      <div
+        class="border-b border-stone-200 pb-8 3xl:pb-12 mb-8 3xl:mb-12 flex flex-col md:flex-row md:justify-between md:items-end gap-6 3xl:gap-10"
+        data-reveal="fade"
+      >
+        <div class="space-y-1.5 3xl:space-y-3">
+          <span
+            class="text-[0.75rem] xl:text-xs 3xl:text-sm uppercase font-mono text-[var(--sarahs-accent-terracotta)] tracking-widest font-black block"
+            >Active Collection</span
+          >
+          <h1
+            class="font-serif text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl 3xl:text-7xl font-extrabold text-[var(--sarahs-text-ink)]"
+          >
+            The Boutique Inventory
+          </h1>
+          <p
+            class="text-[0.8125rem] xl:text-sm 3xl:text-lg text-stone-500 max-w-xl 3xl:max-w-2xl font-serif italic"
+          >
+            Sourced from family-run mills, selected by hand, and crafted for physical longevity.
+            Limited seasonal drop sizes now on key display racks.
+          </p>
+        </div>
+
+        <div
+          class="bg-[var(--sarahs-card-line-bg)] border border-stone-300 p-4 xl:p-6 3xl:p-8 rounded max-w-sm 3xl:max-w-md flex gap-3 3xl:gap-5 text-left hover-card-polish"
+          data-reveal="scale"
+          data-reveal-delay="120"
+        >
+          <BoutiqueIcon
+            name="Sparkles"
+            className="w-5 h-5 3xl:w-8 3xl:h-8 text-[var(--sarahs-accent-terracotta)] shrink-0"
+          />
+          <div class="space-y-0.5 3xl:space-y-1.5">
+            <p class="text-[0.8125rem] xl:text-sm 3xl:text-lg font-bold text-stone-800">
+              Autumn Drop II Arrived
+            </p>
+            <p class="text-[0.75rem] xl:text-xs 3xl:text-base text-stone-500 leading-normal">
+              Curated coat arrangements and double wool blends are now available for exclusive store
+              fitting appointment locks.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="flex flex-wrap gap-2.5 3xl:gap-4 mb-8 3xl:mb-12 border-b border-stone-200/50 pb-5 3xl:pb-8"
+        data-reveal="fade"
+      >
+        <div aria-hidden="true">
+          {
+            sarahsBoutiqueCategories.map((category) => (
+              <span
+                id={getSarahsBoutiqueCategoryAnchorId(category)}
+                data-boutique-anchor-target
+                data-boutique-category-target
+                class="block h-0 overflow-hidden"
+              />
+            ))
+          }
+        </div>
+        {
+          sarahsBoutiqueCategories.map((category) => (
+            <>
+              <span class="sr-only">
+                <a href={`#${getSarahsBoutiqueCategoryAnchorId(category)}`}>
+                  Filter products by {category}
+                </a>
+              </span>
+              <a
+                href={`#${getSarahsBoutiqueCategoryAnchorId(category)}`}
+                data-boutique-filter={category}
+                class="filter-chip inline-flex px-4 xl:px-6 3xl:px-8 py-2 xl:py-3 3xl:py-4 border text-[0.8125rem] xl:text-sm 3xl:text-base font-mono tracking-wider uppercase transition-all rounded-sm cursor-pointer bg-white border-stone-200 text-stone-500 hover:border-stone-400 hover:text-[var(--sarahs-text-ink)]"
+              >
+                {category}
+              </a>
+            </>
+          ))
+        }
+      </div>
+
+      <div
+        data-boutique-collections-links
+        class="mb-8 3xl:mb-12 hidden flex-wrap items-center gap-2.5 3xl:gap-4 border-b border-stone-200/50 pb-5 3xl:pb-8"
+      >
+        <span
+          class="text-[0.75rem] xl:text-xs 3xl:text-sm font-mono uppercase tracking-[0.24em] text-stone-400"
+        >
+          Collection Pieces
+        </span>
+        {
+          collectionProducts.map((product) => (
+            <a
+              href={`#${getSarahsBoutiqueProductDetailId(product.id)}`}
+              data-boutique-select-product={product.id}
+              class="rounded-sm border border-stone-200 bg-white px-3 xl:px-5 3xl:px-7 py-2 xl:py-3 3xl:py-3.5 text-[0.75rem] xl:text-xs 3xl:text-sm font-mono uppercase tracking-[0.18em] text-stone-600 transition-colors hover:border-stone-400 hover:text-[var(--sarahs-text-ink)] decoration-none"
+            >
+              {product.name}
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 3xl:gap-12">
+        {
+          sarahsBoutiqueInventory.map((product, index) => (
+            <article
+              data-boutique-catalogue-card
+              data-boutique-category={product.category}
+              data-reveal="card"
+              data-reveal-position="late"
+              data-reveal-delay={String((index % 6) * 70)}
+              class="bg-white border border-stone-200/60 rounded group flex flex-col justify-between overflow-hidden shadow-xs 3xl:shadow-sm hover:border-stone-300 hover:shadow-xs transition-all duration-200 hover-card-polish text-left"
+            >
+              <a
+                href={`#${getSarahsBoutiqueProductDetailId(product.id)}`}
+                data-boutique-select-product={product.id}
+                class="product-grid-entry cursor-pointer text-left bg-transparent p-0 decoration-none"
+              >
+                <div class="aspect-4/5 overflow-hidden bg-stone-100 relative">
+                  <Image
+                    src={product.image}
+                    widths={[320, 560, 760]}
+                    sizes="(min-width: 64rem) 22rem, (min-width: 40rem) 50vw, 100vw"
+                    alt={product.name}
+                    loading="lazy"
+                    fetchpriority="low"
+                    decoding="async"
+                    data-skeleton
+                    class="image-skeleton w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
+                  />
+                  <span class="absolute bottom-3 3xl:bottom-5 left-3 3xl:left-5 bg-white/90 backdrop-blur-xs text-stone-900 border border-stone-200 text-[0.6875rem] xl:text-xs 3xl:text-xs font-mono font-bold px-2.5 3xl:px-4 py-0.5 3xl:py-1.5 rounded-sm">
+                    {product.category}
+                  </span>
+                </div>
+
+                <div class="p-5 xl:p-7 3xl:p-10 text-left space-y-1.5 3xl:space-y-3">
+                  <div class="flex justify-between items-baseline gap-2 3xl:gap-4">
+                    <h3 class="font-serif font-black text-md xl:text-xl 3xl:text-2xl text-[var(--sarahs-text-ink)] group-hover:text-[var(--sarahs-accent-terracotta)] transition-colors leading-tight">
+                      {product.name}
+                    </h3>
+                    <span class="font-mono text-sm xl:text-lg 3xl:text-2xl text-[var(--sarahs-accent-terracotta)] font-bold shrink-0">
+                      {product.price}
+                    </span>
+                  </div>
+                  <p class="text-[0.8125rem] xl:text-sm 3xl:text-lg text-stone-500 leading-relaxed font-sans line-clamp-2">
+                    {product.shortDesc}
+                  </p>
+                </div>
+              </a>
+
+              <div class="p-5 xl:p-7 3xl:p-10 pt-0 3xl:pt-0 border-t border-stone-50 flex items-center justify-between gap-3 3xl:gap-6">
+                <a
+                  href={`#${getSarahsBoutiqueProductDetailId(product.id)}`}
+                  data-boutique-select-product={product.id}
+                  class="view-details-txt text-[0.75rem] xl:text-xs 3xl:text-sm font-mono tracking-widest uppercase underline text-stone-500 hover:text-stone-950 cursor-pointer decoration-none"
+                >
+                  View Details
+                </a>
+                <a
+                  href={`#${visitId}`}
+                  data-boutique-open-modal
+                  class="reserve-fitting-btn bg-[var(--sarahs-text-ink)] hover:bg-[var(--sarahs-text-ink-soft)] text-white px-3.5 xl:px-5 3xl:px-7 py-2.5 xl:py-3 3xl:py-3.5 rounded-sm text-[0.75rem] xl:text-xs 3xl:text-sm font-mono uppercase tracking-widest hover-button-polish cursor-pointer decoration-none min-h-[2.5rem] xl:min-h-0"
+                >
+                  Reserves Fitting
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  {
+    sarahsBoutiqueInventory.map((product) => (
+      <div
+        id={getSarahsBoutiqueProductDetailId(product.id)}
+        data-boutique-panel="product-detail"
+        data-boutique-product-id={product.id}
+      >
+        <div class="animate-fade-in max-w-5xl 3xl:max-w-6xl 4xl:max-w-7xl mx-auto px-6 xl:px-10 3xl:px-20 py-12 xl:py-16 3xl:py-24 text-left">
+          <a
+            href={`#${catalogueId}`}
+            data-boutique-go-view="catalogue"
+            class="inline-flex items-center gap-2 3xl:gap-3 text-[0.8125rem] xl:text-sm 3xl:text-lg font-mono uppercase tracking-widest text-stone-500 hover:text-stone-950 mb-8 3xl:mb-12 cursor-pointer decoration-none"
+            data-reveal="fade"
+          >
+            <BoutiqueIcon name="ArrowLeft" className="w-4 h-4 3xl:w-6 3xl:h-6" />
+            <span>Return to Inventory</span>
+          </a>
+
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-10 3xl:gap-16 items-start">
+            <div
+              class="md:col-span-6 bg-stone-50 border border-stone-200/60 rounded overflow-hidden shadow-xs 3xl:shadow-sm hover-card-polish"
+              data-reveal="scale"
+              data-reveal-delay="120"
+            >
+              <Image
+                src={product.image}
+                widths={[320, 560, 760]}
+                sizes="(min-width: 48rem) 50vw, 100vw"
+                alt={product.name}
+                loading="lazy"
+                fetchpriority="low"
+                decoding="async"
+                data-skeleton
+                class="image-skeleton w-full h-auto object-cover max-h-[600px] 3xl:max-h-[800px]"
+              />
+            </div>
+
+            <div
+              class="md:col-span-6 space-y-6 3xl:space-y-10"
+              data-reveal="fade"
+              data-reveal-delay="180"
+            >
+              <div class="border-b border-stone-200 pb-4 3xl:pb-8 space-y-2 3xl:space-y-4">
+                <span class="text-[0.75rem] xl:text-xs 3xl:text-sm font-mono tracking-widest uppercase font-black text-[var(--sarahs-accent-terracotta)] block">
+                  Archive Item No. P-
+                  {product.id.replace("prod-", "").padStart(3, "0")}
+                </span>
+                <h1 class="font-serif text-3xl xl:text-5xl 2xl:text-6xl 3xl:text-7xl font-bold text-[var(--sarahs-text-ink)]">
+                  {product.name}
+                </h1>
+                <p class="font-mono text-xl xl:text-3xl 3xl:text-4xl text-[var(--sarahs-accent-terracotta)] font-bold">
+                  {product.price}
+                </p>
+              </div>
+
+              <div class="space-y-4 3xl:space-y-8">
+                <p class="text-sm xl:text-lg 3xl:text-xl text-stone-600 leading-relaxed font-sans">
+                  {product.longDesc}
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 3xl:gap-8 border-t border-stone-200/60 pt-4 3xl:pt-8">
+                  <div class="space-y-1 3xl:space-y-2 bg-stone-100/50 p-3.5 xl:p-5 3xl:p-8 rounded border border-stone-200/20">
+                    <span class="text-[0.6875rem] xl:text-xs 3xl:text-sm font-mono text-stone-400 font-bold block uppercase tracking-widest">
+                      Sizing & Cuts
+                    </span>
+                    <p class="text-[0.8125rem] xl:text-sm 3xl:text-lg text-stone-600 leading-relaxed font-serif italic">
+                      {product.sizing}
+                    </p>
+                  </div>
+
+                  <div class="space-y-1 3xl:space-y-2 bg-stone-100/50 p-3.5 xl:p-5 3xl:p-8 rounded border border-stone-200/20">
+                    <span class="text-[0.6875rem] xl:text-xs 3xl:text-sm font-mono text-stone-400 font-bold block uppercase tracking-widest">
+                      Fibres & Materials
+                    </span>
+                    <p class="text-[0.8125rem] xl:text-sm 3xl:text-lg text-stone-600 leading-relaxed font-serif italic">
+                      {product.materials}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-6 3xl:pt-10 border-t border-stone-200/60 space-y-3 3xl:space-y-5">
+                <a
+                  href={`#${visitId}`}
+                  data-boutique-open-modal
+                  class="w-full bg-[var(--sarahs-text-ink)] hover:bg-[var(--sarahs-text-ink-soft)] text-[var(--sarahs-bg-warm)] text-[0.8125rem] xl:text-sm 3xl:text-lg font-mono uppercase tracking-widest py-4 xl:py-5 3xl:py-7 rounded-sm transition-colors hover-button-polish cursor-pointer shadow-md 3xl:shadow-xl inline-flex items-center justify-center gap-2 3xl:gap-3 decoration-none"
+                >
+                  <BoutiqueIcon name="ShoppingBag" className="w-4 h-4 3xl:w-6 3xl:h-6" />
+                  <span>Buy Now (Fitting Reserved)</span>
+                </a>
+                <p class="text-[0.75rem] xl:text-xs 3xl:text-base text-stone-400 font-mono text-center italic">
+                  Select to route this unique item directly to Montpellier Arcade closet racks or
+                  safe home dispatch.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))
+  }
+
+  <div id={aboutId} data-boutique-panel="about">
+    <div
+      class="animate-fade-in max-w-4xl 3xl:max-w-6xl mx-auto px-6 xl:px-10 3xl:px-20 py-16 xl:py-20 3xl:py-28 text-left space-y-12 3xl:space-y-20"
+    >
+      <div class="border-b border-stone-200 pb-6 3xl:pb-10" data-reveal="fade">
+        <span
+          class="text-[0.75rem] xl:text-xs 3xl:text-sm uppercase font-mono tracking-widest text-[var(--sarahs-accent-terracotta)] font-bold block"
+          >The Atelier Story</span
+        >
+        <h1
+          class="font-serif text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl 3xl:text-7xl font-extrabold text-[var(--sarahs-text-ink)]"
+        >
+          About Our Boutique
+        </h1>
+        <p
+          class="text-[0.8125rem] xl:text-sm 3xl:text-lg text-stone-500 font-serif italic mt-1 3xl:mt-3"
+        >
+          Slow fashion blocks to hold up against northern cold.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 3xl:gap-16 items-center">
+        <div class="space-y-4 3xl:space-y-8" data-reveal="fade" data-reveal-delay="120">
+          <p class="text-sm xl:text-lg 3xl:text-xl text-stone-600 leading-relaxed font-sans">
+            Founded in Harrogate, Sarah Sterling's boutique has stood for quiet quality on
+            Montpellier Arcade. Over a decade of direct garment consultation has taught us that
+            clothing shines brightest when it supports rather than dictates character.
+          </p>
+          <p class="text-sm xl:text-lg 3xl:text-xl text-stone-600 leading-relaxed font-sans">
+            Our approach rejects standard mass industrial fast fashion. We curate individual garment
+            runs of small, hand-finished amounts, woven primarily on traditional North Yorkshire
+            shuttle mills from natural wool, sheep fleece, and flax fields.
+          </p>
+        </div>
+        <div
+          class="rounded-sm overflow-hidden bg-stone-100 aspect-4/3 hover-card-polish shadow-xs 3xl:shadow-md"
+          data-reveal="scale"
+          data-reveal-delay="180"
+        >
+          <Image
+            src={sarahsBoutiqueStoreImage}
+            widths={[480, 720, 960]}
+            sizes="(min-width: 48rem) 50vw, 100vw"
+            alt="Sarah's quiet natural clothing store layout"
+            loading="lazy"
+            fetchpriority="low"
+            decoding="async"
+            data-skeleton
+            class="image-skeleton h-full w-full rounded-sm object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id={visitId} data-boutique-panel="visit">
+    <div
+      class="animate-fade-in max-w-4xl 3xl:max-w-6xl mx-auto px-6 xl:px-10 3xl:px-20 py-16 xl:py-20 3xl:py-28 text-left space-y-12 3xl:space-y-20"
+    >
+      <div class="border-b border-stone-200 pb-6 3xl:pb-10" data-reveal="fade">
+        <span
+          class="text-[0.75rem] xl:text-xs 3xl:text-sm uppercase font-mono tracking-widest text-[var(--sarahs-accent-terracotta)] font-bold block"
+          >Physical Showrooms</span
+        >
+        <h1
+          class="font-serif text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl 3xl:text-7xl font-extrabold text-[var(--sarahs-text-ink)]"
+        >
+          Visit Harriet Racks
+        </h1>
+      </div>
+
+      <div
+        class="bg-white border border-stone-200 p-8 xl:p-10 3xl:p-14 rounded shadow-xs 3xl:shadow-md grid grid-cols-1 md:grid-cols-12 gap-8 3xl:gap-14 items-center hover-card-polish"
+        data-reveal="fade"
+        data-reveal-delay="120"
+      >
+        <div
+          class="md:col-span-7 space-y-4 3xl:space-y-8 text-left"
+          data-reveal="fade"
+          data-reveal-delay="180"
+        >
+          <h3 class="font-serif text-2xl xl:text-4xl 3xl:text-5xl font-bold leading-tight">
+            Appointments welcome & Walk-ins accepted
+          </h3>
+          <p
+            class="text-[0.8125rem] xl:text-sm 3xl:text-xl text-stone-500 leading-relaxed font-sans"
+          >
+            Our shop is configured with slate stones, pine timber rails, wild garden twigs, and soft
+            evening-glow lighting, creating a calm atmosphere where you can explore fabrics without
+            rushing.
+          </p>
+          <div
+            class="space-y-1.5 3xl:space-y-3 font-mono text-[0.75rem] xl:text-xs 3xl:text-base text-stone-600 block"
+          >
+            <p class="flex items-center gap-2 3xl:gap-3">
+              <BoutiqueIcon
+                name="MapPin"
+                className="w-3.5 h-3.5 3xl:w-6 3xl:h-6 text-[var(--sarahs-accent-terracotta)]"
+              /> 4 Montpellier Arcade, Harrogate, HG1 2TJ
+            </p>
+            <p class="text-stone-400 pl-5 3xl:pl-9">
+              Hours: Thursday to Saturday - 10:00 AM to 5:00 PM
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="md:col-span-5 bg-[var(--sarahs-bg-warm)] border border-stone-200/50 p-5 xl:p-7 3xl:p-10 rounded hover-card-polish"
+          data-reveal="scale"
+          data-reveal-delay="240"
+        >
+          <form
+            data-boutique-open-modal-form
+            action={`#${visitConfirmationId}`}
+            method="get"
+            class="space-y-3 3xl:space-y-5"
+          >
+            <p
+              class="font-serif text-[0.8125rem] xl:text-sm 3xl:text-lg italic text-stone-700 text-center uppercase tracking-wider"
+            >
+              Book Private Styling Appointment
+            </p>
+            <label for="sarah-visit-name" class="sr-only">Your Name</label>
+            <input
+              id="sarah-visit-name"
+              type="text"
+              placeholder="Your Name"
+              required
+              data-boutique-visit-form-input="primary"
+              class="w-full border border-stone-200 text-[0.8125rem] xl:text-sm 3xl:text-base p-2.5 xl:p-3.5 3xl:p-5 focus:outline-none focus:border-[var(--sarahs-accent-terracotta)] bg-white rounded-sm"
+            />
+            <label for="sarah-visit-email" class="sr-only">Email address</label>
+            <input
+              id="sarah-visit-email"
+              type="email"
+              placeholder="Email coordinates"
+              required
+              class="w-full border border-stone-200 text-[0.8125rem] xl:text-sm 3xl:text-base p-2.5 xl:p-3.5 3xl:p-5 focus:outline-none focus:border-[var(--sarahs-accent-terracotta)] bg-white rounded-sm"
+            />
+            <label for="sarah-visit-time" class="sr-only">Appointment time</label>
+            <select
+              id="sarah-visit-time"
+              class="w-full border border-stone-200 text-[0.8125rem] xl:text-sm 3xl:text-base p-2.5 xl:p-3.5 3xl:p-5 focus:outline-none text-stone-500 bg-white rounded-sm"
+            >
+              <option>Select Saturday Spot (10AM - 11AM)</option>
+              <option>Select Saturday Spot (12PM - 1PM)</option>
+              <option>Select Saturday Spot (3PM - 4PM)</option>
+            </select>
+            <button
+              type="submit"
+              class="w-full bg-[var(--sarahs-text-ink)] text-[var(--sarahs-bg-warm)] text-[0.75rem] xl:text-xs 3xl:text-lg font-mono uppercase tracking-widest py-3 xl:py-4 3xl:py-6 hover:bg-stone-800 transition-colors hover-button-polish cursor-pointer border-none rounded-sm shadow-xs 3xl:shadow-md"
+            >
+              Schedule My Visit
+            </button>
+          </form>
+          <div
+            id={visitConfirmationId}
+            data-boutique-visit-success
+            aria-live="polite"
+            tabindex="-1"
+            class="mt-4 3xl:mt-6 rounded border border-[var(--sarahs-accent-terracotta)]/35 bg-[var(--sarahs-accent-soft-bg)] p-4 3xl:p-8 text-left"
+          >
+            <p
+              class="font-serif text-sm xl:text-lg 3xl:text-2xl font-bold text-[var(--sarahs-text-ink)]"
+            >
+              Appointment request saved for review.
+            </p>
+            <p
+              class="mt-1 3xl:mt-3 text-[11px] xl:text-sm 3xl:text-lg leading-relaxed text-stone-600"
+            >
+              Thank you. Your fitting request has been marked in the boutique diary and will be
+              reviewed for the next available appointment window.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer
+    class="border-t border-stone-200 bg-white py-8 3xl:py-12 text-center text-[0.8125rem] xl:text-sm 3xl:text-base text-stone-600 font-mono mt-auto"
+  >
+    © 2026 Septen
+  </footer>
+
+  <script>
+    const boutiqueRoot = document.getElementById("sarahs-boutique-demo-root");
+    const filterNames = ["All", "Dresses", "Outerwear", "Tops", "Accessories", "Collections"];
+
+    const enableBoutiqueEnhancement = () => {
+      if (document.documentElement.classList.contains("site-ready")) {
+        boutiqueRoot?.setAttribute("data-boutique-enhanced", "true");
+      }
+    };
+
+    if (document.documentElement.classList.contains("site-ready")) {
+      enableBoutiqueEnhancement();
+    } else {
+      document.addEventListener("septen:site-ready", enableBoutiqueEnhancement, { once: true });
+    }
+
+    const applyBoutiqueFilter = (category: string) => {
+      if (!boutiqueRoot || !filterNames.includes(category)) {
+        return;
+      }
+
+      boutiqueRoot.dataset.boutiqueActiveFilter = category;
+
+      boutiqueRoot.querySelectorAll<HTMLElement>("[data-boutique-filter]").forEach((filter) => {
+        const isActive = filter.dataset.boutiqueFilter === category;
+        filter.style.setProperty("background", isActive ? "#1e1e1c" : "white", "important");
+        filter.style.setProperty("border-color", isActive ? "#1e1e1c" : "#e7e5e4", "important");
+        filter.style.setProperty("color", isActive ? "white" : "#78716c", "important");
+      });
+
+      boutiqueRoot
+        .querySelectorAll<HTMLElement>("[data-boutique-catalogue-card]")
+        .forEach((card) => {
+          const isVisible = category === "All" || card.dataset.boutiqueCategory === category;
+          card.style.setProperty("display", isVisible ? "" : "none", "important");
+        });
+    };
+
+    const deriveBoutiqueViewFromHash = (): string | null => {
+      const hash = window.location.hash || "";
+      if (!hash || hash === "#" || hash === "#home") return "home";
+      if (hash === `#catalogue` || hash.startsWith("#catalogue-")) return "catalogue";
+      if (hash === "#about") return "about";
+      if (hash === "#visit" || hash === "#visit-confirmation") return "visit";
+      if (hash.startsWith("#product-")) return "product-detail";
+      return null;
+    };
+
+    const deriveBoutiqueFilterFromHash = (): string => {
+      const match = window.location.hash.match(/^#catalogue-(.+)$/);
+      if (!match) return "All";
+      const raw = match[1];
+      const pretty = raw.charAt(0).toUpperCase() + raw.slice(1);
+      return filterNames.includes(pretty) ? pretty : "All";
+    };
+
+    const setBoutiqueView = (view: string) => {
+      boutiqueRoot?.querySelectorAll<HTMLElement>("[data-boutique-panel]").forEach((panel) => {
+        const panelType = panel.dataset.boutiquePanel;
+        if (view === "product-detail") {
+          panel.dataset.boutiqueActive =
+            panelType === "product-detail"
+              ? panel.id === window.location.hash.slice(1)
+                ? "true"
+                : "false"
+              : "false";
+        } else {
+          panel.dataset.boutiqueActive = panelType === view ? "true" : "false";
+        }
+      });
+    };
+
+    const syncBoutiqueStateFromLocation = () => {
+      const nextView = deriveBoutiqueViewFromHash();
+      if (nextView) {
+        setBoutiqueView(nextView);
+      }
+      applyBoutiqueFilter(deriveBoutiqueFilterFromHash());
+    };
+
+    boutiqueRoot?.querySelectorAll<HTMLAnchorElement>("[data-boutique-nav]").forEach((link) => {
+      link.addEventListener("click", () => {
+        const view = link.dataset.boutiqueNav;
+        if (view) {
+          setBoutiqueView(view);
+        }
+      });
+    });
+
+    const initialFilter = deriveBoutiqueFilterFromHash();
+    applyBoutiqueFilter(initialFilter);
+    syncBoutiqueStateFromLocation();
+    window.addEventListener("hashchange", syncBoutiqueStateFromLocation);
+
+    boutiqueRoot?.addEventListener("click", (event) => {
+      const filterLink =
+        event.target instanceof Element
+          ? event.target.closest<HTMLAnchorElement>("a[data-boutique-filter]")
+          : null;
+      const filterHref = filterLink?.getAttribute("href");
+
+      if (filterLink && filterHref?.startsWith("#catalogue-")) {
+        event.preventDefault();
+        const scrollTop = window.scrollY;
+        const scrollLeft = window.scrollX;
+        const category = filterLink.dataset.boutiqueFilter;
+        if (!category) {
+          return;
+        }
+
+        history.pushState(null, "", filterHref);
+        applyBoutiqueFilter(category);
+        setBoutiqueView("catalogue");
+        window.requestAnimationFrame(() => {
+          window.scrollTo({ top: scrollTop, left: scrollLeft, behavior: "auto" });
+        });
+        return;
+      }
+
+      const selectLink =
+        event.target instanceof Element
+          ? event.target.closest<HTMLAnchorElement>("a[data-boutique-select-product]")
+          : null;
+      if (selectLink) {
+        const href = selectLink.getAttribute("href");
+        const match = href?.match(/^#(product-.+)$/);
+        if (!match) return;
+        const productHash = match[1];
+        setBoutiqueView("product-detail");
+        setTimeout(() => {
+          boutiqueRoot
+            ?.querySelectorAll<HTMLElement>('[data-boutique-panel="product-detail"]')
+            .forEach((panel) => {
+              panel.dataset.boutiqueActive = panel.id === productHash ? "true" : "false";
+            });
+        }, 0);
+        return;
+      }
+
+      const goViewLink =
+        event.target instanceof Element
+          ? event.target.closest<HTMLAnchorElement>("a[data-boutique-go-view]")
+          : null;
+      if (goViewLink?.dataset.boutiqueGoView) {
+        setBoutiqueView(goViewLink.dataset.boutiqueGoView);
+        return;
+      }
+
+      const openModalLink =
+        event.target instanceof Element
+          ? event.target.closest<HTMLAnchorElement>("a[data-boutique-open-modal]")
+          : null;
+      if (openModalLink) {
+        setBoutiqueView("visit");
+        return;
+      }
+    });
+  </script>
+</div>

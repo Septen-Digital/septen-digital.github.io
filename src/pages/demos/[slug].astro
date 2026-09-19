@@ -1,0 +1,369 @@
+---
+import BaseLayout from "@components/layout/BaseLayout.astro";
+import {
+  demoRegistry,
+  demoSlugs,
+  getDemoMarkup,
+  type DemoEntry,
+  type DemoSlug,
+} from "@demos/scripts/demoMarkup";
+import { getImage, Image } from "astro:assets";
+import SarahsBoutiqueDemo from "@demos/sarahs-boutique/SarahsBoutiqueDemo.astro";
+import { getDemoSsrImageConfig, getDemoHeroRawImage } from "@demos/shared/ssrImageConfig";
+
+interface Props {
+  slug: DemoSlug;
+  demo: DemoEntry;
+}
+
+function buildImageAttrs(
+  src: string,
+  srcset: string,
+  sizes: string,
+  layout: "constrained" | "full-width",
+  alt: string,
+  loading: "eager" | "lazy",
+  fetchpriority: "high" | "low" | "auto",
+  className: string,
+  width?: number,
+  height?: number,
+): string {
+  const dimensions = [
+    typeof width === "number" ? `width="${width}"` : "",
+    typeof height === "number" ? `height="${height}"` : "",
+    `data-astro-image="${layout}"`,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return [
+    "<" + "img",
+    dimensions,
+    `src="${src}"`,
+    `srcset="${srcset}"`,
+    `sizes="${sizes}"`,
+    `alt="${alt}"`,
+    `loading="${loading}"`,
+    `fetchpriority="${fetchpriority}"`,
+    `decoding="async"`,
+    `data-skeleton`,
+    `class="${className}"`,
+    "/>",
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+async function getOptimizedDemoMarkup(slug: string, tokensToSkip: string[] = []): Promise<string> {
+  let markup = getDemoMarkup(slug);
+  const imageConfig = getDemoSsrImageConfig(slug);
+  const skipTokens = new Set(tokensToSkip);
+
+  for (const config of imageConfig) {
+    if (skipTokens.has(config.sourceToken)) {
+      continue;
+    }
+
+    const optimizedImage = await getImage({
+      src: config.image,
+      width: config.width,
+      widths: [...config.widths, config.width],
+      sizes: config.sizes,
+      format: "webp",
+      quality: "mid",
+    });
+
+    const optimizedAttrs = buildImageAttrs(
+      optimizedImage.src,
+      optimizedImage.srcSet.attribute,
+      config.sizes,
+      config.layout,
+      config.alt,
+      config.loading,
+      config.fetchpriority,
+      config.className,
+      Number(optimizedImage.attributes.width),
+      Number(optimizedImage.attributes.height),
+    );
+
+    markup = markup.replace(config.sourceToken, optimizedAttrs);
+  }
+
+  return markup;
+}
+
+export function getStaticPaths() {
+  return demoSlugs.map((slug) => ({
+    params: { slug },
+    props: { slug, demo: demoRegistry[slug] },
+  }));
+}
+
+const { slug, demo } = Astro.props as Props;
+const isSarahsBoutiqueDemo = slug === "sarahs-boutique";
+
+const TEMPORARY_OMIT_BACK_TO_TOP_BUTTON_FOR_SCREENSHOTS = false;
+
+/**
+ * TEMPORARY SCREENSHOT TOGGLE — omit "Concept Demo / Septen Disclaimer" intro
+ * header section that appears at the very top of every /demos/* page, plus the
+ * noscript JavaScript-disabled disclaimer banner directly below it.
+ * =========================================================
+ * Default production value: false   (renders the bold "Interactive Demo" label,
+ *                                   demo title, "Septen concept demo" disclaimer
+ *                                   paragraph, and the noscript JS-off banner)
+ * Screenshot-ready value  : true    (both sections are NOT rendered — demos
+ *                                   start directly on the demo hero content,
+ *                                   no Septen branding disclaimers visible)
+ *
+ * To restore the concept demo disclaimers, flip the constant below back to
+ * `false` — no other changes needed anywhere.
+ */
+const TEMPORARY_OMIT_CONCEPT_DEMO_DISCLAIMER_HEADERS_FOR_SCREENSHOTS = false;
+
+const visibleHeroToken =
+  slug === "north-shore-fitness"
+    ? "__NORTH_SHORE_HERO_IMAGE__"
+    : slug === "alder-and-pipe-plumbing"
+      ? "__ALDER_PIPE_HERO_IMAGE__"
+      : null;
+const demoImageConfig = isSarahsBoutiqueDemo ? [] : getDemoSsrImageConfig(slug);
+const visibleHeroConfig =
+  visibleHeroToken === null
+    ? null
+    : (demoImageConfig.find((config) => config.sourceToken === visibleHeroToken) ?? null);
+const visibleHeroImage = getDemoHeroRawImage(slug);
+const markup = isSarahsBoutiqueDemo
+  ? ""
+  : await getOptimizedDemoMarkup(slug, visibleHeroConfig ? [visibleHeroConfig.sourceToken] : []);
+const visibleHeroMarkupParts =
+  visibleHeroConfig && markup.includes(visibleHeroConfig.sourceToken)
+    ? markup.split(visibleHeroConfig.sourceToken)
+    : null;
+---
+
+<BaseLayout
+  title={`${demo.title} | Septen`}
+  description={demo.description}
+  noindex={true}
+  includeBusinessSchema={false}
+  demoSlug={slug}
+>
+  <div data-demo-page data-demo-slug={slug}>
+    <details data-demo-header-toggle class="demo-header-toggle">
+      <summary aria-label="Hide site header">
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-5 w-5"
+        >
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </summary>
+    </details>
+
+    {
+      !TEMPORARY_OMIT_CONCEPT_DEMO_DISCLAIMER_HEADERS_FOR_SCREENSHOTS && (
+        <>
+          <section data-demo-interactive-blurb class="border-b border-slate-200 bg-white text-left">
+            <div class="max-w-7xl 3xl:max-w-8xl 4xl:max-w-9xl mx-auto px-5 sm:px-6 lg:px-8 xl:px-10 3xl:px-20 py-10 xl:py-12 3xl:py-16">
+              <div class="space-y-2 3xl:space-y-4">
+                <p class="text-[0.8125rem] xl:text-sm 3xl:text-base font-black uppercase tracking-widest text-brand-teal">
+                  Interactive Demo
+                </p>
+                <p class="font-sans text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl 3xl:text-7xl font-extrabold text-brand-teal tracking-tight">
+                  {demo.title}
+                </p>
+                <p class="text-sm md:text-base xl:text-lg 2xl:text-xl 3xl:text-2xl text-slate-600 max-w-3xl 3xl:max-w-5xl leading-relaxed">
+                  This sample website is a Septen concept demo built to preview layout, interaction
+                  patterns, and overall feel before a live project goes ahead.
+                </p>
+              </div>
+            </div>
+          </section>
+        </>
+      )
+    }
+
+    <div data-demo-noscript-notice aria-live="polite" aria-hidden="false">
+      <div
+        class="mx-auto max-w-7xl border border-brand-teal/20 bg-brand-teal/5 px-5 py-3.5 text-[0.875rem] leading-relaxed text-slate-600"
+      >
+        You are viewing a Septen concept demo. This is not a live business website, and some
+        interactive features are unavailable while JavaScript is disabled.
+      </div>
+    </div>
+
+    <details
+      data-demo-chrome-toggle
+      data-demo-chrome-control
+      class="group fixed bottom-5 right-4 z-[70] flex items-center gap-2 sm:bottom-7 sm:right-7"
+    >
+      <summary
+        class="list-none inline-flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-brand-teal bg-white text-brand-teal shadow-[0_0.75rem_2rem_rgba(15,23,42,0.16)] transition-colors hover:bg-brand-teal hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/40"
+        aria-label="Hide demo header, footer, and return controls"
+        aria-pressed="false"
+      >
+        <span
+          data-demo-chrome-label
+          class="pointer-events-none absolute bottom-full right-0 mb-2 w-max max-w-[min(16rem,calc(100vw-2rem))] whitespace-normal rounded-md border border-brand-teal/20 bg-white/95 px-3 py-2 text-center text-[0.75rem] font-bold uppercase leading-snug tracking-[0.12em] text-brand-teal opacity-0 shadow-md transition-opacity duration-300 group-hover:opacity-100"
+          data-label-hidden="false"
+        >
+          <span data-demo-chrome-label-state="visible">Experience as live site</span>
+          <span data-demo-chrome-label-state="hidden" class="hidden">Bring back navigation</span>
+        </span>
+        <svg
+          data-demo-eye-visible
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-5 w-5"
+        >
+          <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path>
+          <circle cx="12" cy="12" r="2.5"></circle>
+        </svg>
+        <svg
+          data-demo-eye-hidden
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="hidden h-5 w-5"
+        >
+          <path d="M2.5 12s3.5-6 9.5-6c2.2 0 4.1.8 5.6 1.8"></path>
+          <path d="M21.5 12s-3.5 6-9.5 6c-2.2 0-4.1-.8-5.6-1.8"></path>
+          <path d="M4 4 20 20"></path>
+        </svg>
+      </summary>
+    </details>
+
+    {
+      !TEMPORARY_OMIT_BACK_TO_TOP_BUTTON_FOR_SCREENSHOTS && (
+        <button
+          type="button"
+          data-demo-back-to-top
+          class="demo-back-to-top pointer-events-none fixed bottom-5 right-[5rem] z-40 inline-flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-2 border-brand-teal/25 bg-white/96 text-brand-teal opacity-0 shadow-[0_12px_32px_rgba(2,8,23,0.16)] backdrop-blur-sm transition-[opacity,background-color,border-color,color,box-shadow] duration-300 hover:border-brand-teal hover:bg-brand-teal hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-teal/30 will-change-transform sm:bottom-7 sm:right-[5.5rem] md:right-[6rem] md:h-12 md:w-12 md:min-w-0 md:gap-0 md:rounded-full md:border-2 md:px-0 md:shadow-[0_18px_48px_rgba(2,8,23,0.2)] lg:right-[6rem]"
+          aria-label="Back to top"
+        >
+          <span
+            class="absolute inset-0 hidden rounded-full border border-brand-teal/20 md:block md:scale-[1.08] md:animate-pulse motion-reduce:animate-none"
+            aria-hidden="true"
+          />
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-4 w-4 md:h-6 md:w-6 md:shrink-0"
+          >
+            <path d="M12 19V5" />
+            <path d="m6 11 6-6 6 6" />
+          </svg>
+        </button>
+      )
+    }
+
+    {
+      isSarahsBoutiqueDemo ? (
+        <SarahsBoutiqueDemo />
+      ) : visibleHeroConfig && visibleHeroImage && visibleHeroMarkupParts ? (
+        <>
+          <div data-demo-root data-demo-slug={slug}>
+            <Fragment set:html={visibleHeroMarkupParts[0] ?? ""} />
+            <Image
+              src={visibleHeroImage}
+              widths={[...visibleHeroConfig.widths, visibleHeroConfig.width]}
+              sizes={visibleHeroConfig.sizes}
+              alt={visibleHeroConfig.alt}
+              loading={visibleHeroConfig.loading}
+              fetchpriority={visibleHeroConfig.fetchpriority}
+              decoding="async"
+              data-skeleton
+              class={visibleHeroConfig.className}
+            />
+            <Fragment set:html={visibleHeroMarkupParts[1] ?? ""} />
+          </div>
+
+          <script>import initDemoPage from '@demos/scripts/demoPage'; initDemoPage();</script>
+        </>
+      ) : (
+        <>
+          <div data-demo-root data-demo-slug={slug} set:html={markup} />
+
+          <script>import initDemoPage from '@demos/scripts/demoPage'; initDemoPage();</script>
+        </>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<script>
+  const demoChromeToggle = document.querySelector<HTMLDetailsElement>("[data-demo-chrome-toggle]");
+  const demoHeaderToggle = document.querySelector<HTMLDetailsElement>("[data-demo-header-toggle]");
+  const demoRoot = document.documentElement;
+
+  const applyDemoChromeState = (hidden: boolean): void => {
+    demoRoot.classList.toggle("demo-chrome-hidden", hidden);
+    demoChromeToggle?.classList.toggle("demo-chrome-activated", hidden);
+    const summary = demoChromeToggle?.querySelector("summary") ?? null;
+    if (summary) {
+      summary.setAttribute("aria-pressed", String(hidden));
+      summary.setAttribute(
+        "aria-label",
+        hidden ? "Bring back navigation" : "Hide demo header, footer, and return controls",
+      );
+    }
+  };
+
+  try {
+    if (localStorage.getItem("septen:demo-header-hidden") === "1" && demoHeaderToggle) {
+      demoHeaderToggle.open = true;
+    }
+    if (localStorage.getItem("septen:demo-chrome-hidden") === "1" && demoChromeToggle) {
+      demoChromeToggle.open = true;
+    }
+  } catch {}
+
+  if (demoChromeToggle) {
+    applyDemoChromeState(demoChromeToggle.open);
+    demoChromeToggle.addEventListener("toggle", () => {
+      const hidden = demoChromeToggle.open;
+      try {
+        localStorage.setItem("septen:demo-chrome-hidden", hidden ? "1" : "0");
+      } catch {}
+      applyDemoChromeState(hidden);
+      try {
+        const summary = demoChromeToggle.querySelector("summary");
+        if (summary && document.activeElement === summary) summary.blur();
+      } catch {}
+    });
+  }
+
+  demoHeaderToggle?.addEventListener("toggle", () => {
+    const hidden = demoHeaderToggle.open;
+    try {
+      localStorage.setItem("septen:demo-header-hidden", hidden ? "1" : "0");
+    } catch {}
+    demoHeaderToggle.setAttribute("aria-label", hidden ? "Show site header" : "Hide site header");
+    // Brief pointer-events pause to prevent double-toggles from rapid clicks.
+    demoHeaderToggle.style.pointerEvents = "none";
+    window.requestAnimationFrame(() => {
+      demoHeaderToggle.style.pointerEvents = "";
+    });
+  });
+</script>

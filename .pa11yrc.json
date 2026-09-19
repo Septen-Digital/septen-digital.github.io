@@ -1,0 +1,12 @@
+{
+  "standard": "WCAG2AA",
+  "runners": ["axe"],
+  "timeout": 30000,
+  "wait": 1000,
+  "includeWarnings": true,
+  "includeNotices": true,
+  "levelCapWhenNeedsReview": "error",
+  "chromeLaunchConfig": {
+    "args": ["--no-sandbox", "--disable-setuid-sandbox", "--headless=new"]
+  }
+}

@@ -1,0 +1,399 @@
+---
+import BaseLayout from "@components/layout/BaseLayout.astro";
+import { processSteps, services } from "@data/site";
+import { buildOptions, retainerPlans } from "@data/pricing";
+import FeatureCard from "@components/ui/FeatureCard.astro";
+import StepCard from "@components/ui/StepCard.astro";
+---
+
+<BaseLayout
+  title="Services & Pricing | Septen"
+  description="Explore custom web design packages with transparent upfront build pricing and required monthly hosting, support & management plans for local UK businesses."
+>
+  <h1 class="sr-only">
+    Services & Pricing — Custom Web Design Packages & Monthly Management Plans from Septen
+  </h1>
+  <!-- ============================================================
+       SERVICES SECTION
+       Feature grid + "How It Works" process steps
+       ============================================================ -->
+  <section
+    id="services"
+    class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 xl:px-14 2xl:px-20 py-10 sm:py-10 md:py-12 xl:py-16 border-t border-slate-200 text-left"
+    aria-labelledby="services-title"
+  >
+    <div class="mx-auto mb-6 max-w-2xl xl:max-w-3xl text-center">
+      <h2 id="services-title" data-reveal class="demos-hero-title mb-5 sm:mb-6 md:mb-8 xl:mb-10">
+        Services
+      </h2>
+      <p class="text-[0.875rem] leading-relaxed text-slate-600 md:text-base">
+        Everything you need to look credible, get found locally, and turn interest into genuine
+        enquiries.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-5 md:gap-6 xl:gap-8">
+      {
+        services.map((service, index) => (
+          <FeatureCard
+            title={service.title}
+            description={service.description}
+            revealDelay={String(index * 60)}
+            revealType={index === 1 ? "scale" : "card"}
+          />
+        ))
+      }
+    </div>
+
+    <div
+      class="mt-8 flex flex-col items-start justify-between gap-5 border-t border-slate-200 pt-6 sm:flex-row sm:items-center"
+    >
+      <p class="max-w-xl text-[0.8125rem] leading-relaxed text-slate-500 md:text-sm">
+        Not sure what your business needs first? We can map the right starting point together.
+      </p>
+      <button
+        type="button"
+        data-open-enquiry
+        aria-label="Discuss your website project"
+        class="shrink-0 rounded-lg bg-brand-teal px-6 py-3 text-[0.8125rem] font-bold uppercase tracking-widest text-white transition-colors hover:bg-brand-teal-dark"
+      >
+        Discuss your project
+      </button>
+      <noscript>
+        <p class="w-full text-[0.75rem] leading-relaxed text-slate-500">
+          JavaScript is disabled. Email <strong class="text-brand-teal"
+            >septen.digital@gmail.com</strong
+          > to discuss your project.
+        </p>
+      </noscript>
+    </div>
+
+    <div
+      data-reveal="fade"
+      data-reveal-delay="120"
+      class="mt-10 sm:mt-10 md:mt-12 xl:mt-16 bg-slate-50 border border-slate-200 p-6 sm:p-6 md:p-7 xl:p-8 rounded-xl text-left"
+    >
+      <h3
+        class="font-sans font-extrabold text-slate-500 text-[0.75rem] sm:text-[0.8125rem] uppercase tracking-widest mb-5 sm:mb-5 md:mb-6"
+      >
+        How It Works
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-5 md:gap-6 xl:gap-8">
+        {
+          processSteps.map((step, index) => (
+            <StepCard
+              title={step.title}
+              description={step.description}
+              revealDelay={String(170 + index * 60)}
+              revealType={index === 1 ? "fade" : "scale"}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BUILD OPTIONS SECTION
+       Three upfront build packages (Basic / Standard / Premium)
+       Required care model, first month free inline copy
+       ============================================================ -->
+  <section
+    id="build-options"
+    class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 xl:px-14 2xl:px-20 py-10 sm:py-10 md:py-12 xl:py-16 border-t border-slate-200 text-left"
+    aria-labelledby="build-options-title"
+  >
+    <div class="mx-auto mb-6 sm:mb-6 md:mb-8 xl:mb-10 max-w-3xl xl:max-w-4xl text-center">
+      <h2 id="build-options-title" data-reveal class="main-page-title mb-3 sm:mb-3 md:mb-4 xl:mb-5">
+        Build Packages
+      </h2>
+      <p
+        class="text-[0.875rem] sm:text-[0.875rem] md:text-[0.875rem] xl:text-[1rem] text-slate-600 leading-relaxed"
+      >
+        Pay a single transparent upfront fee for your complete website build. All builds require an
+        ongoing monthly care plan to remain active, secure, and hosted online — your first month of
+        care is included free.
+      </p>
+    </div>
+
+    <div
+      class="grid grid-cols-1 min-[520px]:grid-cols-3 gap-5 min-[520px]:gap-5 md:gap-6 lg:gap-7 xl:gap-8 items-stretch w-full min-w-0"
+    >
+      {
+        buildOptions.map((plan, index) => (
+          <div
+            data-reveal="card"
+            data-reveal-delay={String(index * 80)}
+            class:list={[
+              "rounded-xl p-[1.25rem] sm:p-[1.25rem] md:p-[1rem] lg:p-[1.375rem] xl:p-[1.625rem] flex flex-col justify-between text-left space-y-[1rem] sm:space-y-[1rem] md:space-y-[0.75rem] lg:space-y-[1rem] xl:space-y-[1.125rem] relative hover-card-polish min-w-0 h-full w-full",
+              plan.featured
+                ? "bg-white border-2 border-brand-orange shadow-md"
+                : "bg-white border border-slate-300 hover:border-slate-400 transition-colors shadow-xs",
+            ]}
+          >
+            {plan.featured && (
+              <span class="absolute -top-[0.875rem] right-[1.125rem] sm:-top-[0.75rem] sm:right-[1.5rem] md:-top-[0.625rem] md:right-[0.875rem] lg:-top-[0.625rem] lg:right-[1.125rem] bg-brand-orange text-white text-[0.75rem] sm:text-[0.75rem] md:text-[0.6875rem] lg:text-[0.75rem] font-black uppercase px-[0.75rem] sm:px-[0.75rem] md:px-[0.625rem] py-[0.1875rem] sm:py-[0.25rem] md:py-[0.15625rem] rounded-full tracking-widest whitespace-nowrap z-10">
+                Recommended Build
+              </span>
+            )}
+
+            <div class="space-y-[0.75rem] sm:space-y-[0.75rem] md:space-y-[0.625rem] lg:space-y-[0.875rem] xl:space-y-[1rem] min-w-0">
+              <h3 class="font-sans font-bold text-[0.9375rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.1875rem] xl:text-[1.25rem] text-brand-teal leading-tight min-w-0 whitespace-nowrap overflow-hidden text-ellipsis">
+                {plan.name}
+              </h3>
+              <div class="flex flex-wrap items-baseline gap-x-2 sm:gap-x-2.5 md:gap-x-3 gap-y-0.5">
+                <p class="font-sans text-[1.625rem] sm:text-[1.875rem] md:text-[1.5625rem] lg:text-[2rem] xl:text-[2.25rem] font-extrabold leading-none tracking-tight text-slate-800 whitespace-nowrap">
+                  &pound;{plan.salePrice}
+                </p>
+                <p class="font-sans text-[0.75rem] sm:text-[0.75rem] md:text-[0.875rem] lg:text-lg font-bold text-slate-400 line-through whitespace-nowrap">
+                  &pound;{plan.originalPrice}
+                </p>
+              </div>
+              <div
+                class:list={[
+                  "mt-[0.1875rem] sm:mt-[0.1875rem] md:mt-[0.25rem] inline-flex flex-wrap items-center gap-[0.25rem] sm:gap-[0.25rem] md:gap-[0.3125rem] self-start rounded-full border px-[0.75rem] sm:px-[0.75rem] md:px-[0.625rem] lg:px-[0.875rem] py-[0.3125rem] sm:py-[0.3125rem] md:py-[0.3125rem] lg:py-[0.375rem] xl:py-[0.4375rem] leading-snug font-semibold text-[0.8125rem] sm:text-[0.8125rem] md:text-[0.8125rem] lg:text-[0.875rem] xl:text-[0.875rem] shadow-[0_0.125rem_0.5rem_rgba(15,23,42,0.04)]",
+                  plan.featured
+                    ? "bg-gradient-to-br from-[color:var(--brand-orange)]/10 via-[color:var(--brand-orange)]/7 to-transparent border-[color:var(--brand-orange)]/35 text-[color:var(--brand-orange-dark)]"
+                    : "bg-gradient-to-br from-[color:var(--brand-teal)]/9 via-[color:var(--brand-teal)]/6 to-transparent border-[color:var(--brand-teal)]/35 text-[color:var(--brand-teal-dark)]",
+                ]}
+              >
+                <span class="font-bold whitespace-normal">
+                  Includes 1 month of {plan.firstMonthFreeCareTier}
+                </span>
+              </div>
+              <p class="text-[0.8125rem] sm:text-[0.75rem] md:text-[0.71875rem] lg:text-[0.8125rem] font-semibold text-slate-500 leading-snug whitespace-normal">
+                Then &pound;{plan.ongoingCarePrice}/month for ongoing care.
+              </p>
+              <p class="text-[0.8125rem] sm:text-[0.75rem] md:text-[0.71875rem] lg:text-[0.875rem] text-slate-600 leading-relaxed whitespace-normal">
+                {plan.description}
+              </p>
+            </div>
+
+            <ul class="space-y-[0.625rem] sm:space-y-[0.625rem] md:space-y-[0.5rem] lg:space-y-[0.75rem] xl:space-y-[0.875rem] text-[0.8125rem] sm:text-[0.75rem] md:text-[0.71875rem] lg:text-[0.875rem] pl-0 list-none m-0 border-t border-slate-200 pt-[1.125rem] sm:pt-[1.25rem] md:pt-[1rem] lg:pt-[1.375rem] xl:pt-[1.5rem] grow min-w-0">
+              {plan.items.map((item) => (
+                <li
+                  class:list={[
+                    "flex items-start gap-[0.5rem] sm:gap-[0.5rem] md:gap-[0.4375rem] lg:gap-[0.625rem] xl:gap-[0.75rem] min-w-0",
+                    plan.featured ? "text-stone-800 font-bold" : "text-stone-700 font-semibold",
+                  ]}
+                >
+                  <span
+                    class="text-brand-orange font-bold leading-none shrink-0 mt-[0.125rem] sm:mt-[0.125rem] md:mt-[0.09375rem]"
+                    aria-hidden="true"
+                  >
+                    &check;
+                  </span>
+                  <span class="leading-relaxed break-words">{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <button
+              type="button"
+              data-open-enquiry
+              data-enquiry-plan={plan.enquiryPlan}
+              aria-label={`Open the enquiry form for the ${plan.name} package`}
+              class:list={[
+                "block text-center w-full text-white font-bold text-[0.75rem] sm:text-[0.75rem] md:text-[0.6875rem] lg:text-[0.75rem] py-[0.75rem] sm:py-[0.75rem] md:py-[0.5625rem] lg:py-[0.75rem] rounded-lg transition-all font-mono uppercase tracking-widest border-none cursor-pointer mt-[1.125rem] sm:mt-[1.25rem] md:mt-[1.125rem] lg:mt-[1.625rem] xl:mt-[2rem] decoration-none whitespace-nowrap",
+                "hover-button-polish",
+                plan.featured
+                  ? "bg-brand-orange hover:bg-brand-orange-dark"
+                  : "bg-brand-teal hover:bg-brand-teal-dark",
+              ]}
+            >
+              {plan.ctaLabel}
+            </button>
+            <noscript>
+              <p class="mt-3 text-[0.75rem] leading-relaxed text-slate-500">
+                JavaScript is disabled. Email{" "}
+                <strong class="text-brand-teal">septen.digital@gmail.com</strong> to enquire about
+                this build.
+              </p>
+            </noscript>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RETAINER / CARE PLANS SECTION
+       Required Hosting, Support & Management tiers + Bespoke CTA
+       ============================================================ -->
+  <section
+    id="retainers"
+    class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 xl:px-14 2xl:px-20 py-10 sm:py-10 md:py-12 xl:py-16 border-t border-slate-200 text-left"
+    aria-labelledby="retainers-title"
+  >
+    <div
+      class="mx-auto mb-6 sm:mb-6 md:mb-8 xl:mb-10 max-w-3xl xl:max-w-4xl 2xl:max-w-5xl text-center"
+    >
+      <h2
+        id="retainers-title"
+        data-reveal
+        class="font-sans text-2xl sm:text-2xl md:text-3xl xl:text-4xl 2xl:text-5xl font-extrabold text-brand-teal tracking-tight mb-3 sm:mb-3 md:mb-4 xl:mb-5"
+      >
+        Required Hosting, Support &amp; Management
+      </h2>
+      <p
+        class="text-[0.875rem] sm:text-[0.875rem] md:text-[0.875rem] xl:text-[1rem] text-slate-600 leading-relaxed"
+      >
+        Every active website requires a monthly care plan to stay securely hosted, up to date, and
+        performing well in search. All new builds include a 3-month Post-Launch Stability Period to
+        guarantee a flawless launch phase, rolling month-to-month thereafter. Choose the response
+        speed and update allowance that matches how hands-on you need your management to be.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 md:gap-7 xl:gap-8 items-stretch">
+      {
+        retainerPlans.map((plan, index) => (
+          <div
+            data-reveal="card"
+            data-reveal-delay={String(index * 80)}
+            class:list={[
+              "rounded-xl p-[1.25rem] sm:p-[1.25rem] md:p-[1.5rem] xl:p-[1.75rem] flex flex-col justify-between text-left space-y-[1rem] sm:space-y-[1rem] md:space-y-[1.25rem] relative hover-card-polish",
+              plan.featured
+                ? "bg-white border-2 border-brand-orange shadow-md"
+                : "bg-white border border-slate-300 hover:border-slate-400 transition-colors shadow-xs",
+            ]}
+          >
+            {plan.featured && (
+              <span class="absolute -top-[0.875rem] right-[1.125rem] sm:right-[1.5rem] bg-brand-orange text-white text-[0.75rem] sm:text-[0.75rem] font-black uppercase px-[0.75rem] sm:px-[0.75rem] py-[0.1875rem] sm:py-[0.25rem] rounded-full tracking-widest">
+                Most Popular
+              </span>
+            )}
+
+            <div class="space-y-[0.75rem] sm:space-y-[0.75rem] md:space-y-[1rem]">
+              <h3 class="font-sans font-bold text-[0.9375rem] sm:text-[1rem] md:text-[1.125rem] text-brand-teal leading-tight">
+                {plan.name}
+              </h3>
+              <div class="flex items-baseline gap-[0.3125rem] sm:gap-[0.375rem]">
+                <p class="font-sans text-[1.625rem] sm:text-[1.875rem] md:text-[2rem] font-extrabold text-slate-800 leading-none tracking-tight">
+                  &pound;{plan.price}
+                </p>
+                <span class="font-sans text-[0.75rem] sm:text-[0.75rem] font-normal text-slate-500">
+                  / month
+                </span>
+              </div>
+              <p class="text-[0.8125rem] sm:text-[0.75rem] md:text-[0.875rem] text-slate-600 leading-relaxed">
+                {plan.description}
+              </p>
+            </div>
+
+            <ul class="space-y-[0.625rem] sm:space-y-[0.625rem] md:space-y-[0.75rem] text-[0.8125rem] sm:text-[0.75rem] pl-0 list-none m-0 border-t border-slate-200 pt-[1.125rem] sm:pt-[1.25rem] grow">
+              {plan.items.map((item) => (
+                <li
+                  class:list={[
+                    "flex items-start gap-[0.5rem] sm:gap-[0.5rem] md:gap-[0.625rem]",
+                    plan.featured ? "text-stone-800 font-bold" : "text-stone-700 font-semibold",
+                  ]}
+                >
+                  <span
+                    class="text-brand-orange font-bold leading-none shrink-0 mt-[0.125rem]"
+                    aria-hidden="true"
+                  >
+                    &check;
+                  </span>
+                  <span class="leading-relaxed">{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <button
+              type="button"
+              data-open-enquiry
+              data-enquiry-plan={plan.enquiryPlan}
+              aria-label={`Open the enquiry form for the ${plan.name} care plan`}
+              class:list={[
+                "block text-center w-full text-white font-bold text-[0.75rem] sm:text-[0.75rem] py-[0.75rem] sm:py-[0.75rem] rounded-lg transition-all font-mono uppercase tracking-widest border-none cursor-pointer mt-[1.125rem] sm:mt-[1.25rem] decoration-none",
+                "hover-button-polish",
+                plan.featured
+                  ? "bg-brand-orange hover:bg-brand-orange-dark"
+                  : "bg-brand-teal hover:bg-brand-teal-dark",
+              ]}
+            >
+              {plan.ctaLabel}
+            </button>
+            <noscript>
+              <p class="mt-3 text-[0.75rem] leading-relaxed text-slate-500">
+                JavaScript is disabled. Email{" "}
+                <strong class="text-brand-teal">septen.digital@gmail.com</strong> to enquire about
+                this care plan.
+              </p>
+            </noscript>
+          </div>
+        ))
+      }
+    </div>
+
+    <div
+      data-reveal="card"
+      data-reveal-delay="400"
+      class="mt-6 sm:mt-6 md:mt-7 xl:mt-8 rounded-xl p-[1.125rem] sm:p-[1.25rem] md:p-[1.5rem] xl:p-[1.75rem] flex flex-col md:flex-row md:items-center gap-[1.125rem] md:gap-[1.5rem] xl:gap-[2rem] relative bg-slate-900 text-white border border-slate-800 hover-card-polish shadow-lg"
+    >
+      <div class="space-y-[0.75rem] sm:space-y-[0.75rem] md:space-y-[1rem] md:flex-1">
+        <h3
+          class="font-sans font-black text-[0.9375rem] sm:text-[1rem] md:text-[1.125rem] text-white tracking-tight leading-tight"
+        >
+          Bespoke / Larger Project
+        </h3>
+        <p
+          class="text-[0.8125rem] sm:text-[0.75rem] md:text-[0.875rem] text-slate-300 leading-relaxed max-w-xl"
+        >
+          E-commerce, booking systems, multi-site franchises, or custom integrations. Tell us what
+          you need and we'll send a tailored, itemised quote.
+        </p>
+      </div>
+      <ul
+        class="space-y-[0.75rem] sm:space-y-[0.75rem] text-[0.8125rem] sm:text-[0.75rem] text-slate-200 pl-0 list-none m-0 md:flex-1 md:border-x md:border-slate-700/60 md:px-[1.5rem] xl:px-[2rem]"
+      >
+        <li
+          class="flex items-start gap-[0.5rem] sm:gap-[0.5rem] md:gap-[0.625rem] font-semibold leading-relaxed"
+        >
+          <span
+            class="text-brand-orange font-bold leading-none shrink-0 mt-[0.125rem]"
+            aria-hidden="true">&check;</span
+          >
+          <span>Custom scoping session and timeline draft</span>
+        </li>
+        <li
+          class="flex items-start gap-[0.5rem] sm:gap-[0.5rem] md:gap-[0.625rem] font-semibold leading-relaxed"
+        >
+          <span
+            class="text-brand-orange font-bold leading-none shrink-0 mt-[0.125rem]"
+            aria-hidden="true">&check;</span
+          >
+          <span>Line-itemised quote with fixed build fee</span>
+        </li>
+        <li
+          class="flex items-start gap-[0.5rem] sm:gap-[0.5rem] md:gap-[0.625rem] font-semibold leading-relaxed"
+        >
+          <span
+            class="text-brand-orange font-bold leading-none shrink-0 mt-[0.125rem]"
+            aria-hidden="true">&check;</span
+          >
+          <span>Tailored care or project-based support options</span>
+        </li>
+      </ul>
+      <div class="flex flex-col items-stretch gap-3 md:w-[14rem] md:shrink-0">
+        <button
+          type="button"
+          data-open-enquiry
+          data-enquiry-plan="Bespoke Project"
+          aria-label="Open the enquiry form for a bespoke project quote"
+          class="block text-center w-full bg-white text-slate-900 hover:bg-slate-100 font-bold text-[0.75rem] sm:text-[0.75rem] py-[0.75rem] sm:py-[0.75rem] rounded-lg transition-all font-mono uppercase tracking-widest border-none cursor-pointer decoration-none hover-button-polish"
+        >
+          Get a Bespoke Quote
+        </button>
+        <noscript>
+          <p class="text-[0.75rem] leading-relaxed text-slate-300">
+            JavaScript is disabled. Email <strong class="text-brand-orange"
+              >septen.digital@gmail.com</strong
+            > for a bespoke quote.
+          </p>
+        </noscript>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,1108 @@
+---
+import BaseLayout from "@components/layout/BaseLayout.astro";
+import { Image } from "astro:assets";
+
+import alderPipeDemo from "@assets/index-images/alder-and-pipe-plumbing-demo.webp";
+import carlsCoffeeDemo from "@assets/index-images/carls-coffee-demo.webp";
+import greenfieldDemo from "@assets/index-images/greenfield-landscaping-demo.webp";
+import northShoreDemo from "@assets/index-images/north-shore-fitness-demo.webp";
+
+const pricingHref = "/pricing";
+const showcaseImages = [
+  { src: alderPipeDemo, alt: "Alder & Pipe Plumbing demo preview" },
+  { src: carlsCoffeeDemo, alt: "Carl's Coffee demo preview" },
+  { src: greenfieldDemo, alt: "Greenfield Landscaping demo preview" },
+  { src: northShoreDemo, alt: "North Shore Fitness demo preview" },
+];
+---
+
+<BaseLayout singleViewport={true} mobileScrollable={true} compactFooter={true}>
+  <!-- ============================================================
+       HERO SECTION
+       Landing hero with auto-scrolling browser mockup showcase
+       ============================================================ -->
+  <section
+    class="index-landing-shell w-full h-full mx-auto pl-[4vw] lg:pl-[5vw] xl:pl-[6vw] 2xl:pl-[8vw] pr-[4vw] lg:pr-[5vw] xl:pr-[6vw] 2xl:pr-[8vw] py-[2svh] xl:py-[3svh] flex items-center justify-center text-left min-h-0 overflow-hidden"
+    aria-labelledby="hero-title"
+  >
+    <div
+      class="w-full h-full grid grid-cols-1 lg:grid-cols-2 items-start gap-[clamp(1rem,2.5svw,3.5rem)] min-h-0"
+    >
+      <!-- LEFT COLUMN: text + CTAs -->
+      <div class="flex flex-col justify-center h-full gap-[clamp(1rem,1.9svw,2.75rem)] min-h-0">
+        <h1
+          id="hero-title"
+          data-reveal
+          class="font-sans text-[clamp(1.9rem,2.9svw,5.2rem)] font-extrabold text-brand-teal leading-[1.05] tracking-tight shrink-0"
+        >
+          Get online while staying <span class="text-brand-orange">focused</span> on running your business.
+        </h1>
+
+        <p
+          data-reveal="fade"
+          data-reveal-delay="70"
+          class="text-slate-600 text-[clamp(1rem,1.05svw,1.95rem)] leading-relaxed shrink-0"
+        >
+          <span class="hidden sm:inline">
+            <strong class="font-semibold text-slate-700">
+              Custom and complete websites for local UK businesses. Completely managed for you.
+            </strong>
+            {" "}
+            <span>
+              No complex tools to learn, no technical headaches. Choose a transparent upfront build
+              package and let us handle the rest.
+            </span>
+          </span>
+          <span class="sm:hidden">
+            <strong class="font-semibold text-slate-700">
+              Custom and complete UK business websites. Managed for you.
+            </strong>
+            {" "}
+            <span>No technical headaches. Transparent packages with total ongoing care.</span>
+          </span>
+        </p>
+
+        <div
+          data-reveal="fade"
+          data-reveal-delay="120"
+          class="index-hero-actions w-full grid grid-cols-1 lg:grid-cols-2 gap-[clamp(0.75rem,1svw,1.375rem)] shrink-0"
+        >
+          <a
+            href={pricingHref}
+            class="bg-brand-teal-dark hover:bg-brand-teal text-white text-center font-bold text-[clamp(1rem,0.85svw,1.7rem)] px-[clamp(1.25rem,1.7svw,3rem)] py-[clamp(0.8rem,0.6svw,1.35rem)] rounded-[0.75rem] transition-colors border-none cursor-pointer hover-button-polish w-full"
+          >
+            See Pricing
+          </a>
+          <button
+            type="button"
+            data-open-enquiry
+            class="bg-transparent hover:border-brand-orange-dark hover:text-brand-orange-dark hover:shadow-[0_0.85rem_2rem_rgba(15,23,42,0.08)] text-brand-teal-dark text-center font-bold text-[clamp(1rem,0.85svw,1.7rem)] px-[clamp(1.25rem,1.7svw,3rem)] py-[clamp(0.8rem,0.6svw,1.35rem)] rounded-[0.75rem] transition-all border-[0.125rem] border-brand-teal-dark cursor-pointer hover-button-polish decoration-none w-full"
+          >
+            Get in Touch
+          </button>
+        </div>
+      </div>
+
+      <!-- ============ BROWSER MOCKUP — AUTO-SCROLLING PNG SHOWCASE ============ -->
+      <div
+        class="flex flex-col justify-center self-center w-full h-[70.875svw] min-h-[23.625rem] max-h-[calc(100svh-16.40625rem)] md:h-[50svh] md:min-h-0 md:max-h-none lg:h-[66svh]"
+      >
+        <div data-showcase-hint-host class="relative w-full h-full min-h-0">
+          <button
+            type="button"
+            data-reveal="showcase"
+            data-reveal-delay="170"
+            class="index-showcase-spawn hero-browser-frame animated-brand-border group group/touch relative block w-full h-full min-h-0 rounded-[1rem] bg-white shadow-[0_1rem_2.5rem_rgba(20,129,139,0.16)] overflow-hidden cursor-grab active:cursor-grabbing outline-none ring-0 focus-visible:ring-[0.1875rem] focus-visible:ring-brand-teal/35 p-[0.1875rem] appearance-none select-none"
+            aria-label="Preview of a Septen-built local business website scrolling through the landing, products and sections. Scroll vertically or click and drag to scrub."
+          >
+            <!-- Masked viewport for the CSS-only looping demo showcase -->
+            <!-- Identical SET1 + SET2 stacks render back-to-back. The sweep animation travels exactly 1 set-height so end frame (top of SET2) = start frame (top of SET1) → zero-visible seam: alders/north-shore overlap continuously. -->
+            <span
+              class="hero-inner-viewport relative block w-full h-full min-h-0 overflow-hidden rounded-[0.8125rem] bg-slate-50"
+            >
+              <span class="hero-browser-scroll-wrapper relative block w-full h-auto">
+                {
+                  showcaseImages.map(({ src, alt }) => (
+                    <Image
+                      src={src}
+                      alt={alt}
+                      data-skeleton
+                      class="block w-full h-auto select-none pointer-events-none"
+                      widths={[420, 640, 900, 1280, 1600]}
+                      sizes="(min-width: 64rem) 44svw, 92svw"
+                      loading="eager"
+                      fetchpriority="high"
+                      decoding="async"
+                    />
+                  ))
+                }
+                {
+                  showcaseImages.map(({ src, alt }) => (
+                    <Image
+                      src={src}
+                      alt={alt}
+                      aria-hidden="true"
+                      data-skeleton
+                      class="block w-full h-auto select-none pointer-events-none"
+                      widths={[420, 640, 900, 1280, 1600]}
+                      sizes="(min-width: 64rem) 44svw, 92svw"
+                      loading="eager"
+                      fetchpriority="high"
+                      decoding="async"
+                    />
+                  ))
+                }
+                {
+                  showcaseImages.map(({ src, alt }) => (
+                    <Image
+                      src={src}
+                      alt={alt}
+                      aria-hidden="true"
+                      data-skeleton
+                      class="block w-full h-auto select-none pointer-events-none"
+                      widths={[420, 640, 900, 1280, 1600]}
+                      sizes="(min-width: 64rem) 45vw, 92vw"
+                      loading="eager"
+                      fetchpriority="high"
+                      decoding="async"
+                    />
+                  ))
+                }
+              </span>
+            </span>
+          </button>
+
+          <!-- Desktop-only interaction hint pointer — OUTSIDE the button so the button's overflow-hidden cannot clip it -->
+          <div
+            aria-hidden="true"
+            data-showcase-hint
+            class="hero-showcase-hint pointer-events-none absolute right-[0.7rem] top-[0.7rem] 2xl:right-4 2xl:top-4 z-50 flex items-center gap-[0.4rem] 2xl:gap-2 rounded-[0.45rem] 2xl:rounded-[0.75rem] bg-white border border-brand-teal/50 2xl:border-[0.125rem] px-[0.55rem] py-[0.4rem] 2xl:px-[0.75rem] 2xl:py-[0.625rem] shadow-[0_0.125rem_0.375rem_rgba(15,23,42,0.1)] 2xl:shadow-[0_0.85rem_2rem_rgba(15,23,42,0.22),0_0_0_0.0625rem_rgba(255,255,255,0.95)_inset,0_0_0_0.375rem_rgba(20,129,139,0.05)] overflow-hidden"
+          >
+            <span
+              class="relative flex w-[1.1rem] h-[1.1rem] 2xl:w-9 2xl:h-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-teal/22 via-brand-teal/12 to-brand-orange/20 border border-brand-teal/45 2xl:border-[0.09375rem]"
+            >
+              <span
+                data-showcase-hint-pointer
+                class="absolute inset-0 rounded-full border-[0.05rem] 2xl:border-[0.140625rem] border-brand-teal/70 animate-[hero-showcase-pointer-ping_1.25s_cubic-bezier(0.16,1,0.3,1)_infinite]"
+              ></span>
+              <span
+                class="relative flex w-[0.7rem] h-[0.7rem] 2xl:w-5 2xl:h-5 items-center justify-center rounded-full bg-gradient-to-br from-brand-teal to-brand-teal-dark text-white shadow-[0_0.0625rem_0.21875rem_rgba(20,129,139,0.3)] 2xl:shadow-[0_0.375rem_0.9375rem_rgba(20,129,139,0.42)] ring-[0.05rem] 2xl:ring-[0.140625rem] ring-white overflow-hidden"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  class="w-[0.46rem] h-[0.46rem] 2xl:w-3.5 2xl:h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <g
+                    class="animate-[hero-showcase-handle-scroll_1.9s_ease-out_infinite] origin-center will-change-transform"
+                  >
+                    <path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V12"></path>
+                    <path d="M12 5.5a1.5 1.5 0 0 1 3 0V11"></path>
+                    <path
+                      d="M15 11V7.5a1.5 1.5 0 0 1 3 0V13a5 5 0 0 1-5 5h-1.5a4.5 4.5 0 0 1-4.5-4.5V12a1.5 1.5 0 0 1 3 0v1"
+                    ></path>
+                  </g>
+                </svg>
+              </span>
+            </span>
+            <div
+              data-hint-heading
+              class="flex flex-col items-start leading-[0.9] whitespace-nowrap"
+            >
+              <span
+                data-hint-eyebrow
+                class="text-[0.5rem] 2xl:text-[0.65rem] font-black uppercase tracking-[0.1em] 2xl:tracking-[0.16em] text-brand-teal-dark"
+              >
+                Interactive preview
+              </span>
+              <span
+                data-hint-text
+                class="text-[0.62rem] 2xl:text-[0.8rem] font-semibold text-slate-800 mt-[1px]"
+              >
+                Scroll or click &amp; drag to scrub
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ============ END BROWSER MOCKUP SHOWCASE ============ -->
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  @media (width >= 48rem) {
+    /* Desktop index composition stays identical with and without JavaScript. */
+    html.reveals-enabled .index-landing-shell [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+  }
+
+  @media (width < 48rem) {
+    @keyframes index-showcase-spawn {
+      from {
+        opacity: 0;
+        transform: translateY(1rem) scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    html.reveals-enabled .index-showcase-spawn,
+    .index-showcase-spawn {
+      animation: index-showcase-spawn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.17s both;
+      opacity: 1 !important;
+      transition: none !important;
+    }
+
+    body.mobile-scrollable-shell,
+    body.mobile-scrollable-shell > div,
+    body.mobile-scrollable-shell .mobile-scrollable-shell-content,
+    body.mobile-scrollable-shell .mobile-scrollable-shell-main {
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+    }
+  }
+
+  @media (width < 48rem) {
+    .index-landing-shell {
+      min-height: calc(100svh - var(--site-header-height, 4rem));
+      padding-bottom: 6rem;
+      padding-top: 5.5rem;
+    }
+
+    #hero-title {
+      font-size: 2.25rem;
+    }
+
+    #hero-title + p {
+      font-size: 1rem;
+    }
+
+    .index-hero-actions a,
+    .index-hero-actions button {
+      font-size: 1rem;
+      padding: 1rem 1.75rem;
+    }
+
+    .index-landing-shell .flex.flex-col.justify-center {
+      gap: 1.125rem;
+    }
+
+    .index-landing-shell > div > .flex.flex-col.justify-center:last-child {
+      margin-top: 1.5rem;
+      transform: none;
+    }
+
+    .index-landing-shell .hero-browser-frame {
+      height: 100%;
+      max-height: 100%;
+    }
+
+    .hero-browser-scroll-wrapper {
+      animation-duration: 48s;
+    }
+  }
+
+  @keyframes hero-browser-sweep {
+    0% {
+      transform: translate3d(0, 0%, 0);
+    }
+
+    100% {
+      transform: translate3d(0, -33.3333%, 0);
+    }
+  }
+
+  @keyframes animated-brand-border-rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animated-brand-border::before {
+    animation: animated-brand-border-rotate 8s linear infinite;
+    background: conic-gradient(
+      from 0deg,
+      var(--brand-teal) 0deg 180deg,
+      var(--brand-orange) 180deg 360deg
+    );
+    content: "";
+    inset: -75%;
+    pointer-events: none;
+    position: absolute;
+    z-index: 0;
+  }
+
+  .animated-brand-border .hero-inner-viewport {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-browser-scroll-wrapper {
+    animation: hero-browser-sweep 80s linear infinite normal both;
+    animation-delay: 0.6s;
+    backface-visibility: hidden;
+    transform-origin: 50% 0%;
+    will-change: transform;
+  }
+
+  html.no-js .hero-browser-scroll-wrapper {
+    animation: none !important;
+    display: block;
+    transform: translate3d(0, 0, 0) !important;
+    will-change: auto !important;
+  }
+
+  html.no-js .hero-browser-frame {
+    cursor: default !important;
+    overflow: hidden !important;
+  }
+
+  html.no-js .hero-browser-frame:hover .hero-browser-scroll-wrapper,
+  html.no-js .hero-browser-frame:focus-visible .hero-browser-scroll-wrapper,
+  html.no-js .hero-browser-frame:focus-within .hero-browser-scroll-wrapper {
+    animation-play-state: paused !important;
+  }
+
+  html.no-js .hero-browser-frame .hero-inner-viewport {
+    height: 100% !important;
+    overflow: clip auto !important;
+    overscroll-behavior: contain;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+    scrollbar-width: none;
+  }
+
+  html.no-js .hero-browser-frame .hero-inner-viewport::-webkit-scrollbar {
+    display: none !important;
+    height: 0 !important;
+    width: 0 !important;
+  }
+
+  html.no-js .hero-browser-frame .hero-inner-viewport::-webkit-scrollbar-track,
+  html.no-js .hero-browser-frame .hero-inner-viewport::-webkit-scrollbar-thumb,
+  html.no-js .hero-browser-frame .hero-inner-viewport::-webkit-scrollbar-corner {
+    background: transparent !important;
+    border: 0 !important;
+    display: none !important;
+    height: 0 !important;
+    width: 0 !important;
+  }
+
+  html.no-js .hero-browser-scroll-wrapper > img {
+    scroll-snap-align: none;
+  }
+
+  html.no-js [data-showcase-hint-host] .hero-showcase-hint > span:first-child,
+  html.no-js [data-showcase-hint-host] .hero-showcase-hint [data-hint-heading] {
+    display: none !important;
+  }
+
+  html.no-js [data-showcase-hint-host] .hero-showcase-hint::after {
+    color: var(--color-slate-800);
+    content: "Scroll to explore";
+    display: block;
+    font-size: 0.62rem;
+    font-weight: 600;
+  }
+
+  @media (width >= 96rem) {
+    html.no-js [data-showcase-hint-host] .hero-showcase-hint::after {
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (width >= 48rem) and (hover: hover) and (pointer: fine) {
+    html.no-js [data-showcase-hint-host] .hero-showcase-hint {
+      transition:
+        opacity 0.35s cubic-bezier(0.4, 0, 1, 1),
+        transform 0.35s cubic-bezier(0.4, 0, 1, 1);
+      transition-delay: 500ms, 500ms;
+    }
+
+    html.no-js [data-showcase-hint-host] .hero-browser-frame:hover ~ .hero-showcase-hint,
+    html.no-js [data-showcase-hint-host]:hover .hero-showcase-hint,
+    html.no-js [data-showcase-hint-host] .hero-browser-frame:focus-visible ~ .hero-showcase-hint,
+    html.no-js [data-showcase-hint-host]:focus-within .hero-showcase-hint {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: translateY(-0.5rem) scale(0.85) !important;
+      transition-delay: 0ms, 0ms;
+    }
+  }
+
+  html.js .hero-browser-scroll-wrapper {
+    animation: hero-browser-sweep 80s linear infinite normal both;
+    animation-delay: 0.6s;
+  }
+
+  .hero-browser-frame {
+    --hero-frame-height: 66svh;
+  }
+
+  @media (width >= 40rem) {
+    .hero-browser-frame {
+      --hero-frame-height: 66svh;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .hero-browser-frame {
+      --hero-frame-height: 66svh;
+    }
+  }
+
+  @media (width >= 80rem) {
+    .hero-browser-frame {
+      --hero-frame-height: 66svh;
+    }
+  }
+
+  @media (width >= 96rem) {
+    .hero-browser-frame {
+      --hero-frame-height: 66svh;
+    }
+  }
+
+  html.js .hero-browser-frame:hover .hero-browser-scroll-wrapper,
+  html.js .hero-browser-frame:focus-visible .hero-browser-scroll-wrapper {
+    animation-play-state: paused;
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    html:not(.no-js) .hero-browser-frame {
+      pointer-events: none;
+      touch-action: pan-y;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    html:not(.no-js) .hero-browser-frame:focus-visible {
+      box-shadow: none !important;
+      outline: none !important;
+    }
+
+    html.no-js .hero-browser-frame {
+      pointer-events: none;
+      touch-action: pan-y;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    html.no-js .hero-browser-frame:focus-visible {
+      box-shadow: none !important;
+      outline: none !important;
+    }
+
+    html.no-js .hero-browser-frame .hero-inner-viewport {
+      overflow: hidden !important;
+      overscroll-behavior: auto;
+      scroll-snap-type: none;
+    }
+
+    .hero-browser-scroll-wrapper {
+      animation-play-state: running !important;
+    }
+
+    .hero-browser-frame:active,
+    .hero-browser-frame:focus-within {
+      border-color: inherit !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
+  }
+
+  @keyframes hero-showcase-pointer-ping {
+    0% {
+      opacity: 0.9;
+      transform: scale(1);
+    }
+
+    75%,
+    100% {
+      opacity: 0;
+      transform: scale(2.4);
+    }
+  }
+
+  @keyframes hero-showcase-handle-scroll {
+    0% {
+      opacity: 0;
+      transform: translateY(34%);
+    }
+
+    15% {
+      opacity: 0.95;
+    }
+
+    70% {
+      opacity: 0.7;
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateY(-30%);
+    }
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .hero-showcase-hint {
+      display: none !important;
+    }
+  }
+
+  @media (width < 48rem) {
+    .hero-showcase-hint {
+      display: none !important;
+    }
+  }
+
+  @media (width >= 48rem) and (hover: hover) and (pointer: fine) {
+    [data-showcase-hint-host] .hero-showcase-hint {
+      display: flex !important;
+      opacity: 1 !important;
+      transform: translateY(0) scale(1) !important;
+      transition:
+        opacity 0.35s cubic-bezier(0.4, 0, 1, 1),
+        transform 0.35s cubic-bezier(0.4, 0, 1, 1);
+      visibility: visible !important;
+    }
+
+    [data-showcase-hint-host] .hero-browser-frame:hover ~ .hero-showcase-hint,
+    [data-showcase-hint-host] .hero-browser-frame:focus-visible ~ .hero-showcase-hint,
+    [data-showcase-hint-host]:hover .hero-showcase-hint,
+    [data-showcase-hint-host]:focus-within .hero-showcase-hint {
+      opacity: 0.75 !important;
+      transform: translateY(-0.1rem) scale(0.985) !important;
+    }
+
+    [data-showcase-hint-host][data-showcase-interacting="true"][data-showcase-interacting]
+      .hero-showcase-hint,
+    [data-showcase-hint-host]
+      .hero-browser-frame[data-showcase-dragging="true"][data-showcase-dragging]
+      ~ .hero-showcase-hint {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: translateY(-0.5rem) scale(0.85) !important;
+    }
+  }
+
+  .hero-browser-frame[data-showcase-dragging="true"] {
+    box-shadow:
+      0 1.1rem 2.8rem rgb(20 129 139 / 22%),
+      inset 0 0 0 0.1875rem rgb(46 139 127 / 32%) !important;
+    cursor: grabbing !important;
+  }
+
+  .hero-browser-frame[data-showcase-dragging="true"] .hero-browser-scroll-wrapper {
+    animation-play-state: paused !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-browser-scroll-wrapper {
+      animation: none !important;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .hero-showcase-hint {
+      display: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    "use strict";
+
+    var CYCLE_MS = 80000;
+    var SETS_IN_WRAPPER = 3;
+    var IDLE_PROGRESS_LOW = 1;
+    var IDLE_PROGRESS_HIGH = 2;
+    var WHEEL_SENS = 0.00018;
+    var DRAG_FRAMES_PER_CYCLE = 4;
+
+    var frame = null;
+    var hintHost = null;
+    var wrapper = null;
+
+    var progress = IDLE_PROGRESS_LOW;
+    var lastTs = null;
+    var rafId = null;
+    var autoLoopEnabled = true;
+    var interactResetToken = null;
+    var hintRevealToken = null;
+    var HINT_REVEAL_DELAY_MS = 500;
+
+    var isDragging = false;
+    var dragPointerId = null;
+    var dragStartClientY = 0;
+    var dragStartProgress = 0;
+    var dragFrameHeight = 0;
+
+    var reducedMotion = !!(
+      window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    );
+    var isTouchscreenDevice = !!(
+      window.matchMedia && window.matchMedia("(hover: none) and (pointer: coarse)").matches
+    );
+
+    function qs(sel, root) {
+      if (root === undefined) root = document;
+      var el = root.querySelector(sel);
+      return el instanceof HTMLElement ? el : null;
+    }
+
+    function resolveRefs() {
+      frame = qs(".hero-browser-frame");
+      hintHost = qs("[data-showcase-hint-host]");
+      wrapper = frame ? qs(".hero-browser-scroll-wrapper", frame) : null;
+      return !!(frame && wrapper);
+    }
+
+    function disableCssAnimation() {
+      if (!wrapper) return;
+      wrapper.style.setProperty("animation", "none", "important");
+      wrapper.style.setProperty("animation-play-state", "paused", "important");
+      try {
+        var localAnims = wrapper.getAnimations();
+        for (var li = 0; li < localAnims.length; li++) {
+          try {
+            localAnims[li].cancel();
+          } catch (_err) {
+            /* noop */
+          }
+        }
+      } catch (_err) {
+        /* noop */
+      }
+      try {
+        var globalAnims =
+          typeof document.getAnimations === "function"
+            ? document.getAnimations({ subtree: true })
+            : [];
+        for (var gi = 0; gi < globalAnims.length; gi++) {
+          var a = globalAnims[gi];
+          var eff = a && a.effect ? a.effect : null;
+          var target = eff && eff.target ? eff.target : null;
+          if (target === wrapper) {
+            try {
+              a.cancel();
+            } catch (_err2) {
+              /* noop */
+            }
+          }
+        }
+      } catch (_err2) {
+        /* noop */
+      }
+    }
+
+    function renderProgress() {
+      if (!wrapper) return;
+      var pct = (-33.333333 * progress).toFixed(6);
+      wrapper.style.setProperty("transform", "translate3d(0," + pct + "%,0)");
+    }
+
+    function normalizeIntoValidRange(newP) {
+      while (newP < 0) newP += SETS_IN_WRAPPER;
+      while (newP >= SETS_IN_WRAPPER) newP -= SETS_IN_WRAPPER;
+      return newP;
+    }
+
+    function shiftForwardBoundary(newP, prevP) {
+      if (prevP < IDLE_PROGRESS_HIGH && newP >= IDLE_PROGRESS_HIGH) {
+        var overshoot = newP - IDLE_PROGRESS_HIGH;
+        return IDLE_PROGRESS_LOW + overshoot;
+      }
+      return newP;
+    }
+
+    function shiftBackwardBoundary(newP, prevP) {
+      if (prevP >= IDLE_PROGRESS_LOW && newP < IDLE_PROGRESS_LOW) {
+        var undershoot = IDLE_PROGRESS_LOW - newP;
+        return IDLE_PROGRESS_HIGH - undershoot;
+      }
+      return newP;
+    }
+
+    function setProgress(newP, isActiveScrub) {
+      var prev = progress;
+      var next = newP;
+      if (isActiveScrub) {
+        next = shiftForwardBoundary(next, prev);
+        next = shiftBackwardBoundary(next, prev);
+      }
+      next = normalizeIntoValidRange(next);
+      if (!isActiveScrub) {
+        if (next < IDLE_PROGRESS_LOW) next += 1;
+        else if (next >= IDLE_PROGRESS_HIGH) next -= 1;
+      }
+      progress = next;
+      renderProgress();
+    }
+
+    function cancelPendingHintReveal() {
+      if (hintRevealToken !== null) {
+        window.clearTimeout(hintRevealToken);
+        hintRevealToken = null;
+      }
+    }
+
+    function scheduleHintRevealAfterAnimRestart() {
+      cancelPendingHintReveal();
+      hintRevealToken = window.setTimeout(function () {
+        hintRevealToken = null;
+        if (hintHost && autoLoopEnabled && !isDragging) {
+          hintHost.dataset.showcaseInteracting = "false";
+        }
+      }, HINT_REVEAL_DELAY_MS);
+    }
+
+    function markInteracting() {
+      if (!hintHost) return;
+      cancelPendingHintReveal();
+      hintHost.dataset.showcaseInteracting = "true";
+      if (interactResetToken !== null) {
+        window.clearTimeout(interactResetToken);
+        interactResetToken = null;
+      }
+    }
+
+    function tick(ts) {
+      if (lastTs === null) lastTs = ts;
+      var dt = Math.min(100, ts - lastTs);
+      lastTs = ts;
+      if (autoLoopEnabled && !isDragging && !reducedMotion) {
+        var delta = dt / CYCLE_MS;
+        setProgress(progress + delta, false);
+      }
+      rafId = window.requestAnimationFrame(tick);
+    }
+
+    function startRafLoop() {
+      if (rafId !== null) return;
+      lastTs = null;
+      rafId = window.requestAnimationFrame(tick);
+    }
+
+    function onWheel(ev) {
+      if (!frame) return;
+      if (ev.cancelable) ev.preventDefault();
+      markInteracting();
+      var deltaMode = ev.deltaMode || 0;
+      var deltaPx = ev.deltaY;
+      if (deltaMode === 1) deltaPx = ev.deltaY * 16;
+      else if (deltaMode === 2) deltaPx = ev.deltaY * 600;
+      var deltaProgress = deltaPx * WHEEL_SENS;
+      setProgress(progress + deltaProgress, true);
+    }
+
+    function onPointerDown(ev) {
+      if (!frame) return;
+      if (ev.button !== 0 && ev.button !== 2) return;
+      var rect = frame.getBoundingClientRect();
+      isDragging = true;
+      dragPointerId = ev.pointerId;
+      dragStartClientY = ev.clientY;
+      dragStartProgress = progress;
+      dragFrameHeight = Math.max(1, rect.height);
+      frame.dataset.showcaseDragging = "true";
+      if (hintHost) hintHost.dataset.showcaseInteracting = "true";
+      markInteracting();
+      try {
+        frame.setPointerCapture(ev.pointerId);
+      } catch (_e) {
+        /* noop */
+      }
+      if (ev.cancelable) ev.preventDefault();
+    }
+
+    function onPointerMove(ev) {
+      if (!isDragging) return;
+      if (dragPointerId !== null && ev.pointerId !== dragPointerId) return;
+      var deltaY = ev.clientY - dragStartClientY;
+      var travel = Math.max(1, dragFrameHeight * DRAG_FRAMES_PER_CYCLE);
+      var deltaProgress = -deltaY / travel;
+      var newP = dragStartProgress + deltaProgress;
+      setProgress(newP, true);
+      if (ev.cancelable) ev.preventDefault();
+    }
+
+    function endDrag(ev) {
+      if (!frame) return;
+      if (isDragging && dragPointerId !== null && ev.pointerId !== dragPointerId) return;
+      isDragging = false;
+      frame.dataset.showcaseDragging = "false";
+      try {
+        if (dragPointerId !== null) frame.releasePointerCapture(dragPointerId);
+      } catch (_e) {
+        /* noop */
+      }
+      dragPointerId = null;
+      if (progress < IDLE_PROGRESS_LOW) setProgress(progress + 1, false);
+      else if (progress >= IDLE_PROGRESS_HIGH) setProgress(progress - 1, false);
+    }
+
+    function onPointerLeave(ev) {
+      if (isDragging) endDrag(ev);
+    }
+
+    function onContextMenu(ev) {
+      if (!frame) return;
+      var dragging = isDragging || frame.dataset.showcaseDragging === "true";
+      if (dragging && ev.cancelable) ev.preventDefault();
+    }
+
+    function onHoverEnter() {
+      cancelPendingHintReveal();
+      autoLoopEnabled = false;
+    }
+    function onHoverLeave() {
+      autoLoopEnabled = true;
+      scheduleHintRevealAfterAnimRestart();
+    }
+    function onFocusEnter() {
+      cancelPendingHintReveal();
+      autoLoopEnabled = false;
+    }
+    function onFocusLeave() {
+      autoLoopEnabled = true;
+      scheduleHintRevealAfterAnimRestart();
+    }
+
+    var attached = false;
+    function attachListeners() {
+      if (attached) return true;
+      if (!resolveRefs()) return false;
+      if (isTouchscreenDevice) {
+        attached = true;
+        if (hintHost) hintHost.dataset.showcaseInteracting = "false";
+        if (!reducedMotion) startRafLoop();
+        else setProgress(IDLE_PROGRESS_LOW, false);
+        return true;
+      }
+      disableCssAnimation();
+      renderProgress();
+
+      frame.addEventListener("wheel", onWheel, { passive: false });
+      frame.addEventListener("pointerdown", onPointerDown);
+      frame.addEventListener("pointermove", onPointerMove);
+      frame.addEventListener("pointerup", endDrag);
+      frame.addEventListener("pointercancel", endDrag);
+      frame.addEventListener("pointerleave", onPointerLeave);
+      frame.addEventListener("contextmenu", onContextMenu);
+      frame.addEventListener("pointerdown", markInteracting);
+      frame.addEventListener("mouseenter", onHoverEnter);
+      frame.addEventListener("mouseleave", onHoverLeave);
+      frame.addEventListener("focusin", onFocusEnter);
+      frame.addEventListener("focusout", onFocusLeave);
+
+      attached = true;
+      if (!reducedMotion) startRafLoop();
+      else setProgress(IDLE_PROGRESS_LOW, false);
+      return true;
+    }
+
+    function bootstrap() {
+      attachListeners();
+      var attempts = 0;
+      var maxAttempts = 60;
+      var id = window.setInterval(function () {
+        attempts += 1;
+        if (attachListeners() || attempts >= maxAttempts) window.clearInterval(id);
+      }, 100);
+    }
+
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+      bootstrap();
+    } else {
+      document.addEventListener("DOMContentLoaded", bootstrap, { once: true });
+      window.addEventListener("load", bootstrap, { once: true });
+    }
+  })();
+</script>
+
+<script is:inline>
+  (function () {
+    "use strict";
+
+    var htmlEl = document.documentElement;
+    if (!htmlEl.classList.contains("no-js") || htmlEl.classList.contains("js")) return;
+
+    var DURATION_MS = 80000;
+    var IDLE_AFTER_MS = 500;
+    var WHEEL_SENS = 0.00018;
+
+    var frame = null;
+    var viewport = null;
+    var wrapper = null;
+    var lastTs = null;
+    var rafId = null;
+    var isHovering = false;
+    var userInteracting = false;
+    var hintToken = null;
+    var idleToken = null;
+    var attached = false;
+
+    function qs(sel, root) {
+      if (root === undefined) root = document;
+      var el = root.querySelector(sel);
+      return el instanceof HTMLElement ? el : null;
+    }
+
+    function resolve() {
+      frame = qs(".hero-browser-frame");
+      viewport = frame ? qs(":scope > .hero-inner-viewport", frame) : null;
+      wrapper = viewport ? qs(":scope > .hero-browser-scroll-wrapper", viewport) : null;
+      return !!(frame && viewport && wrapper);
+    }
+
+    function getHintHost() {
+      return qs("[data-showcase-hint-host]");
+    }
+
+    function cancelHint() {
+      if (hintToken !== null) {
+        window.clearTimeout(hintToken);
+        hintToken = null;
+      }
+    }
+
+    function hideHint() {
+      cancelHint();
+      var host = getHintHost();
+      if (host) host.dataset.showcaseInteracting = "true";
+    }
+
+    function scheduleHintReveal() {
+      cancelHint();
+      hintToken = window.setTimeout(function () {
+        hintToken = null;
+        if (userInteracting) return scheduleHintReveal();
+        var host = getHintHost();
+        if (host) host.dataset.showcaseInteracting = "false";
+      }, IDLE_AFTER_MS);
+    }
+
+    function clearIdle() {
+      if (idleToken !== null) {
+        window.clearTimeout(idleToken);
+        idleToken = null;
+      }
+    }
+
+    function markInteracting() {
+      userInteracting = true;
+      clearIdle();
+      hideHint();
+      idleToken = window.setTimeout(function () {
+        idleToken = null;
+        userInteracting = false;
+        scheduleHintReveal();
+      }, IDLE_AFTER_MS);
+    }
+
+    function maxScroll() {
+      if (!wrapper || !viewport) return 0;
+      return Math.max(0, wrapper.scrollHeight - viewport.clientHeight);
+    }
+
+    function normalizeSt(st, mx) {
+      if (!isFinite(st) || isNaN(st)) return 0;
+      if (mx <= 0) return 0;
+      if (st < 0) return ((st % mx) + mx) % mx;
+      if (st >= mx) return st % mx;
+      return st;
+    }
+
+    function tick(ts) {
+      if (lastTs === null) lastTs = ts;
+      var dt = Math.min(100, ts - lastTs);
+      lastTs = ts;
+      if (!isHovering && !userInteracting && viewport) {
+        var mx = maxScroll();
+        if (mx > 0) {
+          var delta = dt / DURATION_MS;
+          var next = viewport.scrollTop + delta * mx;
+          next = normalizeSt(next, mx);
+          viewport.scrollTop = next;
+        }
+      }
+      rafId = window.requestAnimationFrame(tick);
+    }
+
+    function startRaf() {
+      if (rafId !== null) return;
+      lastTs = null;
+      rafId = window.requestAnimationFrame(tick);
+    }
+
+    function onEnter() {
+      isHovering = true;
+    }
+
+    function onLeave() {
+      isHovering = false;
+      userInteracting = false;
+      clearIdle();
+      scheduleHintReveal();
+    }
+
+    function onWheel(ev) {
+      if (!viewport) return;
+      if (ev.cancelable) ev.preventDefault();
+      var deltaMode = ev.deltaMode || 0;
+      var deltaPx = ev.deltaY;
+      if (deltaMode === 1) deltaPx = ev.deltaY * 16;
+      else if (deltaMode === 2) deltaPx = ev.deltaY * 600;
+      if (!isFinite(deltaPx) || isNaN(deltaPx)) deltaPx = 0;
+      var mx = maxScroll();
+      var deltaProgress = deltaPx * WHEEL_SENS;
+      var deltaSt = mx * deltaProgress;
+      viewport.scrollTop = normalizeSt(viewport.scrollTop + deltaSt, mx);
+      markInteracting();
+    }
+
+    function onScroll() {
+      markInteracting();
+    }
+
+    function attach() {
+      if (attached) return true;
+      if (!resolve()) return false;
+
+      var touchscreen = !!(
+        window.matchMedia && window.matchMedia("(hover: none) and (pointer: coarse)").matches
+      );
+      if (touchscreen) {
+        attached = true;
+        startRaf();
+        return true;
+      }
+
+      viewport.style.setProperty("scroll-behavior", "auto", "important");
+      viewport.style.setProperty("scroll-snap-type", "none", "important");
+      wrapper.style.setProperty("scroll-snap-align", "none", "important");
+
+      frame.addEventListener("mouseenter", onEnter, { passive: true });
+      frame.addEventListener("mouseleave", onLeave, { passive: true });
+      frame.addEventListener("focusin", onEnter, { passive: true });
+      frame.addEventListener("focusout", onLeave, { passive: true });
+      viewport.addEventListener("wheel", onWheel, { passive: false });
+      viewport.addEventListener("scroll", onScroll, { passive: true });
+
+      attached = true;
+      startRaf();
+      return true;
+    }
+
+    function bootstrap() {
+      attach();
+      var attempts = 0;
+      var id = window.setInterval(function () {
+        attempts += 1;
+        if (attach() || attempts >= 60) window.clearInterval(id);
+      }, 100);
+    }
+
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+      bootstrap();
+    } else {
+      document.addEventListener("DOMContentLoaded", bootstrap, { once: true });
+      window.addEventListener("load", bootstrap, { once: true });
+    }
+  })();
+</script>
